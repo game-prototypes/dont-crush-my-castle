@@ -4,10 +4,10 @@ Don´t Crush My Castle
 Highly cutomizable tower defense style game
 
 Planned Features:
- *Custom Campaign mode
- *Random Maps
- *Custom enemies/builds
-
+ * Custom Campaign mode
+ * Random Maps   
+ * Custom enemies/builds   
+ 
 
 This project participates in the following contests:
 
