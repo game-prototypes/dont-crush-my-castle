@@ -10,7 +10,8 @@ namespace debug_log {
 
      const string version="V0.1";
      const string log_file="dcmc.log";
-     const bool show_contact=true;
+     const bool show_contact=false;
+     const string contact_info="Please, contact support";
 
      const bool hide_assert=false;
      const bool hide_write=false;
@@ -48,7 +49,7 @@ namespace debug_log {
             cout<<"----";
             cout<<endl<<error_msg<<endl<<error;
             if(assert==true) cout<<" (asserted)";
-            if(show_contact==true) cout<<endl<<"Please,contact support"<<endl;
+            if(show_contact==true) cout<<endl<<contact_info<<endl;
             cout<<endl<<"----"<<endl;
         }
         if((assert==true && hide_assert==false) || force_assert==true) {//asert
