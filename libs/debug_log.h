@@ -3,6 +3,10 @@
 //AUTHOR: Andrés Ortiz
 //VERSION: 0.2
 //DESCRIPTION: Logs for warnings and errors
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
 
 enum log_type {comment,warning,err,fatal_error};
 
