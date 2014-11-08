@@ -48,6 +48,7 @@ namespace debug_log {
             cout<<"----";
             cout<<endl<<error_msg<<endl<<error;
             if(assert==true) cout<<" (asserted)";
+            if(show_contact==true) cout<<endl<<"Please,contact support"<<endl;
             cout<<endl<<"----"<<endl;
         }
         if((assert==true && hide_assert==false) || force_assert==true) {//asert
