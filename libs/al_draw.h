@@ -1,4 +1,8 @@
-
+//TITLE: al_draw
+//PROJECT: DON´T CRUSH MY CASTLE
+//AUTHOR: Andrés Ortiz
+//VERSION: 0.1
+//DESCRIPTION: Generic methods for drawing and handdling allegro bitmaps
 
 
 //resize bmp to given width and height (x and y), destroying the original bitmap

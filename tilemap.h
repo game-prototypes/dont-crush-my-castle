@@ -23,7 +23,7 @@ private:
     int height;
     vector< vector<int> > background; //background (grass,roads...)
     vector< vector<int> > foreground; //buildings, objects...
-    tileset tiles; //pointer¿?
+    tileset *tiles;
 public:
     tilemap() {
         width=0;
@@ -38,7 +38,7 @@ public:
         map.ParseFile(filename);
         if(map.HasError()==false) {
             int layers=map.GetNumLayers();
-
+            //TODO
         }
     }
 

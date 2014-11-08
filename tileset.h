@@ -17,9 +17,9 @@ public:
     tile_type type;
 private:
     bool drawable;
-    ALLEGRO_BITMAP* bitmap; //if any
+    ALLEGRO_BITMAP *bitmap; //if any
 public:
-    tile(tile_type type,ALLEGRO_BITMAP* bitmap) {
+    tile(tile_type type,ALLEGRO_BITMAP *bitmap) {
         this->type=type;
         this->bitmap=bitmap;
         drawable=true;
@@ -42,7 +42,7 @@ public:
     bool is_drawable() {
         return drawable;
     }
-}
+};
 
 
 
@@ -56,7 +56,7 @@ private:
 public:
 
 private:
-    unsigned int add_tile(tile_type type,ALLEGRO_BITMAP* bitmap) {
+    unsigned int add_tile(tile_type type,ALLEGRO_BITMAP *bitmap) {
         resize_bitmap(bitmap,widht,height);
         tile_list.push_back(tile(type,bitmap));
         return tile_list.size()-1;
@@ -65,5 +65,13 @@ private:
         tile_list.push_back(tile(type));
         return tile_list.size()-1;
     }
-
-}
+    tile get_tile(unsigned int tileid) {
+        return tile_list[tile];
+    }
+    pair<int,int> get_tile_size() {
+        return make_pair(width,height);
+    }
+    bool check() {
+        return true;
+    }
+};
