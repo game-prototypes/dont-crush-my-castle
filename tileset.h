@@ -1,4 +1,4 @@
-//TITLE: MAPS
+//TITLE: TILESETS
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
 //VERSION: 0.1
@@ -6,41 +6,32 @@
 
 #include "lib/al_draw.h"
 
-enum tile_type {blocked,road,ground,special};
+enum tile_type {blocked,road,ground,special,null_tile};
+const string tmx_tiletype_property="tiletype"; //defines the name of the property used on tmx for tiletype
 /*tile_type:
 block: blocked, not construction or enemies can pass
 road: blocked for construction, enemies can pass
 ground: free for construction
-            */
+*/
 class tile {
 public:
     tile_type type;
+    int id;
 private:
-    bool drawable;
-    ALLEGRO_BITMAP *bitmap; //if any
+    ALLEGRO_BITMAP *bitmap;
 public:
-    tile(tile_type type,ALLEGRO_BITMAP *bitmap) {
+    tile(int id,tile_type type,ALLEGRO_BITMAP *bitmap) {
         this->type=type;
         this->bitmap=bitmap;
-        drawable=true;
-    }
-    tile(tile_type type) {
-        drawable=false;
-        this->type=type;
+        this->id=id;
     }
 
     ~tile() {
-        if(drawable)
-            al_destroy_bitmap(bitmap);
+        al_destroy_bitmap(bitmap);
     }
-
 
     void draw_tile(float x,float y) {
-        if(drawable)
-            al_draw_bitmap(bitmap,x,y,0);
-    }
-    bool is_drawable() {
-        return drawable;
+        al_draw_bitmap(bitmap,x,y,0);
     }
 };
 
@@ -50,28 +41,69 @@ public:
 class tileset {
 private:
     vector<tile> tile_list;
+    string name;
     int height;
     int widht; //each tile height and width
 
 public:
-
-private:
-    unsigned int add_tile(tile_type type,ALLEGRO_BITMAP *bitmap) {
-        resize_bitmap(bitmap,widht,height);
-        tile_list.push_back(tile(type,bitmap));
-        return tile_list.size()-1;
+    tileset() {
+        height=width=0;
     }
-    unsigned int add_tile(tile_type type) {
-        tile_list.push_back(tile(type));
-        return tile_list.size()-1;
-    }
-    tile get_tile(unsigned int tileid) {
-        return tile_list[tile];
+    //gets a tile with given id
+    tile get_tile(unsigned int id) {
+        return tile_list[id];
     }
     pair<int,int> get_tile_size() {
         return make_pair(width,height);
     }
-    bool check() {
-        return true;
+
+    void loadtmx(const string &name) {
+        Tmx::Tileset ts;
+        ts.ParseFile(filename);
+        if(ts.HasError()==false) {
+            height=ts.GetTileHeight();
+            width=ts.GetTileWidth();
+            name=ts.GetName();
+
+            vector<Tmx::Tile*> tiles=ts.GetTiles();
+            int siz=tiles.size();
+
+            string imgpath=ts.GetImage()->GetSource(); //image source path
+            ALLEGRO_BITMAP *bitmap;
+            bitmap=al_load_bitmap(imgpath.c_str()); //loads bitmap
+            vector<ALLEGRO_BITMAP*> tileset_images=slice_bitmap(bitmap,width,height,siz);//slice bitmap
+            al_destroy_bitmap(bitmap);
+
+            //loads all the tiles
+            tile_list.reserve(siz));
+            for(int i=0; i<siz; i++) {
+            ALLEGRO_BITMAP* bmp=tileset_images[i]; //tile image
+                int id=tiles[i]->GetId(); //tile id
+                Tmx::PropertySet ps=tiles[i]->GetProperties();//tile properties
+                string tt=ps.GetStringProperty(tmx_tiletype_property);
+                tile_type t;
+                if(tt=="blocked") t=blocked;
+                else if(tt=="road") t=road;
+                else if(tt=="ground") t=ground;
+                else if(tt=="special") t=special;
+                else t=null_tile;
+                if(t==null_tile) debug_log::report("null tile parsed",err,true,false);
+                tile_list.push_back(tile(id,t,bmp));
+            }
+        }
+        check();
+    }
+
+
+private:
+    unsigned int add_tile(int id,tile_type type,ALLEGRO_BITMAP *bitmap) {
+        if(al_get_bitmap_height(bitmap)!=height || al_get_bitmap_width(bitmap)!=width)
+            resize_bitmap(bitmap,widht,height);
+        tile_list.push_back(tile(id,type,bitmap));
+        return tile_list.size()-1;
+    }
+
+    void check() {
+
     }
 };

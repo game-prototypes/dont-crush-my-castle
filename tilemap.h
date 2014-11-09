@@ -1,28 +1,18 @@
-//TITLE: TileMAPS
+//TITLE: TILEMAPS
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
 //VERSION: 0.1
 //DESCRIPTION: Generate,write,read and draw maps
 #include "lib/TmxParser/Tmx.h"
-
-struct position {
-    int x;
-    int y;
-    position() {
-        x=y=-1;
-    }
-    position(int x,int y) {
-        this->x=x;
-        this->y=y;
-    }
-};
+#define empty_tile 0
+#define occupied_tile 1
 
 class tilemap {
 private:
     int width;
     int height;
     vector< vector<int> > background; //background (grass,roads...)
-    vector< vector<int> > foreground; //buildings, objects...
+    vector< vector<bool> > foreground; //foreground (occupied tiles)
     tileset *tiles;
 public:
     tilemap() {
@@ -43,9 +33,8 @@ public:
     }
 
 private:
-    bool check() {
-        bool b=true;
-        return b;
+    void check() {
+
     }
 
 
