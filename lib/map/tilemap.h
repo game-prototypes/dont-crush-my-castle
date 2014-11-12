@@ -11,12 +11,12 @@
 
 class tilemap {
 private:
-    //   unsigned int width; //map size (in tiles)
-    //   unsigned int height;
-
     vector< vector<tile_id> > background; //background (grass,roads...)
     vector< vector<bool> > foreground; //foreground (occupied tiles)
+    string name;
     tileset *tiles; //pointer to tileset
+    //   unsigned int width; //map size (in tiles)
+    //   unsigned int height;
 public:
     tilemap();
 
@@ -41,11 +41,16 @@ public:
                check();
            }
        }*/
+    //MODIFICATION
+    //clear all the map info (except tileset)
+    void clear();
     //ACCESS
     //returns map height in tiles
     int get_height();
     //returns map width in tiles
     int get_width();
+    //returns the map name
+    string get_name();
     //return occupied tile (true) or empty tile(false)
     bool occupied_tile(unsigned int x,unsigned int y);
     //return tile_id

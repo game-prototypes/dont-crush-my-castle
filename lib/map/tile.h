@@ -6,6 +6,7 @@
 
 #ifndef TILE_H
 #define TILE_H
+#include "al_utils.h"
 enum tile_type {blocked,road,ground,special,null_tile};
 /*tile_type:
 block: blocked, not construction or enemies can pass

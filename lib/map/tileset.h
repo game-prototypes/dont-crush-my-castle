@@ -5,6 +5,7 @@
 //DESCRIPTION: Information about a set of tiles to be used on maps
 #ifndef TILESET_H
 #define TILESET_H
+
 #include "tile.h"
 
 
@@ -14,16 +15,18 @@ class tileset {
 private:
     map<tile_id,tile> tile_list;
     string name;
-    unsigned int height;
-    unsigned int width; //each tile height and width
+    unsigned int tile_height;
+    unsigned int tile_width; //each tile height and width
 
 public:
   //default constructor
     tileset();
     //contructor from tmx file
       //tileset(const Tmx::Tileset *ts);
-    tileset(string name,ALLEGRO_BITMAP* bitmap,unsigned int height,unsigned int width);
-    tileset(ALLEGRO_BITMAP* bitmap,unsigned int height,unsigned int width);
+      //full constructor
+    tileset(string name,const ALLEGRO_BITMAP* bitmap,const vector<tile_type> &types,unsigned int width,unsigned int height,int ntiles=-1);
+     //full constructor (without name)
+    tileset(const ALLEGRO_BITMAP* bitmap,const vector<tile_types> &types,unsigned int width,unsigned int height,int ntiles=-1);
     //MODIFICATION
     void clear();
     //ACCESS
@@ -50,8 +53,9 @@ public:
 
 private:
     //adds a tile,return true if inserted, false if already exists
-    bool add_tile(tile_id id,tile_type type,ALLEGRO_BITMAP *bitmap);
-
+    bool add_tile(tile_id id,tile_type type,const ALLEGRO_BITMAP *bitmap);
+    //slices given bitmap and creates the tileset
+    void load_from_bitmap(const ALLEGRO_BITMAP* bitmap,const vector<tile_types> &types,unsigned int twidth,unsigned int theight,int ntiles);
     void check();
 };
 #endif

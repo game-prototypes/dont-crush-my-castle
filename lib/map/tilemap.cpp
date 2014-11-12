@@ -9,6 +9,13 @@
 tilemap::tilemap() {
 }
 
+tilemap::clear(){
+                 name.clear();
+                 background.clear();
+                 foreground.clear();
+                 
+                 }
+
 int tilemap::get_height() {
     return background.size();
 }
@@ -16,6 +23,9 @@ int tilemap::get_width() {
     if(background.size()>0) return background[0].size();
     else return 0;
 }
+string tilemap::get_name(){
+       return name;
+       }
 bool tilemap::occupied_tile(unsigned int x,unsigned int y) {
     return foreground[x][y];
 }

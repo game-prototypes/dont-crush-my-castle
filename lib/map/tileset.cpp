@@ -7,7 +7,7 @@
 #include "tileset.h"
 
 tileset::tileset() {
-    height=width=0;
+    tile_height=tile_width=0;
 }
 /*   tileset::tileset(const Tmx::Tileset *ts) {
            height=ts->GetTileHeight();
@@ -15,10 +15,17 @@ tileset::tileset() {
            name=ts->GetName();
            add_tileset(ts);
        }*/
-    tileset::tileset(string name,ALLEGRO_BITMAP* bitmap,unsigned int height,unsigned int width);
-    tileset::tileset(ALLEGRO_BITMAP* bitmap,unsigned int height,unsigned int width){
+    tileset::tileset(string name,const ALLEGRO_BITMAP* bitmap,const vector<tile_type> &types,unsigned int width,unsigned int height,int ntiles){
+        this->name=name;
+        this->tile_height=tile_height;
+        this->tile_width=tile_width;       
+        load_bitmap(bitmap,types,tile_width,tile_height,ntiles);                   
+                            }
+    tileset::tileset(const ALLEGRO_BITMAP* bitmap,const vector<tile_type> &types,unsigned int width,unsigned int height,int ntiles){
         name="";
-        load_bitmaps
+        this->tile_height=tile_height;
+        this->tile_width=tile_width;  
+        load_bitmap(bitmap,types,tile_width,tile_height,ntiles);  
     }
 void tileset::clear() {
     name.clear();
@@ -33,10 +40,10 @@ tile tileset::get_tile(tile_id id) {
     return ret;
 }
 unsigned int tileset::get_tile_width() {
-    return width;
+    return tile_width;
 }
 unsigned int tileset::get_tile_height() {
-    return height;
+    return tile_height;
 }
 string tileset::get_name(){
     return name;
@@ -99,6 +106,16 @@ bool tileset::add_tile(tile_id id,tile_type type,ALLEGRO_BITMAP *bitmap) {
         resize_bitmap(bitmap,width,height);
     return  tile_list.insert(make_pair(id,tile(type,bitmap))).second;
 }
+void load_from_bitmap(const ALLEGRO_BITMAP* bitmap,const vector<tile_types> &types,unsigned int twidth,unsigned int theight,int ntiles){
+     vector<ALLEGRO_BITMAP*> v=slice_bitmap(bitmap,twidth,theight,ntiles); //slice the bitmap in small bitmaps
+     tile_type type;
+     if(v.size()<=0) debug_log::report("loading bitmap with size=0",err,true,true,false);
+     for(int i=0;i<v.size();i++){
+             if(i<types.size()) type=types[i];
+             else type=null_tile; //defines each tile from vector, if there is not a tile_type, is null by default
+             add_tile(i,type,v[i]); //adds the tile to the tileset with id=i
+             }
+     }
 
 void tileset::check() {
 }
