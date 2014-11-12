@@ -15,8 +15,8 @@ class tileset {
 private:
     map<tile_id,tile> tile_list;
     string name;
-    unsigned int tile_height;
     unsigned int tile_width; //each tile height and width
+    unsigned int tile_height;
 
 public:
   //default constructor
@@ -33,9 +33,9 @@ public:
     //returns tile with given id(null tile if id doesnt match)
     tile get_tile(tile_id id);
     //get width of each tile
-    int get_tile_width();
+    unsigned int get_tile_width();
     //gets height of each tile
-    int get_tile_height();
+    unsigned int get_tile_height();
     //returns name of tileset
     string get_name();
 

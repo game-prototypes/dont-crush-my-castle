@@ -45,10 +45,10 @@ public:
     //clear all the map info (except tileset)
     void clear();
     //ACCESS
-    //returns map height in tiles
-    int get_height();
     //returns map width in tiles
-    int get_width();
+    unsigned int get_width();
+    //returns map height in tiles
+    unsigned int get_height();
     //returns the map name
     string get_name();
     //return occupied tile (true) or empty tile(false)

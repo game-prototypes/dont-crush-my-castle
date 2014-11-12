@@ -15,14 +15,14 @@ tilemap::clear(){
                  foreground.clear();
                  
                  }
-
-int tilemap::get_height() {
-    return background.size();
-}
-int tilemap::get_width() {
+unsigned int tilemap::get_width() {
     if(background.size()>0) return background[0].size();
     else return 0;
 }
+unsigned int tilemap::get_height() {
+    return background.size();
+}
+
 string tilemap::get_name(){
        return name;
        }
