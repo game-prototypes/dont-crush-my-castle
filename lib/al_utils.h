@@ -38,7 +38,7 @@ vector<ALLEGRO_BITMAP *> slice_bitmap(ALLEGRO_BITMAP *bitmap,int width,int heigh
             x=y=0;
             for(int i=0; i<ytiles; i++) {
                 for(int j=0; j<xtiles; j++) {
-                    if((ntiles>=0 && v.size()<ntiles) || ntiles<0) {
+                    if((ntiles>=0 && v.size()<(unsigned int)ntiles) || ntiles<0) {
                         ALLEGRO_BITMAP *temp;
                         temp=al_create_bitmap(width,height);
                         al_set_target_bitmap(temp); //sets new bitmap as target

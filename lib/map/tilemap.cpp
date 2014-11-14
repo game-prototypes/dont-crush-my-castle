@@ -45,6 +45,28 @@ void tilemap::clear() {
     background.clear();
     foreground.clear();
 }
+void tilemap::occupy_tile(unsigned int x,unsigned int y) {
+    foreground[x][y]=1;
+}
+void tilemap::occupy_section(unsigned int x,unsigned int y,unsigned int width,unsigned int height) {
+    if(x+width>get_width()) width=get_width()-x;
+    if(y+height>get_height()) height=get_height()-y;
+    for(unsigned int i=0; i<width; i++) {
+        for(unsigned int j=0; j<height; j++)
+            foreground[x+i][y+j]=1;
+    }
+}
+void tilemap::free_tile(unsigned int x,unsigned int y) {
+    foreground[x][y]=0;
+}
+void tilemap::free_section(unsigned int x,unsigned int y,unsigned int width,unsigned int height) {
+    if(x+width>get_width()) width=get_width()-x;
+    if(y+height>get_height()) height=get_height()-y;
+    for(unsigned int i=0; i<width; i++) {
+        for(unsigned int j=0; j<height; j++)
+            foreground[x+i][y+j]=0;
+    }
+}
 unsigned int tilemap::get_width() const {
     if(background.size()>0) return background[0].size();
     else return 0;
@@ -56,9 +78,20 @@ unsigned int tilemap::get_height() const {
 string tilemap::get_name() const {
     return name;
 }
-bool tilemap::occupied_tile(unsigned int x,unsigned int y) const {
-    return foreground[x][y];
+bool tilemap::empty_tile(unsigned int x,unsigned int y) const {
+    return !foreground[x][y];
 }
+bool tilemap::empty_section(unsigned int x,unsigned int y,unsigned int width,unsigned int height) {
+    if(x+width>get_width() || y+height>get_height()) return false;
+    else {
+        for(unsigned int i=0; i<width; i++) {
+            for(unsigned int j=0; j<height; j++)
+                if(foreground[x+i][y+j]==1) return false;
+        }
+        return true;
+    }
+}
+
 tile_id tilemap::get_tile_id(unsigned int x,unsigned int y) const {
     return background[x][y];
 }
@@ -88,7 +121,7 @@ void tilemap::init_foreground_matrix(unsigned int width,unsigned int height) {
     foreground.clear();
     foreground.resize(height);
     vector<bool> v(width,false);
-    for(int i=0; i<height; i++) {
+    for(unsigned int i=0; i<height; i++) {
         foreground.push_back(v);
     }
 }

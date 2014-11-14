@@ -22,6 +22,14 @@ public:
     //MODIFICATION
     //clear all the map info (except tileset)
     void clear();
+    //set a tile to occupied
+    void occupy_tile(unsigned int x,unsigned int y);
+    //set a section to occupied, only the part inside the matrix, (check the section is free with empty_section)
+    void occupy_section(unsigned int x,unsigned int y,unsigned int width,unsigned int height);
+    //set tile to empty
+    void free_tile(unsigned int x,unsigned int y);
+    //set all tiles to empty in the given section
+    void free_section(unsigned int x,unsigned int y,unsigned int width,unsigned int height);
     //ACCESS
     //returns map width in tiles
     unsigned int get_width() const;
@@ -29,8 +37,11 @@ public:
     unsigned int get_height() const;
     //returns the map name
     string get_name() const;
-    //return occupied tile (true) or empty tile(false)
-    bool occupied_tile(unsigned int x,unsigned int y) const;
+    //return empty tile (true) or occupied tile(false)
+    bool empty_tile(unsigned int x,unsigned int y) const;
+    //check if the section given by the top-left point,width and height is occupied (if at least one tile inside is occupied) position x,y include
+    //return true if all tiles inside the section free, return false if out of bounds returns false
+    bool empty_section(unsigned int x,unsigned int y,unsigned int width,unsigned int height);
     //return tile_id
     tile_id get_tile_id(unsigned int x,unsigned int y) const;
     //return tile_type

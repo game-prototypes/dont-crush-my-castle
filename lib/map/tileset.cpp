@@ -111,14 +111,14 @@ void tileset::destroy_tileset() {
 //PRIVATE METHODS
 
 bool tileset::add_tile(tile_id id,tile_type type,ALLEGRO_BITMAP *bitmap) {
-    if(al_get_bitmap_height(bitmap)!=tile_height || al_get_bitmap_width(bitmap)!=tile_width)
+    if((unsigned int)al_get_bitmap_height(bitmap)!=tile_height || (unsigned int)al_get_bitmap_width(bitmap)!=tile_width)
         resize_bitmap(bitmap,tile_width,tile_height);
     return  tile_list.insert(make_pair(id,tile(type,bitmap))).second;
 }
 void tileset::load_from_bitmap(ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int twidth,unsigned int theight,int ntiles) {
     vector<ALLEGRO_BITMAP *> v=slice_bitmap(bitmap,twidth,theight,ntiles); //slice the bitmap in small bitmaps
     tile_type type;
-    if(v.size()<=0) debug_log::report("loading bitmap with size=0",err,true,true,false);
+    if(v.size()==0) debug_log::report("loading bitmap with size=0",err,true,true,false);
     for(unsigned int i=0; i<v.size(); i++) {
         if(i<types.size()) type=types[i];
         else type=null_tile; //defines each tile from vector, if there is not a tile_type, is null by default
