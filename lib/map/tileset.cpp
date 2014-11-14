@@ -6,6 +6,8 @@
 
 #include "tileset.h"
 
+//const tileset::tmx_tiletype_property="tiletype";
+
 tileset::tileset() {
     tile_height=tile_width=0;
 }
@@ -15,55 +17,57 @@ tileset::tileset() {
            name=ts->GetName();
            add_tileset(ts);
        }*/
-    tileset::tileset(string name,const ALLEGRO_BITMAP* bitmap,const vector<tile_type> &types,unsigned int width,unsigned int height,int ntiles){
-        this->name=name;
-        this->tile_height=tile_height;
-        this->tile_width=tile_width;       
-        load_bitmap(bitmap,types,tile_width,tile_height,ntiles);                   
-                            }
-    tileset::tileset(const ALLEGRO_BITMAP* bitmap,const vector<tile_type> &types,unsigned int width,unsigned int height,int ntiles){
-        name="";
-        this->tile_height=tile_height;
-        this->tile_width=tile_width;  
-        load_bitmap(bitmap,types,tile_width,tile_height,ntiles);  
-    }
-void tileset::clear() {
-    name.clear();
-    height=width=0;
-    tile_list.clear();
+
+tileset::tileset(const string &name,ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_width,unsigned int tile_height,int ntiles) {
+    this->name=name;
+    this->tile_height=tile_height;
+    this->tile_width=tile_width;
+    load_from_bitmap(bitmap,types,tile_width,tile_height,ntiles);
 }
-tile tileset::get_tile(tile_id id) {
+tileset::tileset(ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_width,unsigned int tile_height,int ntiles) {
+    name="";
+    this->tile_height=tile_height;
+    this->tile_width=tile_width;
+    load_from_bitmap(bitmap,types,tile_width,tile_height,ntiles);
+}
+tileset::~tileset() {
+    destroy_tileset();
+}
+unsigned int tileset::size() const {
+    return tile_list.size();
+}
+tile tileset::get_tile(tile_id id) const {
     tile ret;
     map<tile_id,tile>::const_iterator it;
     it=tile_list.find(id);
     if(it!=tile_list.end()) ret=it->second;
     return ret;
 }
-unsigned int tileset::get_tile_width() {
+unsigned int tileset::get_tile_width() const {
     return tile_width;
 }
-unsigned int tileset::get_tile_height() {
+unsigned int tileset::get_tile_height() const {
     return tile_height;
 }
-string tileset::get_name(){
+string tileset::get_name() const {
     return name;
-    }
+}
 
-void tileset::draw_tile(tile_id id,float x,float y) {
+void tileset::draw_tile(tile_id id,float x,float y) const {
     get_tile(id).draw(x,y);
 }
-void tileset::draw_scaled_tile(tile_id id,float x,float y,unsigned int width,unsigned int height) {
-    get_tile(id).draw_scaled(x,y,width,height);
+void tileset::draw_resized_tile(tile_id id,float x,float y,unsigned int width,unsigned int height) const {
+    get_tile(id).draw_resized(x,y,width,height);
 }
-void tileset::resize_tileset(unsigned int width,unsigned int height){
-      if(width<=0 || height<=0) debug_log::report("resize tileset: new size not allowed (not resized)",err,true,true,false);
-      else{
-        this->width=width;
-        this->height=height;
+void tileset::resize_tileset(unsigned int tile_width,unsigned int tile_height) {
+    if(tile_width<=0 || tile_height<=0) debug_log::report("resize tileset: new size not allowed (not resized)",err,true,true,false);
+    else {
+        this->tile_width=tile_width;
+        this->tile_height=tile_height;
         map<tile_id,tile>::iterator it;
-        for(it=tile_list.begin();it!=tile_list.end();it++) it->second.resize(width,height);
-      }
+        for(it=tile_list.begin(); it!=tile_list.end(); it++) it->second.resize(tile_width,tile_height);
     }
+}
 
 /*  void tileset::add_tmx_tileset(const Tmx::Tileset *ts) {
           if(name.empty()==true) name=ts->GetName();
@@ -98,24 +102,30 @@ void tileset::resize_tileset(unsigned int width,unsigned int height){
           }
           check();
       }*/
-
+void tileset::destroy_tileset() {
+    name.clear();
+    tile_height=tile_width=0;
+    for(unsigned int i=0; i<tile_list.size(); i++) tile_list[i].destroy_bitmap();
+    tile_list.clear();
+}
 //PRIVATE METHODS
 
 bool tileset::add_tile(tile_id id,tile_type type,ALLEGRO_BITMAP *bitmap) {
-    if(al_get_bitmap_height(bitmap)!=height || al_get_bitmap_width(bitmap)!=width)
-        resize_bitmap(bitmap,width,height);
+    if(al_get_bitmap_height(bitmap)!=tile_height || al_get_bitmap_width(bitmap)!=tile_width)
+        resize_bitmap(bitmap,tile_width,tile_height);
     return  tile_list.insert(make_pair(id,tile(type,bitmap))).second;
 }
-void load_from_bitmap(const ALLEGRO_BITMAP* bitmap,const vector<tile_types> &types,unsigned int twidth,unsigned int theight,int ntiles){
-     vector<ALLEGRO_BITMAP*> v=slice_bitmap(bitmap,twidth,theight,ntiles); //slice the bitmap in small bitmaps
-     tile_type type;
-     if(v.size()<=0) debug_log::report("loading bitmap with size=0",err,true,true,false);
-     for(int i=0;i<v.size();i++){
-             if(i<types.size()) type=types[i];
-             else type=null_tile; //defines each tile from vector, if there is not a tile_type, is null by default
-             add_tile(i,type,v[i]); //adds the tile to the tileset with id=i
-             }
-     }
+void tileset::load_from_bitmap(ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int twidth,unsigned int theight,int ntiles) {
+    vector<ALLEGRO_BITMAP *> v=slice_bitmap(bitmap,twidth,theight,ntiles); //slice the bitmap in small bitmaps
+    tile_type type;
+    if(v.size()<=0) debug_log::report("loading bitmap with size=0",err,true,true,false);
+    for(unsigned int i=0; i<v.size(); i++) {
+        if(i<types.size()) type=types[i];
+        else type=null_tile; //defines each tile from vector, if there is not a tile_type, is null by default
+        add_tile(i,type,v[i]); //adds the tile to the tileset with id=i
+    }
+    check();
+}
 
-void tileset::check() {
+void tileset::check() const {
 }

@@ -6,7 +6,8 @@
 
 #ifndef TILE_H
 #define TILE_H
-#include "al_utils.h"
+
+
 enum tile_type {blocked,road,ground,special,null_tile};
 /*tile_type:
 block: blocked, not construction or enemies can pass
@@ -22,14 +23,15 @@ private:
 public:
     tile();
     tile(tile_type type,ALLEGRO_BITMAP *bitmap);
-    ~tile();
 
     //resize the tile bitmap
-    void resize(unsigned int width,unsigned int height){
+    void resize(unsigned int width,unsigned int height);
     //draw the tile bitmap on x,y position (of the target bitmap)
-    void draw(float x,float y);
+    void draw(float x,float y) const;
     //draw the tile bitmap on x,y  position, resizing it to width,height size
-    void draw_resized(float x,float y,unsigned int width,unsigned int height);
+    void draw_resized(float x,float y,unsigned int width,unsigned int height) const;
+
+    void destroy_bitmap();
 };
 
 #endif
