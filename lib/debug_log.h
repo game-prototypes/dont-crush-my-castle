@@ -3,11 +3,12 @@
 //AUTHOR: Andrés Ortiz
 //VERSION: 0.2
 //DESCRIPTION: Logs for warnings and errors
+#ifndef DEBUG_LOG_H
+#define DEBUG_LOG_H
 
 enum log_type {comment,warning,err,fatal_error};
 
 namespace debug_log {
-
 const string version="V0.1";
 const string log_file="dcmc.log";
 const bool show_contact=false;
@@ -22,7 +23,7 @@ const bool force_write=false;
 const bool force_show=false; //true to force errors
 
 //report an error
-void report(string error,log_type type,bool write,bool show,bool assert=false) {
+void report(const string &error,log_type type,bool write,bool show,bool assert=false) {
     string error_msg=version+"::Log - ";
     switch(type) {
     case comment:
@@ -58,7 +59,8 @@ void report(string error,log_type type,bool write,bool show,bool assert=false) {
 }
 
 //easy-yo-use report
-void report(string error,log_type type=comment) {
+void report(const string &error,log_type type=comment) {
     report(error,type,false,true,false);
 }
 };
+#endif
