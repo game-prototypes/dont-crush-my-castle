@@ -46,6 +46,8 @@ void tilemap::clear() {
     foreground.clear();
 }
 void tilemap::occupy_tile(unsigned int x,unsigned int y) {
+   if(in_matrix(x,y)==false) debug_log::report("trying to access out of map",warning,true,false,false);
+   else
     foreground[x][y]=1;
 }
 void tilemap::occupy_section(unsigned int x,unsigned int y,unsigned int width,unsigned int height) {
@@ -57,6 +59,8 @@ void tilemap::occupy_section(unsigned int x,unsigned int y,unsigned int width,un
     }
 }
 void tilemap::free_tile(unsigned int x,unsigned int y) {
+   if(in_matrix(x,y)==false) debug_log::report("trying to access out of map",warning,true,false,false);
+   else
     foreground[x][y]=0;
 }
 void tilemap::free_section(unsigned int x,unsigned int y,unsigned int width,unsigned int height) {
@@ -79,9 +83,11 @@ string tilemap::get_name() const {
     return name;
 }
 bool tilemap::empty_tile(unsigned int x,unsigned int y) const {
+       if(in_matrix(x,y))
     return !foreground[x][y];
+    else return false;
 }
-bool tilemap::empty_section(unsigned int x,unsigned int y,unsigned int width,unsigned int height) {
+bool tilemap::empty_section(unsigned int x,unsigned int y,unsigned int width,unsigned int height) const{
     if(x+width>get_width() || y+height>get_height()) return false;
     else {
         for(unsigned int i=0; i<width; i++) {
@@ -92,12 +98,20 @@ bool tilemap::empty_section(unsigned int x,unsigned int y,unsigned int width,uns
     }
 }
 
-tile_id tilemap::get_tile_id(unsigned int x,unsigned int y) const {
+tile_id tilemap::get_tile_id(unsigned int x,unsigned int y) const { 
+    if(in_matrix(x,y))
     return background[x][y];
+    else return -1;
 }
 tile_type tilemap::get_tile_type(unsigned int x,unsigned int y) const {
+          if(in_matrix(x,y)){
     tile_id id=background[x][y];
     return (tiles->get_tile(id)).type;
+}
+else{
+     debug_log::("get_tyle_type out oif bounds",err,true,true,false);
+      return null_tile;
+      }
 }
 
 void tilemap::draw_tilemap() const {
@@ -125,6 +139,11 @@ void tilemap::init_foreground_matrix(unsigned int width,unsigned int height) {
         foreground.push_back(v);
     }
 }
+bool tilemap::in_matrix(unsigned int x,unsigned int y)const{
+     if(x<get_width() || y<get_height()) return true;
+     else return false;
+     
+     }
 /*   void tilemap::load_background(const Tmx::Layer *lay,int width,int height) {
         for(int i=0; i<height; i++) {
             for(int j=0; j<width; j++) {

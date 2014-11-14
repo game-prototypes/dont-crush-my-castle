@@ -41,7 +41,7 @@ public:
     bool empty_tile(unsigned int x,unsigned int y) const;
     //check if the section given by the top-left point,width and height is occupied (if at least one tile inside is occupied) position x,y include
     //return true if all tiles inside the section free, return false if out of bounds returns false
-    bool empty_section(unsigned int x,unsigned int y,unsigned int width,unsigned int height);
+    bool empty_section(unsigned int x,unsigned int y,unsigned int width,unsigned int height) const;
     //return tile_id
     tile_id get_tile_id(unsigned int x,unsigned int y) const;
     //return tile_type
@@ -52,9 +52,11 @@ public:
 
 
 private:
+        //init foreground matrix to 0
     void init_foreground_matrix(unsigned int width,unsigned int height);
     //   void load_background(const Tmx::Layer *lay,int width,int height);
-
+    //cehcks if given position is in the matrix
+    bool in_matrix(unsigned int x,unsigned int y);
     void check();
 
 };
