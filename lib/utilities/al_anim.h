@@ -49,7 +49,7 @@ public:
     //draws the current bitmap (with flips if set to true)
     void draw(double x,double y) const;
     //draw resized to given width and height
-    void draw_resized(float x,float y,unsigned int width,unsigned int height) const;
+    void draw_resized(double x,double y,unsigned int width,unsigned int height) const;
     //destroy all the bitmaps and clear the animation
     void destroy();
 private:
