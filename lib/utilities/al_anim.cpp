@@ -67,12 +67,14 @@ bool al_anim::is_active() const {
     return active;
 }
 void al_anim::update() {
+     if(active){
     current_delay--;
     if(current_delay==0) { //change bitmap
         count++;
         count%=bitmap_set.size(); //returns to bitmap 0 at the end of set
         current_delay=animation_delay;  //resets delay
     }
+}
 }
 void al_anim::draw(double x,double y) const {
     //   if(!(bitmap_set.empty()){ //comprobation erased to improve performance ??
