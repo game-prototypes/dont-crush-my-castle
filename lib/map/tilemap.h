@@ -52,11 +52,11 @@ public:
 
 
 private:
-        //init foreground matrix to 0
+    //init foreground matrix to 0
     void init_foreground_matrix(unsigned int width,unsigned int height);
     //   void load_background(const Tmx::Layer *lay,int width,int height);
     //cehcks if given position is in the matrix
-    bool in_matrix(unsigned int x,unsigned int y);
+    bool in_matrix(unsigned int x,unsigned int y) const;
     void check();
 
 };
