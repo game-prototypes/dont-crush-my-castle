@@ -81,7 +81,7 @@ void al_anim::draw(double x,double y) const {
     al_draw_bitmap(bitmap_set[count],x,y,0);
     //                            }
 }
-void al_anim::draw_resized(float x,float y,unsigned int width,unsigned int height) const {
+void al_anim::draw_resized(double x,double y,unsigned int width,unsigned int height) const {
     if(width==0 || height==0) debug_log::report("tile size=0",err,true,false,false);
     else
         al_draw_scaled_bitmap(bitmap_set[count],0.0,0.0,al_get_bitmap_width(bitmap_set[count]),al_get_bitmap_height(bitmap_set[count]),x,y,width,height,0);
