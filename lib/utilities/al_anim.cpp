@@ -10,6 +10,7 @@ al_anim::al_anim() {
     animation_delay=0;
     current_delay=0;
     count=0;
+    loop=true;
     active=false;
 }
 al_anim::al_anim(const vector<ALLEGRO_BITMAP *> bitmap_sheet,double duration,const ALLEGRO_TIMER *timer) {
@@ -17,16 +18,26 @@ al_anim::al_anim(const vector<ALLEGRO_BITMAP *> bitmap_sheet,double duration,con
     else {
         count=0;
         active=false;
+        loop=true;
         set_duration(duration,timer);
     }
 }
 al_anim::al_anim(ALLEGRO_BITMAP *bitmap_sheet,unsigned int width,unsigned int height,double duration,const ALLEGRO_TIMER *timer) {
     load_from_bitmap(bitmap_sheet,width,height);
-    count=0;
-    active=false;
-    set_duration(duration,timer);
+    if(bitmap_set.empty()==false) {
+        count=0;
+        active=false;
+        loop=true;
+        set_duration(duration,timer);
+    }
 }
 void al_anim::activate() {
+    active=true;
+    check();
+}
+void al_anim::start() {
+    count=0;
+    current_delay=animation_delay;
     active=true;
     check();
 }
@@ -37,6 +48,12 @@ void al_anim::stop() {
     active=false;
     count=0;
     current_delay=animation_delay;
+}
+void al_anim::set_frame(unsigned int frame) {
+    if(frame<size()) {
+        count=frame;
+        current_delay=animation_delay;
+    }
 }
 void al_anim::set_duration(double seconds,const ALLEGRO_TIMER *timer) {
     if(size()>0) {
@@ -49,6 +66,9 @@ void al_anim::set_duration(double seconds,const ALLEGRO_TIMER *timer) {
         }
         current_delay=animation_delay;
     }
+}
+void al_anim::animation_loop(bool loop) {
+    this->loop=loop;
 }
 unsigned int al_anim::size() const {
     return bitmap_set.size();
@@ -67,19 +87,20 @@ bool al_anim::is_active() const {
     return active;
 }
 void al_anim::update() {
-     if(active){
-    current_delay--;
-    if(current_delay==0) { //change bitmap
-        count++;
-        count%=bitmap_set.size(); //returns to bitmap 0 at the end of set
-        current_delay=animation_delay;  //resets delay
+    if(active) {
+        current_delay--;
+        if(current_delay==0) { //change bitmap
+            count++;
+            if(count==bitmap_set.size()-1 && loop==false) pause();
+            count%=bitmap_set.size();
+            current_delay=animation_delay;  //resets delay
+        }
     }
 }
-}
 void al_anim::draw(double x,double y) const {
-    //   if(!(bitmap_set.empty()){ //comprobation erased to improve performance ??
-    al_draw_bitmap(bitmap_set[count],x,y,0);
-    //                            }
+    if(!bitmap_set.empty()) { //comprobation erased to improve performance ??
+        al_draw_bitmap(bitmap_set[count],x,y,0);
+    }
 }
 void al_anim::draw_resized(double x,double y,unsigned int width,unsigned int height) const {
     if(width==0 || height==0) debug_log::report("tile size=0",err,true,false,false);
