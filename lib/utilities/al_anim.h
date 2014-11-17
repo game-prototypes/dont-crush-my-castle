@@ -62,7 +62,6 @@ public:
 private:
     //slice the given bitmap into pieces of equal size for animation
     void load_from_bitmap(ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height);
-    void set_to_idle();
     void check() const;
 };
 #endif
