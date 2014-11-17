@@ -16,6 +16,7 @@ private:
     unsigned int count;
     unsigned int current_delay;
     bool active; //true to activate animation (false will pause it)
+    bool loop; //if true, the animation will repeat, if not, it will stop in the alst frame
 public:
     //CONSTRUCTORS
     //default constructor
@@ -27,12 +28,18 @@ public:
     //MODIFICATION
     //checks animation and activates it
     void activate();
+    //checks and activates animation from the beginning (like stop+activate)
+    void start();
     //deactivate animation (paused)
     void pause();
     //deactivates the animation and resets counter
     void stop();
+    //sets following frame to use (restarting current delay) if its inside bounds
+    void set_frame(unsigned int frame);
     //set animation speed, given the duration,returns animation_delay
     void set_duration(double seconds,const ALLEGRO_TIMER *timer);
+    //set loop value to true or false
+    void animation_loop(bool loop);
     //returns size of animation (number of frames)
     unsigned int size()const;
     //returns total duration of animation
@@ -55,6 +62,7 @@ public:
 private:
     //slice the given bitmap into pieces of equal size for animation
     void load_from_bitmap(ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height);
+    void set_to_idle();
     void check() const;
 };
 #endif
