@@ -168,8 +168,11 @@ void tilemap::update_path_map(vector< pair<unsigned int,unsigned int>> destinati
                 int y=til.second+j;
                 if(x>0 && y>0) {
                     if(in_matrix(x,y) {
-                    if(get_tile_type(x,y)==road && path_map[x][y]==-1) //&& foreground[x][y]==0¿?
-                            path_map[x][y]=path_map[i][j]+1;
+                    if(get_tile_type(x,y)==road){ //&& foreground[x][y]==0¿?
+                            if(path_map[x][y]==-1) left_tiles.push(make_pair(x,y)); //push tile if havent been updated yet
+                            int val=path_map[til.first][til.second]+1;
+                            if(path_map[x][y]<val) path_map[x][y]=val;
+                            }
                     }
                 }
             }
