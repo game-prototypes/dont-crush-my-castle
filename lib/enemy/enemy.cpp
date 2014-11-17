@@ -123,7 +123,7 @@ void enemy::kill() {
     animation[current_animation].start();
 }
 
-void enemy::deactive() {
+void enemy::deactivate () {
     active=false;
 }
 

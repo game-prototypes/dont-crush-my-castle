@@ -76,7 +76,7 @@ public:
     //set life automatically to 0 and live=false, this kills the enemy, starting the animation, but will not destroy the class
     void kill();
     //deactive the enemy,so no longer will be updated or drawn (do after kill the enemy)
-    void deactive();
+    void deactivate ();
     //update the movement,animation and all booleans
     void update();
     //draw the current_animation in the enemy position
