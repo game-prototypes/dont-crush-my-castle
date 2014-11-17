@@ -38,7 +38,7 @@ public:
     //set armor
     void set_armor(unsigned int armor);
     //set speed (pixels per second)
-    void set_speed(double speed,const ALLEGRO_TIMER *timer);
+    void set_speed(double enemy_speed,const ALLEGRO_TIMER *timer);
     //set animation to use in iddle stage (remove any previous animation)
     void set_idle_animation(const al_anim &idle);
     //set dead animation (remove any previous animation)
