@@ -12,21 +12,21 @@ enemy::enemy() {
     position=destiny=make_pair(-1,-1);
     active=false;
 }
-enemy::enemy(const string &name,unsigned int life,unsigned int armor,double speed,const map<enemy_animation,al_anim> &animation) {
+enemy::enemy(const string &name,unsigned int life,unsigned int armor,double speed,const map<enemy_animation,al_anim> &animation,const ALLEGRO_TIMER *timer) {
     this->name=name;
     set_life(life);
     set_armor(armor);
-    set_speed(speed);
+    set_speed(speed,timer);
     this->animation=animation;
     position=destiny=make_pair(-1,-1);
     level=0;
     active=false;
 }
-enemy::enemy(const string &name,unsigned int life,unsigned int armor,double speed) {
+enemy::enemy(const string &name,unsigned int life,unsigned int armor,double speed,const ALLEGRO_TIMER *timer) {
     this->name=name;
     set_life(life);
     set_armor(armor);
-    set_speed(speed);
+    set_speed(speed,timer);
     position=destiny=make_pair(-1,-1);
     level=0;
     active=false;
@@ -38,13 +38,13 @@ void enemy::set_life(unsigned int life) {
 void enemy::set_armor(unsigned int armor) {
     this->armor=armor;
 }
-void enemy::set_speed(double enemy_speed) {
+void enemy::set_speed(double enemy_speed,const ALLEGRO_TIMER *timer) {
     if(enemy_speed<0) {
         debug_log::report("enemy speed negative (set to positive)",warning,true,false,false);
         enemy_speed=-enemy_speed;
     }
     if(enemy_speed==0) debug_log::report("enemy speed set to 0",warning,true,false,false);
-    speed=enemy_speed;
+    speed=enemy_speed*al_get_timer_speed(timer);
 }
 void enemy::set_idle_animation(const al_anim &idle) {
     insert_animation(idle_anim,idle);
@@ -123,7 +123,7 @@ void enemy::kill() {
     animation[current_animation].start();
 }
 
-void enemy::deactivate () {
+void enemy::deactivate() {
     active=false;
 }
 
@@ -131,7 +131,7 @@ void enemy::update() {
     if(spawned()) {
         if(alive()) {
             if(!idle()) {
-                //movement update (animation and position)
+                position=movement_update(position,destiny,speed);
                 if(idle()) set_to_idle(); //if reach destiny
             }
         }

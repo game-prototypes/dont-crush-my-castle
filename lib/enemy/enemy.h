@@ -15,7 +15,7 @@ private:
     unsigned int life;
     unsigned int level; //level may change enemy parameters (unused)
     unsigned int armor; //armor of the enemy
-    double speed; //speed
+    double speed; //speed (speed per frame)
 
     pair<double,double> position; //actual position
     pair<double,double> destiny; //position to move
@@ -28,17 +28,17 @@ public:
     //default constructor
     enemy();
     //full constructor with animations
-    enemy(const string &name,unsigned int life,unsigned int armor,double speed,const map<enemy_animation,al_anim> &animation);
+    enemy(const string &name,unsigned int life,unsigned int armor,double speed,const map<enemy_animation,al_anim> &animation,const ALLEGRO_TIMER *timer);
     //full constructor without animations
-    enemy(const string &name,unsigned int life,unsigned int armor,double speed);
+    enemy(const string &name,unsigned int life,unsigned int armor,double speed,const ALLEGRO_TIMER *timer);
 
     //MODIFICATION
     //set enemy life
     void set_life(unsigned int life);
     //set armor
     void set_armor(unsigned int armor);
-    //set speed
-    void set_speed(double speed);
+    //set speed (pixels per second)
+    void set_speed(double speed,const ALLEGRO_TIMER *timer);
     //set animation to use in iddle stage (remove any previous animation)
     void set_idle_animation(const al_anim &idle);
     //set dead animation (remove any previous animation)
@@ -76,7 +76,7 @@ public:
     //set life automatically to 0 and live=false, this kills the enemy, starting the animation, but will not destroy the class
     void kill();
     //deactive the enemy,so no longer will be updated or drawn (do after kill the enemy)
-    void deactivate ();
+    void deactivate();
     //update the movement,animation and all booleans
     void update();
     //draw the current_animation in the enemy position

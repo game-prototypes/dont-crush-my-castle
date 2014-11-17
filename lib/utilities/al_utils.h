@@ -68,4 +68,23 @@ void al_start(ALLEGRO_DISPLAY *&display,ALLEGRO_EVENT_QUEUE *&event_queue,ALLEGR
     al_register_event_source(event_queue, al_get_timer_event_source(timer)); //add timer and display to event queue
     al_start_timer(timer); //start the timer
 }
+
+//updates movement 1 frame (being speed pixels/frame) from position to destiny
+pair<double,double> movement_update(pair<double,double> position,pair<double,double> destiny,double speed) {
+    if(position!=destiny) {
+        double x=destiny.first-position.first;
+        double y=destiny.second-position.second;
+        double m=sqrt(x*x+y*y);
+        m=speed/m;
+        x*=m;
+        y*=m;
+        if(abs(position.first+x-destiny.first)<=speed) position.first=destiny.first;
+        else position.first+=x;
+        if(abs(position.second+y-destiny.second)<=speed) position.second=destiny.second;
+        else position.second+=y;
+    }
+    return position;
+}
+
+
 #endif
