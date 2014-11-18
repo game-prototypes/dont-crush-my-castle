@@ -12,12 +12,14 @@ tilemap::tilemap(const string &name,const vector< vector<tile_id> > &background,
     this->tiles=tiles;
     this->name=name;
     this->background=background;
-    if(background.size()>0) init_foreground_matrix(background[0].size(),background.size());
+    if(background.size()>0) init_matrix(background[0].size(),background.size());
+    check();
 }
 tilemap::tilemap(const vector< vector<tile_id> > &background,tileset *tiles) {
     this->tiles=tiles;
     this->background=background;
-    if(background.size()>0) init_foreground_matrix(background[0].size(),background.size());
+    if(background.size()>0) init_matrix(background[0].size(),background.size());
+    check();
 }
 /*   void tilemap::loadtmx(string filename) {
            Tmx::Map map;
@@ -44,6 +46,7 @@ void tilemap::clear() {
     name.clear();
     background.clear();
     foreground.clear();
+    path_map.clear();
 }
 void tilemap::occupy_tile(unsigned int x,unsigned int y) {
     if(in_matrix(x,y)==false) debug_log::report("trying to access out of map",warning,true,false,false);
@@ -131,12 +134,51 @@ void tilemap::draw_tilemap() const {
 }
 
 //Private methods
-void tilemap::init_foreground_matrix(unsigned int width,unsigned int height) {
+void tilemap::init_matrix(unsigned int width,unsigned int height) {
     foreground.clear();
+    path_map.clear();
     foreground.resize(height);
+    path_map.resize(height);
     vector<bool> v(width,false);
+    vector<int> v2(width,-1);
     for(unsigned int i=0; i<height; i++) {
         foreground.push_back(v);
+        path_map.push_back(v2);
+    }
+}
+void tilemap::update_path_map(vector< pair<unsigned int,unsigned int>> destination) {
+    if(destination.empty()) debug_log::report("no final destination in map",err,true,true,false),
+        for(unsigned int i=0; i<path_map.size(); i++)
+            for(unsigned int j=0; j<path_map[0].size(); j++)
+                path_map[i][j]=-1; //all path map set to -1
+
+    stack< pair<unsigned int,unsigned int> > left_tiles; //tiles left to check surroundings
+    pair<unsigned int,unsigned int> til;
+    for(unsigned int i=0; i<destination.size(); i++) {
+        til=destination[i];
+        path_map[til.first][til.second]=0; //set tile of destination to 0
+        left_tiles.push(til);
+    }
+    while(!left_tiles.empty()) {
+        til=left_tiles.top();
+        left_tiles.pop();
+        for(int i=-1; i<=1; i++) {
+            for(int j=-1; j<=1; j++) {
+                int x=til.first+i;
+                int y=til.second+j;
+                if(x>0 && y>0) {
+                    if(in_matrix(x,y) {
+                    if(get_tile_type(x,y)==road){ //&& foreground[x][y]==0¿?
+                            if(path_map[x][y]==-1) left_tiles.push(make_pair(x,y)); //push tile if havent been updated yet
+                            int val=path_map[til.first][til.second]+1;
+                            if(path_map[x][y]<val) path_map[x][y]=val;
+                            }
+                    }
+                }
+            }
+        }
+
+
     }
 }
 bool tilemap::in_matrix(unsigned int x,unsigned int y)const {
@@ -151,6 +193,8 @@ bool tilemap::in_matrix(unsigned int x,unsigned int y)const {
         }
     }*/
 void tilemap::check() {
-    if(background.size()!=foreground.size()) debug_log::report("map matrix don't match(height)",err,true,true,false);
-    if(background.size()>0 && foreground.size()>0 && background[0].size()!=foreground[0].size()) debug_log::report("map matrix don't match(width)",err,true,true,false);
+    if(background.size()!=foreground.size() || background.size()!=path_map.size()) debug_log::report("map matrix don't match(height)",err,true,true,false);
+    if(background.empty()) debug_log::report("empty map",err,true,true,false);
+    else if(background[0].size()!=foreground[0].size() || background[0].empty()) debug_log::report("map matrix incorrect width",err,true,true,false);
+
 }
