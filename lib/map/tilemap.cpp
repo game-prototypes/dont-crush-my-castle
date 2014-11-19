@@ -146,8 +146,8 @@ void tilemap::init_matrix(unsigned int width,unsigned int height) {
         path_map.push_back(v2);
     }
 }
-void tilemap::update_path_map(vector< pair<unsigned int,unsigned int>> destination) {
-    if(destination.empty()) debug_log::report("no final destination in map",err,true,true,false),
+void tilemap::update_path_map(vector< pair<unsigned int,unsigned int> > destination) {
+    if(destination.empty()) debug_log::report("no final destination in map",err,true,true,false);
         for(unsigned int i=0; i<path_map.size(); i++)
             for(unsigned int j=0; j<path_map[0].size(); j++)
                 path_map[i][j]=-1; //all path map set to -1
@@ -167,7 +167,7 @@ void tilemap::update_path_map(vector< pair<unsigned int,unsigned int>> destinati
                 int x=til.first+i;
                 int y=til.second+j;
                 if(x>0 && y>0) {
-                    if(in_matrix(x,y) {
+                    if(in_matrix(x,y)) {
                     if(get_tile_type(x,y)==road){ //&& foreground[x][y]==0¿?
                             if(path_map[x][y]==-1) left_tiles.push(make_pair(x,y)); //push tile if havent been updated yet
                             int val=path_map[til.first][til.second]+1;

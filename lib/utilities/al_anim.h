@@ -49,6 +49,8 @@ public:
     //ACCESS
     //return true if animation is active
     bool is_active()const;
+    //return current frame(count)
+    unsigned int get_frame() const;
     //updates current_delay if bitmap is active, if necessary, updates count
     //this method should be called once in each timer event (of the same timer given in set_animation_speed)
     void update();
@@ -62,7 +64,6 @@ public:
 private:
     //slice the given bitmap into pieces of equal size for animation
     void load_from_bitmap(ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height);
-    void set_to_idle();
     void check() const;
 };
 #endif
