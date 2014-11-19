@@ -85,26 +85,14 @@ private:
 
     //insert animation (erasing previous animations and reseting all counters)
     void insert_animation(enemy_animation anim,const al_anim &animation);
+    //changes to given movement animation
+    void change_movement_animation(enemy_animation anim);
     //set animation to idle (stoppping all movement animation and current
     void set_to_idle();
     //stops all movement anim
     void stop_movement_anim();
     void check();
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #endif

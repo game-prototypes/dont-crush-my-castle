@@ -131,6 +131,16 @@ void enemy::update() {
     if(spawned()) {
         if(alive()) {
             if(!idle()) {
+        double x=destiny.first-position.first;
+        double y=destiny.second-position.second;
+        if(abs(x)>=abs(y)){ //vertical animation
+        	if(x>0) change_movement_animation(up_anim);
+        	else change_movement_animation(down_anim);
+        }
+        else{//horizontal animation
+        	if(y>0) change_movement_animation(right_anim);
+        	else change_movement_animation(left_anim);
+        }
                 position=movement_update(position,destiny,speed);
                 if(idle()) set_to_idle(); //if reach destiny
             }
@@ -156,6 +166,16 @@ void enemy::insert_animation(enemy_animation anim_type,const al_anim &anim) {
         animation.insert(make_pair(anim_type,anim));
         animation[anim_type].stop(); //set the animation to inactive and restart counters
     }
+}
+void enemy::change_movement_animation(enemy_animation anim){
+	if(current_animation!=anim){
+		unsigned int frame=animation[current_animation].get_frame();
+		animation[current_animation].stop();
+		current_animation=anim;
+		animation[current_animation].stop();
+		animation[current_animation].set_frame(frame);
+		animation[current_animation].activate();
+	}
 }
 void enemy::set_to_idle() {
     stop_movement_anim();
