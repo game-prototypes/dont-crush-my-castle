@@ -10,16 +10,16 @@
 enum enemy_animation {idle_anim,up_anim,down_anim,left_anim,right_anim,dead_anim}; //defines each animation for an enemy
 
 //defines the basic characteristics of an enemy kind
-struct enemy_info {
+struct enemy_attributes {  //enemy attributes ¿?¿?
     map<enemy_animation,al_anim> animation; //stores all animations of an enemy
     string name; //name of the enemy
     double speed; //basic speed (speed per frame)
     unsigned int max_life; //max (and initial) life of enemy
     unsigned int armor; //armor of the enemy
     //Methods
-    enemy_info();
-    enemy_info(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const ALLEGRO_TIMER *timer);
-    enemy_info(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation,const ALLEGRO_TIMER *timer);
+    enemy_attributes();
+    enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const ALLEGRO_TIMER *timer);
+    enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation,const ALLEGRO_TIMER *timer);
     //insert animation (erasing previous animations and reseting all counters)
     void insert_animation(enemy_animation type,const al_anim &anima);
     //set speed (pixels per second), need timer wich will be used
@@ -35,7 +35,7 @@ struct enemy_info {
 
 class enemy {
 private:
-    enemy_info basic_info; //basic info of enemy type
+    enemy_attributes basic_info; //basic info of enemy type
     unsigned int life; //current life of enemy
     unsigned int level; //level may change enemy parameters (unused)
 
@@ -50,7 +50,7 @@ public:
     enemy();
     //constructor with basic info, enemy life will start with the max_life value
     //constructor with spawning in position given
-    enemy(enemy_info basic_info,unsigned int level,double posx,double posy);
+    enemy(enemy_attributes attributes,unsigned int level,double posx,double posy);
 
     //MODIFICATION
     //set enemy level (currently unused)

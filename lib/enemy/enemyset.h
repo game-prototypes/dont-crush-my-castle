@@ -10,18 +10,18 @@
 class enemy_set {
 private:
     string name; //name of the set
-    map<string,enemy_info> enemies; //the first string is the name of the enemy_info
+    map<string,enemy_attributes> enemies; //the first string is the name of the enemy_attributes
 public:
     //CONSTRUCTORS
     enemy_set();
     enemy_set(const string &name);
-    enemy_set(const string &name,const vector<enemy_info> &enemy_list);
-    enemy_set(const string &name,const enemy_info &enemy_list);
+    enemy_set(const string &name,const vector<enemy_attributes> &enemy_list);
+    enemy_set(const string &name,const enemy_attributes &enemy_list);
     ~enemy_set();
 
     //MODIFICATION
     void set_name(const string &name);
-    void add_enemy(const enemy_info &info);
+    void add_enemy(const enemy_attributes &info);
     //CONSULT
     string get_name() const;
 
