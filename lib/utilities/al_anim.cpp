@@ -86,9 +86,9 @@ unsigned int al_anim::fps(const ALLEGRO_TIMER *timer) const {
 bool al_anim::is_active() const {
     return active;
 }
-unsigned int al_anim::get_frame() const{
-        return count;
-    }
+unsigned int al_anim::get_frame() const {
+    return count;
+}
 void al_anim::update() {
     if(active) {
         current_delay--;
