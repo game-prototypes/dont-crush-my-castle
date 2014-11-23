@@ -10,7 +10,7 @@
 enum enemy_animation {idle_anim,up_anim,down_anim,left_anim,right_anim,dead_anim}; //defines each animation for an enemy
 
 //defines the basic characteristics of an enemy kind
-struct enemy_attributes {  //enemy attributes ¿?¿?
+struct enemy_attributes {
     map<enemy_animation,al_anim> animation; //stores all animations of an enemy
     string name; //name of the enemy
     double speed; //basic speed (speed per frame)
