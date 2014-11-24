@@ -35,7 +35,7 @@ struct enemy_attributes {
 
 class enemy {
 private:
-    enemy_attributes basic_info; //basic info of enemy type
+    enemy_attributes attributes; //basic info of enemy type
     unsigned int life; //current life of enemy
     unsigned int level; //level may change enemy parameters (unused)
 

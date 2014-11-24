@@ -24,6 +24,7 @@ public:
     void add_enemy(const enemy_attributes &info);
     //CONSULT
     string get_name() const;
+    unsigned int get_size() const;
 
     enemy spawn_enemy(const string &name,unsigned int level,double posx,double posy);//return new enemy spawned
 

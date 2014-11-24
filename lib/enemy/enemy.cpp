@@ -82,7 +82,8 @@ enemy::enemy() {
     active=false;
 }
 enemy::enemy(enemy_attributes attributes,unsigned int level,double posx,double posy) {
-    life=attributes.max_life;
+    this->life=attributes.max_life;
+    this->attributes=attributes;
     set_level(level);
     spawn(posx,posy);
     check();
@@ -175,13 +176,13 @@ void enemy::update() {
             if(!idle()) { //not idle option
                 double x=destiny.first-position.first;
                 double y=destiny.second-position.second;
-                if(abs(x)>=abs(y)) { //vertical animation
-                    if(x>0) change_movement_animation(up_anim);
-                    else change_movement_animation(down_anim);
+                if(abs(x)>=abs(y)) { //horizontal animation
+                    if(x>0) change_movement_animation(left_anim);
+                    else change_movement_animation(right_anim); //position 0,0 is top-left
                 }
-                else { //horizontal animation
-                    if(y>0) change_movement_animation(right_anim);
-                    else change_movement_animation(left_anim);
+                else { //vertical animation
+                    if(y>0) change_movement_animation(down_anim);
+                    else change_movement_animation(up_anim);
                 }
                 position=movement_update(position,destiny,attributes.speed);
                 if(idle()) set_to_idle(); //if reach destiny

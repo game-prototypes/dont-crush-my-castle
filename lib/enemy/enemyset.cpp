@@ -17,6 +17,10 @@ enemy_set::enemy_set(const string &name,const vector<enemy_attributes> &enemy_li
     for(unsigned int i=0; i<enemy_list.size(); i++)
         add_enemy(enemy_list[i]);
 }
+enemy_set::enemy_set(const string &name,const enemy_attributes &enemy_att) {
+    set_name(name);
+    add_enemy(enemy_att);
+}
 enemy_set::~enemy_set() {
     name.clear();
     map<string,enemy_attributes>::iterator it;
@@ -35,6 +39,9 @@ void enemy_set::add_enemy(const enemy_attributes &info) {
 //CONSULT
 string enemy_set::get_name() const {
     return name;
+}
+unsigned int enemy_set::get_size() const {
+    return enemies.size();
 }
 
 enemy enemy_set::spawn_enemy(const string &name,unsigned int level,double posx,double posy) {
