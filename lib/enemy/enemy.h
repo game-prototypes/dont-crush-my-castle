@@ -21,7 +21,7 @@ struct enemy_attributes {
     enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const ALLEGRO_TIMER *timer);
     enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation,const ALLEGRO_TIMER *timer);
     //insert animation (erasing previous animations and reseting all counters)
-    void insert_animation(enemy_animation type,const al_anim &anima);
+    void insert_animation(enemy_animation type,const al_anim &anim);
     //set speed (pixels per second), need timer wich will be used
     void set_speed(double enemy_speed,const ALLEGRO_TIMER *timer);
     //clear data (dont destroy animations)
