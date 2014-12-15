@@ -1,4 +1,4 @@
-//TITLE: al_utils
+//TITLE: AL UTILS
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
 //VERSION: 0.2
@@ -68,4 +68,37 @@ void al_start(ALLEGRO_DISPLAY *&display,ALLEGRO_EVENT_QUEUE *&event_queue,ALLEGR
     al_register_event_source(event_queue, al_get_timer_event_source(timer)); //add timer and display to event queue
     al_start_timer(timer); //start the timer
 }
+
+//updates movement 1 frame (being speed pixels/frame) from position to destiny
+pair<double,double> movement_update(pair<double,double> position,pair<double,double> destiny,double speed) {
+    if(position!=destiny) {
+        double x=destiny.first-position.first;
+        double y=destiny.second-position.second;
+        double m=sqrt(x*x+y*y);
+        m=speed/m;
+        x*=m;
+        y*=m;
+        if(abs(position.first+x-destiny.first)<=speed) position.first=destiny.first;
+        else position.first+=x;
+        if(abs(position.second+y-destiny.second)<=speed) position.second=destiny.second;
+        else position.second+=y;
+    }
+    return position;
+}
+//return speed per frame from speed per second from given timer
+double convert_speed(double speed,const ALLEGRO_TIMER *timer){
+       if(speed<0) {
+        debug_log::report("enemy speed negative (set to positive)",warning,true,false,false);
+        speed=-speed;
+    }
+    if(speed==0) debug_log::report("enemy speed set to 0",warning,true,false,false);
+       return speed*al_get_timer_speed(timer);
+       }
+//draw given bitmap centered in position
+void draw_centered(ALLEGRO_BITMAP *bitmap,double x,double y){
+     x-=al_get_bitmap_width(bitmap)/2;
+     y-=al_get_bitmap_height(bitmap)/2;
+     al_draw_bitmap(bitmap,x,y,0);
+     }
+
 #endif

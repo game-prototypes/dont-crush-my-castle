@@ -1,7 +1,7 @@
 //TITLE: TILEMAP_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.2
+//VERSION: 0.3
 //DESCRIPTION: Generate,write,read and draw maps
 #ifndef TILEMAP_H
 #define TILEMAP_H
@@ -9,6 +9,7 @@ class tilemap {
 private:
     vector< vector<tile_id> > background; //background (grass,roads...)
     vector< vector<bool> > foreground; //foreground (occupied tiles)
+    vector< vector<int> > path_map; //defines the distance to destiny of each tile
     string name;
     tileset *tiles; //pointer to tileset
 public:
@@ -52,9 +53,11 @@ public:
 
 
 private:
-    //init foreground matrix to 0
-    void init_foreground_matrix(unsigned int width,unsigned int height);
-    //   void load_background(const Tmx::Layer *lay,int width,int height);
+    //init foreground matrix to 0 and path_map to -1
+    void init_matrix(unsigned int width,unsigned int height);
+    //generate path_map from background given destination tiles
+    void update_path_map(vector< pair<unsigned int,unsigned int> > destination);
+    //      void load_background(const Tmx::Layer *lay,int width,int height);
     //cehcks if given position is in the matrix
     bool in_matrix(unsigned int x,unsigned int y) const;
     void check();

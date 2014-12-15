@@ -9,7 +9,7 @@
 enum log_type {comment,warning,err,fatal_error};
 
 namespace debug_log {
-const string version="V0.1";
+const string version="V0.2";
 const string log_file="dcmc.log";
 const bool show_contact=false;
 const string contact_info="Please, contact support";

@@ -16,7 +16,7 @@ private:
     unsigned int count;
     unsigned int current_delay;
     bool active; //true to activate animation (false will pause it)
-    bool loop; //if true, the animation will repeat, if not, it will stop in the alst frame
+    bool loop; //if true, the animation will repeat, if not, it will stop in the last frame
 public:
     //CONSTRUCTORS
     //default constructor
@@ -40,29 +40,44 @@ public:
     void set_duration(double seconds,const ALLEGRO_TIMER *timer);
     //set loop value to true or false
     void animation_loop(bool loop);
-    //returns size of animation (number of frames)
-    unsigned int size()const;
-    //returns total duration of animation
-    double duration(const ALLEGRO_TIMER *timer)const;
-    //return animation fps
-    unsigned int fps(const ALLEGRO_TIMER *timer)const;
+    
+    
+
     //ACCESS
     //return true if animation is active
     bool is_active()const;
+    //return current frame(count)
+    unsigned int get_frame() const;
+    //returns size of animation (number of frames)
+    unsigned int size()const;
+    //returns total duration of animation
+    double duration(const ALLEGRO_TIMER *timer) const;
+    //return animation fps
+    unsigned int fps(const ALLEGRO_TIMER *timer) const;
+    //return width of current bitmap
+    unsigned int get_width() const;
+    //return height of current bitmap
+    unsigned int get_height() const;
+    
+    
+    
+    
     //updates current_delay if bitmap is active, if necessary, updates count
     //this method should be called once in each timer event (of the same timer given in set_animation_speed)
     void update();
     //DRAWING METHODS
     //draws the current bitmap (with flips if set to true)
+    //note that draws centered animation
     void draw(double x,double y) const;
     //draw resized to given width and height
-    void draw_resized(double x,double y,unsigned int width,unsigned int height) const;
+         //void draw_resized(double x,double y,unsigned int width,unsigned int height) const;
+    //clear the animation(dont destroy bitmaps)
+    void clear();
     //destroy all the bitmaps and clear the animation
     void destroy();
 private:
     //slice the given bitmap into pieces of equal size for animation
     void load_from_bitmap(ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height);
-    void set_to_idle();
     void check() const;
 };
 #endif
