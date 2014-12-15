@@ -40,8 +40,8 @@ public:
     void set_duration(double seconds,const ALLEGRO_TIMER *timer);
     //set loop value to true or false
     void animation_loop(bool loop);
-    
-    
+
+
 
     //ACCESS
     //return true if animation is active
@@ -58,10 +58,10 @@ public:
     unsigned int get_width() const;
     //return height of current bitmap
     unsigned int get_height() const;
-    
-    
-    
-    
+
+
+
+
     //updates current_delay if bitmap is active, if necessary, updates count
     //this method should be called once in each timer event (of the same timer given in set_animation_speed)
     void update();
@@ -70,7 +70,7 @@ public:
     //note that draws centered animation
     void draw(double x,double y) const;
     //draw resized to given width and height
-         //void draw_resized(double x,double y,unsigned int width,unsigned int height) const;
+    //void draw_resized(double x,double y,unsigned int width,unsigned int height) const;
     //clear the animation(dont destroy bitmaps)
     void clear();
     //destroy all the bitmaps and clear the animation

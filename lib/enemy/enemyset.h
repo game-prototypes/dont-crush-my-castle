@@ -15,9 +15,9 @@ private:
 public:
     //CONSTRUCTORS
     enemy_set();
-    enemy_set(const string &name,const ALLEGRO_TIMER* timer);
-    enemy_set(const string &name,const vector<enemy_attributes> &enemy_list,const ALLEGRO_TIMER* timer);
-    enemy_set(const string &name,const enemy_attributes &enemy_list,const ALLEGRO_TIMER* timer);
+    enemy_set(const string &name,const ALLEGRO_TIMER *timer);
+    enemy_set(const string &name,const vector<enemy_attributes> &enemy_list,const ALLEGRO_TIMER *timer);
+    enemy_set(const string &name,const enemy_attributes &enemy_list,const ALLEGRO_TIMER *timer);
     ~enemy_set();
 
     //MODIFICATION

@@ -86,19 +86,19 @@ pair<double,double> movement_update(pair<double,double> position,pair<double,dou
     return position;
 }
 //return speed per frame from speed per second from given timer
-double convert_speed(double speed,const ALLEGRO_TIMER *timer){
-       if(speed<0) {
+double convert_speed(double speed,const ALLEGRO_TIMER *timer) {
+    if(speed<0) {
         debug_log::report("enemy speed negative (set to positive)",warning,true,false,false);
         speed=-speed;
     }
     if(speed==0) debug_log::report("enemy speed set to 0",warning,true,false,false);
-       return speed*al_get_timer_speed(timer);
-       }
+    return speed*al_get_timer_speed(timer);
+}
 //draw given bitmap centered in position
-void draw_centered(ALLEGRO_BITMAP *bitmap,double x,double y){
-     x-=al_get_bitmap_width(bitmap)/2;
-     y-=al_get_bitmap_height(bitmap)/2;
-     al_draw_bitmap(bitmap,x,y,0);
-     }
+void draw_centered(ALLEGRO_BITMAP *bitmap,double x,double y) {
+    x-=al_get_bitmap_width(bitmap)/2;
+    y-=al_get_bitmap_height(bitmap)/2;
+    al_draw_bitmap(bitmap,x,y,0);
+}
 
 #endif

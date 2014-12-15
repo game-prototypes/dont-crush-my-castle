@@ -31,14 +31,13 @@ void enemy_attributes::insert_animation(enemy_animation type,const al_anim &anim
         animation[type].stop(); //set the animation to inactive and restart counters
     }
 }
-void enemy_attributes::clear(){
+void enemy_attributes::clear() {
     animation.clear();
     name.clear();
     speed=0;
     max_life=0;
     armor=0;
-
-    }
+}
 void enemy_attributes::destroy() {
     map<enemy_animation,al_anim>::iterator it;
     for(it=animation.begin(); it!=animation.end(); it++)(it->second).destroy();
@@ -178,7 +177,6 @@ void enemy::update() {
         }
         else if(current_animation!=dead_anim) kill(); //killed
         attributes.animation[current_animation].update(); //animation update
-
         //TODO: deactivate and clear after some time with dead animation stopped
     }
 }
@@ -186,7 +184,7 @@ void enemy::update() {
 
 void enemy::draw() {
     if(spawned()) {
-    unsigned int hoffset=attributes.animation[current_animation].get_height()/2;
+        unsigned int hoffset=attributes.animation[current_animation].get_height()/2;
         attributes.animation[current_animation].draw(position.first,position.second+hoffset);
     }
 }
@@ -217,7 +215,7 @@ void enemy::stop_movement_anim() {
 }
 
 void enemy::set_speed(double spd,const ALLEGRO_TIMER *timer) {
-     this->speed=convert_speed(spd,timer);
+    this->speed=convert_speed(spd,timer);
 }
 
 void enemy::check() const {
