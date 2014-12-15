@@ -13,18 +13,16 @@ enum enemy_animation {idle_anim,up_anim,down_anim,left_anim,right_anim,dead_anim
 struct enemy_attributes {
     map<enemy_animation,al_anim> animation; //stores all animations of an enemy
     string name; //name of the enemy
-    double speed; //basic speed (speed per frame)
+    double speed; //basic speed (pixels per seconds)
     unsigned int max_life; //max (and initial) life of enemy
     unsigned int armor; //armor of the enemy
     //Methods
     enemy_attributes();
-    enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const ALLEGRO_TIMER *timer);
-    enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation,const ALLEGRO_TIMER *timer);
+    enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed);
+    enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation);
     //insert animation (erasing previous animations and reseting all counters)
     void insert_animation(enemy_animation type,const al_anim &anim);
-    //set speed (pixels per second), need timer wich will be used
-    void set_speed(double enemy_speed,const ALLEGRO_TIMER *timer);
-    //clear data (dont destroy animations)
+    //clear all attributes (dont destroy bitmaps)
     void clear();
     //destroy all animations and clear data
     void destroy();
@@ -38,8 +36,9 @@ private:
     enemy_attributes attributes; //basic info of enemy type
     unsigned int life; //current life of enemy
     unsigned int level; //level may change enemy parameters (unused)
-
-    pair<double,double> position; //actual position
+    double speed; //pixels per frame
+    
+    pair<double,double> position; //actual position, it refers to foot centered position
     pair<double,double> destiny; //position to move
     bool active; //if false, update will not take effect, false by default in constructors
 
@@ -50,7 +49,7 @@ public:
     enemy();
     //constructor with basic info, enemy life will start with the max_life value
     //constructor with spawning in position given
-    enemy(enemy_attributes attributes,unsigned int level,double posx,double posy);
+    enemy(const enemy_attributes &attributes,unsigned int level,double posx,double posy,const ALLEGRO_TIMER *timer);
 
     //MODIFICATION
     //set enemy level (currently unused)
@@ -88,11 +87,10 @@ public:
     void kill();
     //deactive the enemy,so no longer will be updated or drawn (do after kill the enemy)
     void deactivate();
-    //clear enemy info (first it should be deactivated)
-    void clear();
     //update the movement,animation and all booleans
     void update();
     //draw the current_animation in the enemy position
+    //note that draw the enemy with the position at its feet
     void draw();
 
 private:
@@ -102,6 +100,8 @@ private:
     void set_to_idle();
     //stops all movement anim
     void stop_movement_anim();
+    //set speed (pixels per second), need timer wich will be used
+    void set_speed(double spd,const ALLEGRO_TIMER *timer);
     //check enemy class is working well, debug_log output if error or warning
     void check() const;
 };

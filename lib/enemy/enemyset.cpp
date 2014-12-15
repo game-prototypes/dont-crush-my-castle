@@ -9,16 +9,19 @@
 //CONSTRUCTORS
 enemy_set::enemy_set() {
 }
-enemy_set::enemy_set(const string &name) {
+enemy_set::enemy_set(const string &name,const ALLEGRO_TIMER* timer) {
     set_name(name);
+    set_timer(timer);
 }
-enemy_set::enemy_set(const string &name,const vector<enemy_attributes> &enemy_list) {
+enemy_set::enemy_set(const string &name,const vector<enemy_attributes> &enemy_list,const ALLEGRO_TIMER* timer) {
     set_name(name);
+    set_timer(timer);
     for(unsigned int i=0; i<enemy_list.size(); i++)
         add_enemy(enemy_list[i]);
 }
-enemy_set::enemy_set(const string &name,const enemy_attributes &enemy_att) {
+enemy_set::enemy_set(const string &name,const enemy_attributes &enemy_att,const ALLEGRO_TIMER* timer) {
     set_name(name);
+    set_timer(timer);
     add_enemy(enemy_att);
 }
 enemy_set::~enemy_set() {
@@ -36,6 +39,9 @@ void enemy_set::set_name(const string &name) {
 void enemy_set::add_enemy(const enemy_attributes &info) {
     if(enemies.insert(make_pair(info.name,info)).second==false) debug_log::report("already exists enemy with given name "+info.name,err,true,true,false);
 }
+void enemy_set::set_timer(const ALLEGRO_TIMER *timer){
+    this->timer=timer;
+    }
 //CONSULT
 string enemy_set::get_name() const {
     return name;
@@ -50,7 +56,7 @@ enemy enemy_set::spawn_enemy(const string &name,unsigned int level,double posx,d
         return enemy();
     }
     else
-        return enemy(enemies[name],level,posx,posy);
+        return enemy(enemies[name],level,posx,posy,timer);
 }
 
 

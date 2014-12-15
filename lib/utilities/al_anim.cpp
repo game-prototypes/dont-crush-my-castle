@@ -70,6 +70,12 @@ void al_anim::set_duration(double seconds,const ALLEGRO_TIMER *timer) {
 void al_anim::animation_loop(bool loop) {
     this->loop=loop;
 }
+bool al_anim::is_active() const {
+    return active;
+}
+unsigned int al_anim::get_frame() const {
+    return count;
+}
 unsigned int al_anim::size() const {
     return bitmap_set.size();
 }
@@ -82,13 +88,12 @@ unsigned int al_anim::fps(const ALLEGRO_TIMER *timer) const {
     speed*=animation_delay;
     return 1/speed;
 }
-
-bool al_anim::is_active() const {
-    return active;
-}
-unsigned int al_anim::get_frame() const {
-    return count;
-}
+    unsigned int al_anim::get_width() const{
+             return al_get_bitmap_width(bitmap_set[count]);
+             }
+    unsigned int al_anim::get_height() const{
+             return al_get_bitmap_height(bitmap_set[count]);
+             }
 void al_anim::update() {
     if(active) {
         current_delay--;
@@ -102,21 +107,25 @@ void al_anim::update() {
 }
 void al_anim::draw(double x,double y) const {
     if(!bitmap_set.empty()) { //comprobation erased to improve performance ??
-        al_draw_bitmap(bitmap_set[count],x,y,0);
+        draw_centered(bitmap_set[count],x,y);
     }
 }
+/*
 void al_anim::draw_resized(double x,double y,unsigned int width,unsigned int height) const {
     if(width==0 || height==0) debug_log::report("tile size=0",err,true,false,false);
     else
         al_draw_scaled_bitmap(bitmap_set[count],0.0,0.0,al_get_bitmap_width(bitmap_set[count]),al_get_bitmap_height(bitmap_set[count]),x,y,width,height,0);
-}
-void al_anim::destroy() {
-    for(unsigned int i=0; i<bitmap_set.size(); i++) al_destroy_bitmap(bitmap_set[i]);
-    animation_delay=0;
+}*/
+void al_anim::clear(){
+        animation_delay=0;
     count=0;
     active=false;
     current_delay=0;
     bitmap_set.clear();
+    }
+void al_anim::destroy() {
+    for(unsigned int i=0; i<bitmap_set.size(); i++) al_destroy_bitmap(bitmap_set[i]);
+  clear();
 }
 void al_anim::load_from_bitmap(ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height) {
     bitmap_set=slice_bitmap(bitmap,width,height); //slice the bitmap in small bitmaps

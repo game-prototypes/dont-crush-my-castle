@@ -10,18 +10,18 @@
 enemy_attributes::enemy_attributes() {
     speed=max_life=armor=0;
 }
-enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const ALLEGRO_TIMER *timer) {
+enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed) {
     this->name=name;
     this->max_life=life;
     this->armor=armor;
-    set_speed(enemy_speed,timer);
+    this->speed=enemy_speed;
 }
-enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation,const ALLEGRO_TIMER *timer) {
+enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation) {
     this->name=name;
     this->max_life=life;
     this->armor=armor;
     this->animation=animation;
-    set_speed(enemy_speed,timer);
+    this->speed=enemy_speed;
 }
 void enemy_attributes::insert_animation(enemy_animation type,const al_anim &anim) {
     if(anim.size()==0) debug_log::report("setting empty animation",err,true,true,false);
@@ -31,19 +31,14 @@ void enemy_attributes::insert_animation(enemy_animation type,const al_anim &anim
         animation[type].stop(); //set the animation to inactive and restart counters
     }
 }
-void enemy_attributes::set_speed(double enemy_speed,const ALLEGRO_TIMER *timer) {
-    if(enemy_speed<0) {
-        debug_log::report("enemy speed negative (set to positive)",warning,true,false,false);
-        enemy_speed=-enemy_speed;
-    }
-    if(enemy_speed==0) debug_log::report("enemy speed set to 0",warning,true,false,false);
-    speed=enemy_speed*al_get_timer_speed(timer);
-}
-void enemy_attributes::clear() {
-    name.clear();
-    speed=max_life=armor=0;
+void enemy_attributes::clear(){
     animation.clear();
-}
+    name.clear();
+    speed=0;
+    max_life=0;
+    armor=0;
+
+    }
 void enemy_attributes::destroy() {
     map<enemy_animation,al_anim>::iterator it;
     for(it=animation.begin(); it!=animation.end(); it++)(it->second).destroy();
@@ -78,12 +73,14 @@ bool enemy_attributes::check() const {
 //CONSTRUCTORS
 enemy::enemy() {
     life=level=0;
+    speed=0.0;
     position=destiny=make_pair(-1,-1);
     active=false;
 }
-enemy::enemy(enemy_attributes attributes,unsigned int level,double posx,double posy) {
+enemy::enemy(const enemy_attributes &attributes,unsigned int level,double posx,double posy,const ALLEGRO_TIMER *timer) {
     this->life=attributes.max_life;
     this->attributes=attributes;
+    set_speed(attributes.speed,timer);
     set_level(level);
     spawn(posx,posy);
     check();
@@ -161,15 +158,6 @@ void enemy::kill() {
 void enemy::deactivate() {
     active=false;
 }
-void enemy::clear() {
-    if(active==true) debug_log::report("enemy still active",err,true,true,false);
-    else {
-        attributes.clear();
-        life=level=0;
-        position=destiny=make_pair(-1,-1);
-    }
-}
-
 void enemy::update() {
     if(spawned()) {
         if(alive()) {
@@ -184,19 +172,22 @@ void enemy::update() {
                     if(y>0) change_movement_animation(down_anim);
                     else change_movement_animation(up_anim);
                 }
-                position=movement_update(position,destiny,attributes.speed);
+                position=movement_update(position,destiny,speed);
                 if(idle()) set_to_idle(); //if reach destiny
             }
         }
         else if(current_animation!=dead_anim) kill(); //killed
         attributes.animation[current_animation].update(); //animation update
+
+        //TODO: deactivate and clear after some time with dead animation stopped
     }
 }
 
 
 void enemy::draw() {
     if(spawned()) {
-        attributes.animation[current_animation].draw(position.first,position.second);
+    unsigned int hoffset=attributes.animation[current_animation].get_height()/2;
+        attributes.animation[current_animation].draw(position.first,position.second+hoffset);
     }
 }
 
@@ -224,5 +215,11 @@ void enemy::stop_movement_anim() {
     attributes.animation[up_anim].stop();
     attributes.animation[down_anim].stop();
 }
+
+void enemy::set_speed(double spd,const ALLEGRO_TIMER *timer) {
+     this->speed=convert_speed(spd,timer);
+}
+
 void enemy::check() const {
+    //TODO
 }
