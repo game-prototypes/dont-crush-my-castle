@@ -73,12 +73,14 @@ bool enemy_attributes::check() const {
 enemy::enemy() {
     life=level=0;
     speed=0.0;
+    reward=0;
     position=destiny=make_pair(-1,-1);
     active=false;
 }
 enemy::enemy(const enemy_attributes &attributes,unsigned int level,double posx,double posy,const ALLEGRO_TIMER *timer) {
     this->life=attributes.max_life;
     this->attributes=attributes;
+    this->reward=attributes.reward;
     set_speed(attributes.speed,timer);
     set_level(level);
     spawn(posx,posy);
@@ -107,6 +109,9 @@ unsigned int enemy::get_life() const {
 }
 unsigned int enemy::get_max_life() const {
     return attributes.max_life;
+}
+unsigned int enemy::get_reward() const{
+	return reward;
 }
 pair<double,double> enemy::get_position() const {
     return position;

@@ -16,6 +16,7 @@ struct enemy_attributes {
     double speed; //basic speed (pixels per seconds)
     unsigned int max_life; //max (and initial) life of enemy
     unsigned int armor; //armor of the enemy
+    unsigned int reward; //rreward when killed
     //Methods
     enemy_attributes();
     enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed);
@@ -37,6 +38,7 @@ private:
     unsigned int life; //current life of enemy
     unsigned int level; //level may change enemy parameters (unused)
     double speed; //pixels per frame
+    unsigned int reward;
 
     pair<double,double> position; //actual position, it refers to foot centered position
     pair<double,double> destiny; //position to move
@@ -56,6 +58,7 @@ public:
     void set_level(unsigned int level);
     //set enemy to active in given position
     void spawn(double posx,double posy);
+    
     //CONSULT
     //return enemy name
     string get_name() const;
@@ -63,6 +66,8 @@ public:
     unsigned int get_life() const;
     //return max life
     unsigned int get_max_life() const;
+    //returns reward when killed
+    unsigned int get_reward() const;
     //return enemy position in a pair<x,y>
     pair<double,double> get_position() const;
     //return the enemy destiny (where is moving)
