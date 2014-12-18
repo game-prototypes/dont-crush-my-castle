@@ -12,13 +12,14 @@ tilemap::tilemap(const string &name,const vector< vector<tile_id> > &background,
     this->tiles=tiles;
     this->name=name;
     this->background=background;
-    if(background.size()>0) init_matrix(background[0].size(),background.size());
+    if(background.size()>0) init_submatrix(background[0].size(),background.size());
     check();
 }
 tilemap::tilemap(const vector< vector<tile_id> > &background,tileset *tiles) {
     this->tiles=tiles;
     this->background=background;
-    if(background.size()>0) init_matrix(background[0].size(),background.size());
+    if(background.size()>0) init_submatrix(background[0].size(),background.size());
+    generate_foreground();
     check();
 }
 /*   void tilemap::loadtmx(string filename) {
@@ -134,7 +135,7 @@ void tilemap::draw_tilemap() const {
 }
 
 //Private methods
-void tilemap::init_matrix(unsigned int width,unsigned int height) {
+void tilemap::init_submatrix(unsigned int width,unsigned int height) {
     foreground.clear();
     path_map.clear();
     foreground.resize(height);
@@ -145,6 +146,7 @@ void tilemap::init_matrix(unsigned int width,unsigned int height) {
         foreground.push_back(v);
         path_map.push_back(v2);
     }
+    generate_foreground();
 }
 void tilemap::update_path_map(vector< pair<unsigned int,unsigned int> > destination) {
     if(destination.empty()) debug_log::report("no final destination in map",err,true,true,false);
@@ -167,7 +169,7 @@ void tilemap::update_path_map(vector< pair<unsigned int,unsigned int> > destinat
                 int y=til.second+j;
                 if(x>0 && y>0) {
                     if(in_matrix(x,y)) {
-                        if(get_tile_type(x,y)==road) { //&& foreground[x][y]==0¿?
+                        if(get_tile_type(x,y)==road || (get_tile_type(x,y)==open_ground && foreground[x][y]==0)) {
                             if(path_map[x][y]==-1) left_tiles.push(make_pair(x,y)); //push tile if havent been updated yet
                             int val=path_map[til.first][til.second]+1;
                             if(path_map[x][y]<val) path_map[x][y]=val;
@@ -175,6 +177,32 @@ void tilemap::update_path_map(vector< pair<unsigned int,unsigned int> > destinat
                     }
                 }
             }
+        }
+    }
+}
+void tilemap::generate_foreground() {
+    for(unsigned int i=0; i<background.size(); i++) {
+        for(unsigned int j=0; j<background.size(); j++) {
+            bool b=false;
+            switch(get_tile_type(i,j)) {
+            case blocked:
+                b=true;
+                break;
+            case road:
+                b=true;
+                break;
+            case ground:
+                b=false;
+                break;
+            case special:
+                b=true; //special are occupied
+            case null_tile:
+                b=true;
+            case open_ground:
+                b=false;
+                break;
+            }
+            foreground[i][j]=b;
         }
     }
 }
@@ -189,8 +217,23 @@ bool tilemap::in_matrix(unsigned int x,unsigned int y)const {
             }
         }
     }*/
-void tilemap::check() {
-    if(background.size()!=foreground.size() || background.size()!=path_map.size()) debug_log::report("map matrix don't match(height)",err,true,true,false);
-    if(background.empty()) debug_log::report("empty map",err,true,true,false);
-    else if(background[0].size()!=foreground[0].size() || background[0].empty()) debug_log::report("map matrix incorrect width",err,true,true,false);
+bool tilemap::check() const {
+    bool b=true;
+    if(background.size()!=foreground.size() || background.size()!=path_map.size()) {
+        debug_log::report("map matrix don't match(height)",err,true,true,false);
+        b=false;
+    }
+    if(background.empty()) {
+        debug_log::report("empty map",err,true,true,false);
+        b=false;
+    }
+    else if(background[0].size()!=foreground[0].size() || background[0].empty()) {
+        debug_log::report("map matrix incorrect width",err,true,true,false);
+        b=false;
+    }
+    if(tiles==NULL) {
+        debug_log::report("map with no tileset",err,true,true,false);
+        b=false;
+    }
+    return b;
 }

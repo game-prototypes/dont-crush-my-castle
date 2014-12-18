@@ -34,7 +34,6 @@ enemy_set::~enemy_set() {
 //MODIFICATION
 void enemy_set::set_name(const string &name) {
     this->name=name;
-    if(this->name.empty()) debug_log::report("enemy_set with no name",warning,true,false,false);
 }
 void enemy_set::add_enemy(const enemy_attributes &info) {
     if(enemies.insert(make_pair(info.name,info)).second==false) debug_log::report("already exists enemy with given name "+info.name,err,true,true,false);
@@ -61,5 +60,19 @@ enemy enemy_set::spawn_enemy(const string &name,unsigned int level,double posx,d
 
 
 //PRIVATE
-void check() {
+bool enemy_set::check() {
+    bool b=true;
+    if(name.empty()) {
+        debug_log::report("enemy_set with no name",warning,true,false,false);
+        b=false;
+    }
+    if(enemies.empty()) {
+        debug_log::report("enemy_set with no enemies",warning,true,false,false);
+        b=false;
+    }
+    if(timer==NULL) {
+        debug_log::report("timer not set",err,true,true,false);
+        b=false;
+    }
+    return b;
 }

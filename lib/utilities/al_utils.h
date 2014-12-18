@@ -87,6 +87,10 @@ pair<double,double> movement_update(pair<double,double> position,pair<double,dou
 }
 //return speed per frame from speed per second from given timer
 double convert_speed(double speed,const ALLEGRO_TIMER *timer) {
+    if(timer==NULL) {
+        debug_log::report("timer not set",err,true,true,false);
+        return speed;
+    }
     if(speed<0) {
         debug_log::report("enemy speed negative (set to positive)",warning,true,false,false);
         speed=-speed;

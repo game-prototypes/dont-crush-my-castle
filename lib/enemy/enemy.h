@@ -16,7 +16,7 @@ struct enemy_attributes {
     double speed; //basic speed (pixels per seconds)
     unsigned int max_life; //max (and initial) life of enemy
     unsigned int armor; //armor of the enemy
-    unsigned int reward; //rreward when killed
+    unsigned int reward; //reward when killed
     //Methods
     enemy_attributes();
     enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed);
@@ -58,7 +58,7 @@ public:
     void set_level(unsigned int level);
     //set enemy to active in given position
     void spawn(double posx,double posy);
-    
+
     //CONSULT
     //return enemy name
     string get_name() const;
@@ -108,7 +108,7 @@ private:
     //set speed (pixels per second), need timer wich will be used
     void set_speed(double spd,const ALLEGRO_TIMER *timer);
     //check enemy class is working well, debug_log output if error or warning
-    void check() const;
+    bool check() const;
 };
 
 

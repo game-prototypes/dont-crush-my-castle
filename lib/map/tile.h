@@ -8,11 +8,12 @@
 #define TILE_H
 
 
-enum tile_type {blocked,road,ground,special,null_tile};
+enum tile_type {blocked,road,ground,open_ground,special,null_tile};
 /*tile_type:
 block: blocked, not construction or enemies can pass
 road: blocked for construction, enemies can pass
 ground: free for construction
+open_ground: free for constuction and enemy movement
 */
 
 class tile {
@@ -33,8 +34,12 @@ public:
     void draw(float x,float y) const;
     //draw the tile bitmap on x,y  position, resizing it to width given
     void draw_resized(float x,float y,unsigned int width) const;
-
+    //destroy the tile bitmap and set the type to null
     void destroy_bitmap();
+    //returns tile width
+    unsigned int get_size() const;
+    //check the class
+    bool check() const;
 };
 
 #endif

@@ -55,4 +55,22 @@ void tile::draw_resized(float x,float y,unsigned int width) const {
 
 void tile::destroy_bitmap() {
     al_destroy_bitmap(bitmap);
+    type=null_tile;
+}
+
+unsigned int tile::get_size() const {
+    return al_get_bitmap_width(bitmap);
+}
+
+bool tile::check() const {
+    bool b=true;
+    if(bitmap==NULL && type!=null_tile) {
+        debug_log::report("tile with no bitmap",err,true,true,false);
+        b=false;
+    }
+    else if(get_size() != (unsigned int) al_get_bitmap_height(bitmap)) {
+        debug_log::report("tile not squared",err,true,true,false);
+        b=false;
+    }
+    return b;
 }

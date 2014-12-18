@@ -53,8 +53,8 @@ bool enemy_attributes::check() const {
         debug_log::report("enemy without all necesssary animations",err,true,true,false);
         b=false;
     }
-    if(speed<0) {
-        debug_log::report("enemy with speed<0",err,true,true,false);
+    if(speed<=0) {
+        debug_log::report("enemy speed<=0",err,true,true,false);
         b=false;
     }
     if(max_life==0) {
@@ -110,8 +110,8 @@ unsigned int enemy::get_life() const {
 unsigned int enemy::get_max_life() const {
     return attributes.max_life;
 }
-unsigned int enemy::get_reward() const{
-	return reward;
+unsigned int enemy::get_reward() const {
+    return reward;
 }
 pair<double,double> enemy::get_position() const {
     return position;
@@ -223,6 +223,15 @@ void enemy::set_speed(double spd,const ALLEGRO_TIMER *timer) {
     this->speed=convert_speed(spd,timer);
 }
 
-void enemy::check() const {
-    //TODO
+bool enemy::check() const {
+    bool b=attributes.check();
+    if(life>get_max_life()) {
+        b=false;
+        debug_log::report("enemy life>max life",warning,true,true,false);
+    }
+    if(speed<=0) {
+        b=false;
+        debug_log::report("speed<=0",err,true,true,false);
+    }
+    return b;
 }

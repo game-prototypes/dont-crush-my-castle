@@ -32,7 +32,7 @@ public:
 
 private:
 
-    void check();
+    bool check();
 };
 
 #endif
