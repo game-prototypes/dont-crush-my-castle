@@ -1,7 +1,7 @@
 Don´t Crush My Castle
 =====================
 
-Highly cutomizable tower defense style game
+Highly customizable tower defense style game
 
 **Planned Features:**
  * Custom Campaign mode
