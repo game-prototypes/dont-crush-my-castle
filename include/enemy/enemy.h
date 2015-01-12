@@ -1,11 +1,14 @@
 //TITLE: ENEMY_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.2
+//VERSION: 0.3
 //DESCRIPTION: defines each single enemy
 
 #ifndef ENEMY_H
 #define ENEMY_H
+
+#include "al_anim.h"
+#include <map>
 
 enum enemy_animation {idle_anim,up_anim,down_anim,left_anim,right_anim,dead_anim}; //defines each animation for an enemy
 

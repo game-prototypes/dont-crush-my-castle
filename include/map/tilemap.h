@@ -5,6 +5,10 @@
 //DESCRIPTION: Generate,write,read and draw maps
 #ifndef TILEMAP_H
 #define TILEMAP_H
+
+#include "tileset.h"
+#include <stack>
+
 class tilemap {
 private:
     vector< vector<tile_id> > background; //background (grass,roads...)

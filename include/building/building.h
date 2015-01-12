@@ -1,11 +1,13 @@
 //TITLE: BUILDING_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.1
+//VERSION: 0.2
 //DESCRIPTION: defines each player building
 
 #ifndef BUILDING_H
 #define BUILDING_H
+
+#include "tower_atk.h"
 
 
 //defines the attributes of the building

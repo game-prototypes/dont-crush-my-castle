@@ -6,6 +6,8 @@
 #ifndef TILESET_H
 #define TILESET_H
 
+#include "tile.h"
+#include <map>
 
 typedef int tile_id; //defines a id for a tile in the tileset
 class tileset {

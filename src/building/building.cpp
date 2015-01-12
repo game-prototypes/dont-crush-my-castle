@@ -1,7 +1,7 @@
 //TITLE: BUILDING_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.1
+//VERSION: 0.2
 //DESCRIPTION: defines an user building
 
 #include "building.h"
@@ -29,7 +29,7 @@ void building_attributes::destroy() {
 }
 
 
-###BUILDING
+//BUILDING
 
 building::building() {
     atk_counter=0;

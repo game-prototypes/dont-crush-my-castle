@@ -1,10 +1,16 @@
 //TITLE: Debug Log
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.2
+//VERSION: 0.3
 //DESCRIPTION: Logs for warnings and errors
 #ifndef DEBUG_LOG_H
 #define DEBUG_LOG_H
+
+#include <iostream>
+//#include <string>
+#include <fstream>
+#include <stdlib.h>
+using namespace std;
 
 enum log_type {comment,warning,err,fatal_error};
 
@@ -58,7 +64,7 @@ void report(const string &error,log_type type,bool write,bool show,bool assert=f
     }
 }
 
-//easy-yo-use report
+//easy-to-use report
 void report(const string &error,log_type type=comment) {
     report(error,type,false,true,false);
 }

@@ -1,17 +1,19 @@
 //TITLE: TOWER_ATK_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.1
+//VERSION: 0.2
 //DESCRIPTION: defines the attack of buildings
 #ifndef TOWER_ATK_H
 #define TOWER_ATK_H
 
-enum atk type {shoot_atk,explosion_atk,continuous_atk};
+#include "al_anim.h"
+
+enum atk_type {shoot_atk,explosion_atk,continuous_atk};
 double atk_speed=1; //base attack speed (pixels by frame) (may vary depending on attack type)
 //defines the atributes of an attack
 struct atk_attributes {
     ALLEGRO_BITMAP *bitmap; //attack bitmap
-    al_anim animation; //colision animtion (explosion) or continuous
+    al_anim collision_anim; //collision animation (explosion) or continuous
     unsigned int damage; //damage of the attack
     unsigned int range; //range of damage in pixels (0= one enemy dage)
     double delay; //delay (in seconds) between attacks (except continuous)
@@ -19,7 +21,7 @@ struct atk_attributes {
 
     //METHODS
     atk_attributes();
-    atk_attributes(ALLEGRO_BITMAP *bitmap,al_anim animation,unsigned int damage,unsigned int range,unsigned int delay,atk_type type);
+    atk_attributes(ALLEGRO_BITMAP *bitmap,al_anim collision_anim,unsigned int damage,unsigned int range,unsigned int delay,atk_type type);
     //clear data (dont destroy animations)
     void clear();
     //destroy all bitmaps and clear data

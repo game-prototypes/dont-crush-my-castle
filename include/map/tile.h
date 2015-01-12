@@ -7,6 +7,7 @@
 #ifndef TILE_H
 #define TILE_H
 
+#include "al_utils.h"
 
 enum tile_type {blocked,road,ground,open_ground,special,null_tile};
 /*tile_type:
