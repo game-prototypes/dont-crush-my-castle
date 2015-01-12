@@ -17,6 +17,7 @@ struct building_attributes {
     atk_attributes atk; //attack attributes
 
     //METHODS
+    building_attributes();
     building_attributes(ALLEGRO_BITMAP *bitmap,atk_attributes atk);
     //return bitmap width (in pixels)
     unsigned int get_width() const;
@@ -54,7 +55,7 @@ public:
     //return tower damage
     unsigned int get_damage()const;
     //return attack type
-    attack_type get_attack_type()const;
+    atk_type get_attack_type()const;
     //return true if given position is in range of attack
     bool in_range(pair<double,double> objective) const;
     bool can_attack()const;
@@ -63,11 +64,11 @@ public:
     //draw building
     void draw() const;
     //attacks an enemy (atk destiny will be that enemy), return the attack
-    tower_atk attack(const enemy &enem) const;
+    tower_atk attack(const pair<double,double> target);
 
 private:
     void reset_counter();
-    void check() const;
+    bool check() const;
 
 };
 
