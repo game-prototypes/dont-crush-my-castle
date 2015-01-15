@@ -7,7 +7,12 @@ Highly customizable tower defense style game
  * Custom Campaign mode
  * Random Maps
  * Custom enemies/builds
- 
+
+**HOW TO:**
+ * Compile: run make
+ * Test: execute test.sh   
+
+***To compile DCmC following liballegro5-dev should be installed with all liballegro5 addons***
 
 This project participates in the following contests:
 
