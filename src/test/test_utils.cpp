@@ -17,18 +17,18 @@ int main() {
     //Final result of test, true if everything OK
     bool test_result=true;
     //ALLEGRO display,timer and queue pointers
-    ALLEGRO_DISPLAY *display;
+        //ALLEGRO_DISPLAY *display;
     ALLEGRO_TIMER *timer;
     ALLEGRO_EVENT_QUEUE *event_queue;
     //allegro startup with image addon
     al_init();
     al_init_image_addon();
     //Declaration and assign of display,event_queue and timer
-    display = al_create_display(640, 480);
+        //display = al_create_display(640, 480);
     event_queue = al_create_event_queue();
     timer = al_create_timer(1.0 / 60); //60 fps timer
     //register timer and display events
-    al_register_event_source(event_queue,al_get_display_event_source(display));
+        //al_register_event_source(event_queue,al_get_display_event_source(display));
     al_register_event_source(event_queue,al_get_timer_event_source(timer));
     al_start_timer(timer); //begin timer
     //load example bitmap
@@ -110,7 +110,7 @@ int main() {
     al_destroy_bitmap(bmp);
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
-    al_destroy_display(display);
+        //al_destroy_display(display);
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
     return !test_result;
