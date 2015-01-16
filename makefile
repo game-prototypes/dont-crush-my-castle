@@ -16,7 +16,7 @@ ALLEGROFLAGS=`pkg-config --cflags --libs allegro-5.0 allegro_acodec-5.0 allegro_
 IDIR=include
 ODIR=obj
 SDIR=src
-IBIN=bin
+BDIR=bin
 
 UTILSDIR=utilities/
 MAPDIR=map/
@@ -36,24 +36,33 @@ _TEST_ANIM=test_anim.o al_anim.o al_utils.o debug_log.o
 TEST_ANIM_O=$(patsubst %,$(ODIR)/%,$(_TEST_ANIM))
 
 .PHONY: all
-all: test
+all: test $(BDIR) $(ODIR)
 
+#Compile both tests
 bin/test_utils: $(TEST_UTILS_O)
 	$(CXX) -o $@ $^ $(CPPFLAGS) -I $(INC)  $(ALLEGROFLAGS)
 bin/test_anim: $(TEST_ANIM_O)
 	$(CXX) -o $@ $^ $(CPPFLAGS) -I $(INC)  $(ALLEGROFLAGS)
-	
+#compile a generic .o
 obj/%.o: $(SDIR)/*/%.cpp $(INC)
 	$(CXX) -c -o $@ $< -I $(INC) $(CPPFLAGS)
 
-
+#Creates directories if dont exists
+$(BDIR): 
+	mkdir $(BDIR)
+$(ODIR):
+	mkdir $(ODIR)
+#compile tests binaries
 .PHONY: test
 test: bin/test_utils bin/test_anim
+#astyle for all code (.cpp and .h)
 .PHONY: astyle
 astyle:
 	astyle --style=attach --break-closing-brackets --align-pointer=name --delete-empty-lines --indent-col1-comments --unpad-paren -n -Q $(IDIR)/*/*.h $(SDIR)/*/*.cpp
+#print variable
 .PHONY: print-%
 print-%  : ; @echo $* = $($*)
+#clean obj and bin directories as well as *~ files
 .PHONY: clean
 clean:
-	rm -f $(ODIR)/*.o *~ $(IDIR)/*/*~ $(IBIN)/*
+	rm -f $(ODIR)/*.o *~ $(IDIR)/*/*~ $(SDIR)/*/*~ $(BDIR)/*
