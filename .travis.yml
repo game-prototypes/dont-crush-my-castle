@@ -1,0 +1,16 @@
+language: cpp
+compiler:
+  - g++
+  - clang
+# Change this to your needs
+#script: ./configure && make
+#whitelist
+branches:
+  only:
+    - master
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install liballegro5-dev
+
+script: ./test.sh
