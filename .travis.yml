@@ -6,18 +6,6 @@ compiler:
 branches:
   only:
     - master
--before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -y build-essential git cmake cmake-curses-gui xorg-dev libgl1-mesa-dev libglu-dev
-  - sudo apt-get install -y libpng-dev libcurl4-openssl-dev libfreetype6-dev libjpeg-dev libvorbis-dev libopenal-dev libphysfs-dev libgtk2.0-dev libasound-dev libpulse-dev libflac-dev libdumb1-dev
-  - git clone git://git.code.sf.net/p/alleg/allegro
-  - cd allegro
-  - mkdir build
-  - cd build
-  - cmake ..
-  - make
-  - sudo make install
-  - sudo ldconfig
-  - cd ..
-  - cd ..
+
+  
 script: ./test.sh
