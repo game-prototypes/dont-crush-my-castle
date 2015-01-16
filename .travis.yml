@@ -2,12 +2,10 @@ language: cpp
 compiler:
   - g++
   - clang
-# Change this to your needs
-#script: ./configure && make
-#whitelist
+  
 branches:
   only:
     - master
 
 
-script:./test.sh
+script: ./test.sh
