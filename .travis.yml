@@ -11,6 +11,6 @@ branches:
 
 before_install:
   - sudo apt-get update
-  - sudo apt-get install liballegro5-dev
+  - sudo apt-get install liballegro5-dev -qq
 
 script: ./test.sh
