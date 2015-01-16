@@ -36,7 +36,7 @@ _TEST_ANIM=test_anim.o al_anim.o al_utils.o debug_log.o
 TEST_ANIM_O=$(patsubst %,$(ODIR)/%,$(_TEST_ANIM))
 
 .PHONY: all
-all: $(BDIR)/ $(ODIR)/ test
+all: test
 
 #Compile both tests
 bin/test_utils: $(TEST_UTILS_O)
@@ -52,9 +52,12 @@ $(BDIR)/:
 	mkdir $(BDIR)
 $(ODIR)/:
 	mkdir $(ODIR)
+	
+	
+	
 #compile tests binaries
 .PHONY: test
-test: bin/test_utils bin/test_anim
+test: $(BDIR) $(ODIR)  bin/test_utils bin/test_anim
 #astyle for all code (.cpp and .h)
 .PHONY: astyle
 astyle:
