@@ -6,6 +6,8 @@
 #ifndef TILESET_H
 #define TILESET_H
 
+#include "tile.h"
+#include <map>
 
 typedef int tile_id; //defines a id for a tile in the tileset
 class tileset {
@@ -54,6 +56,6 @@ private:
     bool add_tile(tile_id id,tile_type type,ALLEGRO_BITMAP *bitmap);
     //slices given bitmap and creates the tileset
     void load_from_bitmap(ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles);
-    void check() const;
+    bool check() const;
 };
 #endif

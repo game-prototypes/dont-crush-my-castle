@@ -5,6 +5,10 @@
 //DESCRIPTION: Generate,write,read and draw maps
 #ifndef TILEMAP_H
 #define TILEMAP_H
+
+#include "tileset.h"
+#include <stack>
+
 class tilemap {
 private:
     vector< vector<tile_id> > background; //background (grass,roads...)
@@ -53,14 +57,16 @@ public:
 
 
 private:
-    //init foreground matrix to 0 and path_map to -1
-    void init_matrix(unsigned int width,unsigned int height);
+    //init foreground matrix to 0 and path_map to -1 and generate foreground
+    void init_submatrix(unsigned int width,unsigned int height);
     //generate path_map from background given destination tiles
     void update_path_map(vector< pair<unsigned int,unsigned int> > destination);
+    //updates foreground according to background
+    void generate_foreground();
     //      void load_background(const Tmx::Layer *lay,int width,int height);
     //cehcks if given position is in the matrix
     bool in_matrix(unsigned int x,unsigned int y) const;
-    void check();
+    bool check() const;
 
 };
 #endif

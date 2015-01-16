@@ -1,11 +1,14 @@
 //TITLE: ENEMY_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.2
+//VERSION: 0.3
 //DESCRIPTION: defines each single enemy
 
 #ifndef ENEMY_H
 #define ENEMY_H
+
+#include "al_anim.h"
+#include <map>
 
 enum enemy_animation {idle_anim,up_anim,down_anim,left_anim,right_anim,dead_anim}; //defines each animation for an enemy
 
@@ -16,6 +19,7 @@ struct enemy_attributes {
     double speed; //basic speed (pixels per seconds)
     unsigned int max_life; //max (and initial) life of enemy
     unsigned int armor; //armor of the enemy
+    unsigned int reward; //reward when killed
     //Methods
     enemy_attributes();
     enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed);
@@ -37,7 +41,8 @@ private:
     unsigned int life; //current life of enemy
     unsigned int level; //level may change enemy parameters (unused)
     double speed; //pixels per frame
-    
+    unsigned int reward;
+
     pair<double,double> position; //actual position, it refers to foot centered position
     pair<double,double> destiny; //position to move
     bool active; //if false, update will not take effect, false by default in constructors
@@ -56,6 +61,7 @@ public:
     void set_level(unsigned int level);
     //set enemy to active in given position
     void spawn(double posx,double posy);
+
     //CONSULT
     //return enemy name
     string get_name() const;
@@ -63,6 +69,8 @@ public:
     unsigned int get_life() const;
     //return max life
     unsigned int get_max_life() const;
+    //returns reward when killed
+    unsigned int get_reward() const;
     //return enemy position in a pair<x,y>
     pair<double,double> get_position() const;
     //return the enemy destiny (where is moving)
@@ -103,7 +111,7 @@ private:
     //set speed (pixels per second), need timer wich will be used
     void set_speed(double spd,const ALLEGRO_TIMER *timer);
     //check enemy class is working well, debug_log output if error or warning
-    void check() const;
+    bool check() const;
 };
 
 

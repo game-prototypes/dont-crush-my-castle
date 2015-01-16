@@ -123,5 +123,23 @@ void tileset::load_from_bitmap(ALLEGRO_BITMAP *bitmap,const vector<tile_type> &t
     check();
 }
 
-void tileset::check() const {
+bool tileset::check() const {
+    bool b=true;
+    if(tile_list.empty()) {
+        debug_log::report("tile list empty",warning,true,false,false);
+        b=false;
+    }
+    if(name.empty()) {
+        debug_log::report("tile list with no name",warning,true,false,false);
+        b=false;
+    }
+    map<tile_id,tile>::const_iterator it;
+    for(it=tile_list.begin(); it!=tile_list.end(); it++) {
+        if(it->second.check()==false) b=false;
+        if(it->second.get_size()!=tile_size) {
+            debug_log::report("tile in tileset with different size",warning,true,false,false);
+            b=false;
+        }
+    }
+    return b;
 }

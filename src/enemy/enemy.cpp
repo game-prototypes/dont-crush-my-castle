@@ -1,7 +1,7 @@
 //TITLE: ENEMY_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.2
+//VERSION: 0.3
 //DESCRIPTION: defines each single enemy
 
 #include "enemy.h"
@@ -31,14 +31,13 @@ void enemy_attributes::insert_animation(enemy_animation type,const al_anim &anim
         animation[type].stop(); //set the animation to inactive and restart counters
     }
 }
-void enemy_attributes::clear(){
+void enemy_attributes::clear() {
     animation.clear();
     name.clear();
     speed=0;
     max_life=0;
     armor=0;
-
-    }
+}
 void enemy_attributes::destroy() {
     map<enemy_animation,al_anim>::iterator it;
     for(it=animation.begin(); it!=animation.end(); it++)(it->second).destroy();
@@ -54,8 +53,8 @@ bool enemy_attributes::check() const {
         debug_log::report("enemy without all necesssary animations",err,true,true,false);
         b=false;
     }
-    if(speed<0) {
-        debug_log::report("enemy with speed<0",err,true,true,false);
+    if(speed<=0) {
+        debug_log::report("enemy speed<=0",err,true,true,false);
         b=false;
     }
     if(max_life==0) {
@@ -74,12 +73,14 @@ bool enemy_attributes::check() const {
 enemy::enemy() {
     life=level=0;
     speed=0.0;
+    reward=0;
     position=destiny=make_pair(-1,-1);
     active=false;
 }
 enemy::enemy(const enemy_attributes &attributes,unsigned int level,double posx,double posy,const ALLEGRO_TIMER *timer) {
     this->life=attributes.max_life;
     this->attributes=attributes;
+    this->reward=attributes.reward;
     set_speed(attributes.speed,timer);
     set_level(level);
     spawn(posx,posy);
@@ -108,6 +109,9 @@ unsigned int enemy::get_life() const {
 }
 unsigned int enemy::get_max_life() const {
     return attributes.max_life;
+}
+unsigned int enemy::get_reward() const {
+    return reward;
 }
 pair<double,double> enemy::get_position() const {
     return position;
@@ -178,7 +182,6 @@ void enemy::update() {
         }
         else if(current_animation!=dead_anim) kill(); //killed
         attributes.animation[current_animation].update(); //animation update
-
         //TODO: deactivate and clear after some time with dead animation stopped
     }
 }
@@ -186,7 +189,7 @@ void enemy::update() {
 
 void enemy::draw() {
     if(spawned()) {
-    unsigned int hoffset=attributes.animation[current_animation].get_height()/2;
+        unsigned int hoffset=attributes.animation[current_animation].get_height()/2;
         attributes.animation[current_animation].draw(position.first,position.second+hoffset);
     }
 }
@@ -217,9 +220,18 @@ void enemy::stop_movement_anim() {
 }
 
 void enemy::set_speed(double spd,const ALLEGRO_TIMER *timer) {
-     this->speed=convert_speed(spd,timer);
+    this->speed=convert_speed(spd,timer);
 }
 
-void enemy::check() const {
-    //TODO
+bool enemy::check() const {
+    bool b=attributes.check();
+    if(life>get_max_life()) {
+        b=false;
+        debug_log::report("enemy life>max life",warning,true,true,false);
+    }
+    if(speed<=0) {
+        b=false;
+        debug_log::report("speed<=0",err,true,true,false);
+    }
+    return b;
 }

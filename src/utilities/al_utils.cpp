@@ -1,10 +1,18 @@
 //TITLE: AL UTILS
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.2
+//VERSION: 0.3
 //DESCRIPTION: Generic functions for drawing and handdling allegro bitmaps
 #ifndef AL_UTILS_H
 #define AL_UTILS_H
+
+#include "debug_log.h"
+#include <vector>
+#include <cmath>
+#include <allegro5/allegro.h>
+//#include <allegro5/allegro_image.h>
+//using namespace std;
+
 
 //resize bmp to given width and height (x and y), destroying the original bitmap
 void resize_bitmap(ALLEGRO_BITMAP *&bitmap,unsigned int x,unsigned int y) {
@@ -23,7 +31,7 @@ void resize_bitmap(ALLEGRO_BITMAP *&bitmap,unsigned int x,unsigned int y) {
 }
 
 //slice given bitmap in a vector of bitmaps, each birmap with given height and width (if ntiles>0, represents the max tiles to slice)
-vector<ALLEGRO_BITMAP *> slice_bitmap(ALLEGRO_BITMAP *bitmap,int width,int height,int ntiles=-1) {
+vector<ALLEGRO_BITMAP *> slice_bitmap(ALLEGRO_BITMAP *bitmap,int width,int height,int ntiles) {
     vector<ALLEGRO_BITMAP *> v;
     if(!bitmap) debug_log::report("null pointer to slice",err,true,true);
     else {
@@ -57,7 +65,7 @@ vector<ALLEGRO_BITMAP *> slice_bitmap(ALLEGRO_BITMAP *bitmap,int width,int heigh
     return v;
 }
 
-//start allegro with the necessary configuration
+/*//start allegro with the necessary configuration
 void al_start(ALLEGRO_DISPLAY *&display,ALLEGRO_EVENT_QUEUE *&event_queue,ALLEGRO_TIMER *&timer) {
     al_init(); //init allegro
     al_init_image_addon();  //init allegro image addons
@@ -68,7 +76,7 @@ void al_start(ALLEGRO_DISPLAY *&display,ALLEGRO_EVENT_QUEUE *&event_queue,ALLEGR
     al_register_event_source(event_queue, al_get_timer_event_source(timer)); //add timer and display to event queue
     al_start_timer(timer); //start the timer
 }
-
+*/
 //updates movement 1 frame (being speed pixels/frame) from position to destiny
 pair<double,double> movement_update(pair<double,double> position,pair<double,double> destiny,double speed) {
     if(position!=destiny) {
@@ -78,27 +86,31 @@ pair<double,double> movement_update(pair<double,double> position,pair<double,dou
         m=speed/m;
         x*=m;
         y*=m;
-        if(abs(position.first+x-destiny.first)<=speed) position.first=destiny.first;
+        if(abs(position.first-destiny.first)<=speed) position.first=destiny.first;
         else position.first+=x;
-        if(abs(position.second+y-destiny.second)<=speed) position.second=destiny.second;
+        if(abs(position.second-destiny.second)<=speed) position.second=destiny.second;
         else position.second+=y;
     }
     return position;
 }
 //return speed per frame from speed per second from given timer
-double convert_speed(double speed,const ALLEGRO_TIMER *timer){
-       if(speed<0) {
+double convert_speed(double speed,const ALLEGRO_TIMER *timer) {
+    if(timer==NULL) {
+        debug_log::report("timer not set",err,true,true,false);
+        return speed;
+    }
+    if(speed<0) {
         debug_log::report("enemy speed negative (set to positive)",warning,true,false,false);
         speed=-speed;
     }
     if(speed==0) debug_log::report("enemy speed set to 0",warning,true,false,false);
-       return speed*al_get_timer_speed(timer);
-       }
+    return speed*al_get_timer_speed(timer);
+}
 //draw given bitmap centered in position
-void draw_centered(ALLEGRO_BITMAP *bitmap,double x,double y){
-     x-=al_get_bitmap_width(bitmap)/2;
-     y-=al_get_bitmap_height(bitmap)/2;
-     al_draw_bitmap(bitmap,x,y,0);
-     }
+void draw_centered(ALLEGRO_BITMAP *bitmap,double x,double y) {
+    x-=al_get_bitmap_width(bitmap)/2;
+    y-=al_get_bitmap_height(bitmap)/2;
+    al_draw_bitmap(bitmap,x,y,0);
+}
 
 #endif

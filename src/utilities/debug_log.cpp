@@ -1,29 +1,13 @@
 //TITLE: Debug Log
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.2
+//VERSION: 0.3
 //DESCRIPTION: Logs for warnings and errors
-#ifndef DEBUG_LOG_H
-#define DEBUG_LOG_H
 
-enum log_type {comment,warning,err,fatal_error};
-
-namespace debug_log {
-const string version="V0.2";
-const string log_file="dcmc.log";
-const bool show_contact=false;
-const string contact_info="Please, contact support";
-
-const bool hide_assert=false;
-const bool hide_write=false;
-const bool hide_show=false; //true to hide errors
-
-const bool force_assert=false;
-const bool force_write=false;
-const bool force_show=false; //true to force errors
+#include "debug_log.h"
 
 //report an error
-void report(const string &error,log_type type,bool write,bool show,bool assert=false) {
+void debug_log::report(const string &error,log_type type,bool write,bool show,bool assert) {
     string error_msg=version+"::Log - ";
     switch(type) {
     case comment:
@@ -57,10 +41,7 @@ void report(const string &error,log_type type,bool write,bool show,bool assert=f
         exit(EXIT_FAILURE);
     }
 }
-
-//easy-yo-use report
-void report(const string &error,log_type type=comment) {
+//easy-to-use report
+void debug_log::report(const string &error,log_type type) {
     report(error,type,false,true,false);
 }
-};
-#endif

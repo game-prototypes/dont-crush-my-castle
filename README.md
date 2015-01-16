@@ -5,9 +5,14 @@ Highly customizable tower defense style game
 
 **Planned Features:**
  * Custom Campaign mode
- * Random Maps   
- * Custom enemies/builds   
- 
+ * Random Maps
+ * Custom enemies/builds
+
+**HOW TO:**
+ * Compile: run make
+ * Test: execute test.sh   
+
+***To compile DCmC following liballegro5-dev should be installed with all liballegro5 addons***
 
 This project participates in the following contests:
 
@@ -23,3 +28,6 @@ GitHub Pages - http://demiurgosoft.github.io/dont-crush-my-castle/
 GitHub Wiki - https://github.com/demiurgosoft/dont-crush-my-castle/wiki
 
 This Project is Open-Source under GNU GPL v3
+
+example_clock.png (used for testing) is under CCLicense by [Jorge Durán Llanos] (https://github.com/Caesar95)
+ <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
