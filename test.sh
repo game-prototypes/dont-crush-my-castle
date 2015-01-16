@@ -2,7 +2,7 @@
 #by demiurgosoft
 
 #This script will compile,test and clean Don't Crush My Castle
-
+pwd
 echo 'Compiling and testing (may take a while)';
 #COMPILE TEST
 make test >/dev/null;
@@ -18,6 +18,7 @@ RES2=$?
 echo 'Cleaning binaries and .o files'
 #CLEAN DIRECTORIES
 make clean >/dev/null;
+
 
 RES=$(($RES1 || $RES2))
 exit $RES
