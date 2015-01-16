@@ -1,40 +1,37 @@
-//TITLE: Basic Test
+//TITLE: Al_utils Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
 //VERSION: 0.3
 /*DESCRIPTION: basic test of allegro utilities (src/utilities) for DCmC
 This test will test proper work of:
 al_utils
-al_anim
 */
-#include "al_anim.h"
+#include "al_utils.h"
 using namespace std;
-bool al_utils_test(ALLEGRO_BITMAP *&bitmap,const ALLEGRO_TIMER *timer);
-//test all functions, return true if everything is correct
 
 int main() {
     cout<<"AL_UTILS TEST";
     //Final result of test, true if everything OK
     bool test_result=true;
     //ALLEGRO display,timer and queue pointers
-        //ALLEGRO_DISPLAY *display;
+    //ALLEGRO_DISPLAY *display;
     ALLEGRO_TIMER *timer;
     ALLEGRO_EVENT_QUEUE *event_queue;
     //allegro startup with image addon
     al_init();
     al_init_image_addon();
     //Declaration and assign of display,event_queue and timer
-        //display = al_create_display(640, 480);
+    //display = al_create_display(640, 480);
     event_queue = al_create_event_queue();
     timer = al_create_timer(1.0 / 60); //60 fps timer
     //register timer and display events
-        //al_register_event_source(event_queue,al_get_display_event_source(display));
+    //al_register_event_source(event_queue,al_get_display_event_source(display));
     al_register_event_source(event_queue,al_get_timer_event_source(timer));
     al_start_timer(timer); //begin timer
     //load example bitmap
     ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
     if(bmp==NULL) {
-        cout<<"ERROR - bitmap not loaded\n";
+        cout<<" || ERROR - bitmap not loaded\n";
         test_result=false;
     }
     //test_result=al_utils_test(bmp,timer);
@@ -110,7 +107,7 @@ int main() {
     al_destroy_bitmap(bmp);
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
-        //al_destroy_display(display);
+    //al_destroy_display(display);
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
     return !test_result;

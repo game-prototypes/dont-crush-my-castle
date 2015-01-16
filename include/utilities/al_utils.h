@@ -26,6 +26,4 @@ pair<double,double> movement_update(pair<double,double> position,pair<double,dou
 double convert_speed(double speed,const ALLEGRO_TIMER *timer);
 //draw given bitmap centered in position
 void draw_centered(ALLEGRO_BITMAP *bitmap,double x,double y);
-//return true if all al_utils workd properly
-
 #endif

@@ -17,8 +17,8 @@ using namespace std;
 class al_anim {
 private:
     vector<ALLEGRO_BITMAP *> bitmap_set;
+    const ALLEGRO_TIMER *timer;
     unsigned int animation_delay; //delay in fotograms beetween bitmap change
-
     unsigned int count;
     unsigned int current_delay;
     bool active; //true to activate animation (false will pause it)
@@ -42,7 +42,9 @@ public:
     void stop();
     //sets following frame to use (restarting current delay) if its inside bounds
     void set_frame(unsigned int frame);
-    //set animation speed, given the duration,returns animation_delay
+    //set animation speed, given the duration in seconds (according to currently set timer), duration will change according to fps
+    void set_duration(double seconds);
+    //set duration and timer of animation
     void set_duration(double seconds,const ALLEGRO_TIMER *timer);
     //set loop value to true or false
     void animation_loop(bool loop);
@@ -57,9 +59,9 @@ public:
     //returns size of animation (number of frames)
     unsigned int size()const;
     //returns total duration of animation
-    double duration(const ALLEGRO_TIMER *timer) const;
+    double duration() const;
     //return animation fps
-    unsigned int fps(const ALLEGRO_TIMER *timer) const;
+    unsigned int fps() const;
     //return width of current bitmap
     unsigned int get_width() const;
     //return height of current bitmap

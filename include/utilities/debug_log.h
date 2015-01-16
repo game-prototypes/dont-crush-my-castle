@@ -15,14 +15,14 @@ using namespace std;
 enum log_type {comment,warning,err,fatal_error};
 
 namespace debug_log {
-const string version="V0.2";
+const string version="V0.3";
 const string log_file="dcmc.log";
 const bool show_contact=false;
 const string contact_info="Please, contact support";
 
-const bool hide_assert=false;
-const bool hide_write=false;
-const bool hide_show=false; //true to hide errors
+const bool hide_assert=true;
+const bool hide_write=true;
+const bool hide_show=true; //true to hide errors
 
 const bool force_assert=false;
 const bool force_write=false;

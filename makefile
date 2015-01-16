@@ -30,18 +30,25 @@ _AL_UTILS=al_anim.cpp al_utils.cpp debug_log.cpp
 AL_UTILS_H=$(patsubst %,$(IDIR)/$(UTILSDIR)/%,$(_AL_UTILS:.cpp=.h))
 AL_UTILS_O=$(patsubst %,$(ODIR)/%,$(_AL_UTILS:.cpp=.o))
 
-TEST_OBJ=obj/test_utils.o $(AL_UTILS_O)
-TEST_DEP=$(AL_UTILS_H)
+_TEST_UTILS=test_utils.o al_utils.o debug_log.o
+TEST_UTILS_O=$(patsubst %,$(ODIR)/%,$(_TEST_UTILS))
+_TEST_ANIM=test_anim.o al_anim.o al_utils.o debug_log.o 
+TEST_ANIM_O=$(patsubst %,$(ODIR)/%,$(_TEST_ANIM))
 
-bin/test_utils: $(TEST_OBJ)
+.PHONY: all
+all: test
+
+bin/test_utils: $(TEST_UTILS_O)
 	$(CXX) -o $@ $^ $(CPPFLAGS) -I $(INC)  $(ALLEGROFLAGS)
-
-obj/%.o: $(SDIR)/*/%.cpp $(TEST_DEP)
+bin/test_anim: $(TEST_ANIM_O)
+	$(CXX) -o $@ $^ $(CPPFLAGS) -I $(INC)  $(ALLEGROFLAGS)
+	
+obj/%.o: $(SDIR)/*/%.cpp $(INC)
 	$(CXX) -c -o $@ $< -I $(INC) $(CPPFLAGS)
 
 
 .PHONY: test
-test: bin/test_utils
+test: bin/test_utils bin/test_anim
 .PHONY: astyle
 astyle:
 	astyle --style=attach --break-closing-brackets --align-pointer=name --delete-empty-lines --indent-col1-comments --unpad-paren -n -Q $(IDIR)/*/*.h $(SDIR)/*/*.cpp

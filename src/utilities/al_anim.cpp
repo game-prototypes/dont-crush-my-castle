@@ -55,17 +55,21 @@ void al_anim::set_frame(unsigned int frame) {
         current_delay=animation_delay;
     }
 }
-void al_anim::set_duration(double seconds,const ALLEGRO_TIMER *timer) {
+void al_anim::set_duration(double seconds) {
     if(size()>0) {
         double tspeed=al_get_timer_speed(timer);
-        seconds/=size();
-        animation_delay=seconds/tspeed;
+        seconds/=tspeed*size();
+        animation_delay=seconds;
         if(animation_delay==0) {
             debug_log::report("animation speed too fast for timer, speed=refresh rate",warning,true,false,false);
             animation_delay=1;
         }
         current_delay=animation_delay;
     }
+}
+void al_anim::set_duration(double seconds,const ALLEGRO_TIMER *timer) {
+    this->timer=timer;
+    set_duration(seconds);
 }
 void al_anim::animation_loop(bool loop) {
     this->loop=loop;
@@ -79,11 +83,11 @@ unsigned int al_anim::get_frame() const {
 unsigned int al_anim::size() const {
     return bitmap_set.size();
 }
-double al_anim::duration(const ALLEGRO_TIMER *timer)const {
+double al_anim::duration()const {
     double tspeed=al_get_timer_speed(timer);
     return tspeed*animation_delay*size();
 }
-unsigned int al_anim::fps(const ALLEGRO_TIMER *timer) const {
+unsigned int al_anim::fps() const {
     double speed=al_get_timer_speed(timer);
     speed*=animation_delay;
     return 1/speed;
@@ -98,10 +102,14 @@ void al_anim::update() {
     if(active) {
         current_delay--;
         if(current_delay==0) { //change bitmap
-            count++;
-            if(count==bitmap_set.size()-1 && loop==false) pause();
-            count%=bitmap_set.size();
             current_delay=animation_delay;  //resets delay
+            count++;
+            if(count==bitmap_set.size() && loop==false) {
+                count--;
+                current_delay=1;
+                pause();
+            }
+            count%=bitmap_set.size();
         }
     }
 }
