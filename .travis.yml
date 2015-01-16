@@ -1,6 +1,7 @@
 language: cpp
 compiler:
   - g++
+  - clang
 # Change this to your needs
 #script: ./configure && make
 #whitelist
@@ -20,4 +21,5 @@ before_install:
   - make
   - sudo make install
   - sudo ldconfig
+  - cd ~/home/travis/
 script: bash test.sh
