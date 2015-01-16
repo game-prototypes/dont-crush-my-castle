@@ -18,10 +18,10 @@ ODIR=obj
 SDIR=src
 BDIR=bin
 
-UTILSDIR=utilities/
-MAPDIR=map/
-ENEMYDIR=enemy/
-BUILDINGDIR=building/
+UTILSDIR=utilities
+MAPDIR=map
+ENEMYDIR=enemy
+BUILDINGDIR=building
 
 _INC=$(UTILSDIR)
 INC=$(patsubst %,$(IDIR)/%,$(_INC))
@@ -36,7 +36,7 @@ _TEST_ANIM=test_anim.o al_anim.o al_utils.o debug_log.o
 TEST_ANIM_O=$(patsubst %,$(ODIR)/%,$(_TEST_ANIM))
 
 .PHONY: all
-all: test $(BDIR) $(ODIR)
+all: $(BDIR)/ $(ODIR)/ test
 
 #Compile both tests
 bin/test_utils: $(TEST_UTILS_O)
@@ -48,9 +48,9 @@ obj/%.o: $(SDIR)/*/%.cpp $(INC)
 	$(CXX) -c -o $@ $< -I $(INC) $(CPPFLAGS)
 
 #Creates directories if dont exists
-$(BDIR): 
+$(BDIR)/:
 	mkdir $(BDIR)
-$(ODIR):
+$(ODIR)/:
 	mkdir $(ODIR)
 #compile tests binaries
 .PHONY: test
