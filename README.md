@@ -1,4 +1,4 @@
-Don´t Crush My Castle
+Don´t Crush My Castle     [![Build Status](https://travis-ci.org/demiurgosoft/dont-crush-my-castle.svg?branch=master)](https://travis-ci.org/demiurgosoft/dont-crush-my-castle)
 =====================
 
 Highly customizable tower defense style game
