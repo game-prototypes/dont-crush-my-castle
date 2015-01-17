@@ -10,7 +10,8 @@ Highly customizable tower defense style game
 
 **HOW TO:**
  * Compile: run make
- * Test: execute test.sh   
+ * Test: execute test.sh    
+
 **BRANCHES:**
  * master [![Build Status](https://travis-ci.org/demiurgosoft/dont-crush-my-castle.svg?branch=master)](https://travis-ci.org/demiurgosoft/dont-crush-my-castle)
  * development [![Build Status](https://travis-ci.org/demiurgosoft/dont-crush-my-castle.svg?branch=development)](https://travis-ci.org/demiurgosoft/dont-crush-my-castle)
