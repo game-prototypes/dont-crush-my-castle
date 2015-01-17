@@ -29,18 +29,25 @@ public:
     tile(tile_type type,ALLEGRO_BITMAP *bitmap);
     //full constructor with resizing
     tile(tile_type type,ALLEGRO_BITMAP *bitmap,unsigned int width);
+    //copy constructor
+    tile(const tile &other);
+    //destructor
+    ~tile();
     //resize the tile bitmap to a squared one with given width
     void resize(unsigned int width);
     //draw the tile bitmap on x,y position (of the target bitmap)
     void draw(float x,float y) const;
     //draw the tile bitmap on x,y  position, resizing it to width given
     void draw_resized(float x,float y,unsigned int width) const;
-    //destroy the tile bitmap and set the type to null
-    void destroy_bitmap();
     //returns tile width
     unsigned int get_size() const;
     //check the class
     bool check() const;
+    //OPERATORS
+    tile &operator=(const tile &other);
+private:
+    //destroy the tile bitmap and set the type to null
+    void destroy_bitmap();
 };
 
 #endif

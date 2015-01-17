@@ -110,7 +110,7 @@ tile_id tilemap::get_tile_id(unsigned int x,unsigned int y) const {
 tile_type tilemap::get_tile_type(unsigned int x,unsigned int y) const {
     if(in_matrix(x,y)) {
         tile_id id=background[x][y];
-        return (tiles->get_tile(id)).type;
+        return (tiles->get_tile_type(id));
     }
     else {
         debug_log::report("get_tyle_type out of bounds",err,true,true,false);

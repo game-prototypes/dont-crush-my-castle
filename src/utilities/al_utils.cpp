@@ -16,9 +16,9 @@
 
 //resize bmp to given width and height (x and y), destroying the original bitmap
 void resize_bitmap(ALLEGRO_BITMAP *&bitmap,unsigned int x,unsigned int y) {
-    if(bitmap!=NULL) {
+    if(bitmap!=NULL && x>0 && y>0) {
         ALLEGRO_BITMAP *temp;
-        ALLEGRO_BITMAP *disp=al_get_target_bitmap(); //actual display
+        ALLEGRO_BITMAP *disp=al_get_target_bitmap(); //current display
         int origx=al_get_bitmap_width(bitmap);
         int origy=al_get_bitmap_height(bitmap);
         temp=al_create_bitmap(x,y); //the new bitmap with the given size
@@ -29,15 +29,42 @@ void resize_bitmap(ALLEGRO_BITMAP *&bitmap,unsigned int x,unsigned int y) {
         bitmap=temp; //bmp now points to the resized bitmap
     }
 }
+ALLEGRO_BITMAP *copy_bitmap(const ALLEGRO_BITMAP *bitmap) {
+    ALLEGRO_BITMAP *res=NULL;
+    if(bitmap!=NULL) {
+        ALLEGRO_BITMAP *disp=al_get_target_bitmap(); //current display
+        int origx=al_get_bitmap_width(const_cast<ALLEGRO_BITMAP *>(bitmap));
+        int origy=al_get_bitmap_height(const_cast<ALLEGRO_BITMAP *>(bitmap));
+        res=al_create_bitmap(origx,origy); //the new bitmap with the given size
+        al_set_target_bitmap(res);
+        al_draw_bitmap(const_cast<ALLEGRO_BITMAP *>(bitmap),0,0,0); //draw the original bitmap to the new one
+        al_set_target_bitmap(disp); //returns the target to the display
+    }
+    return res;
+}
+ALLEGRO_BITMAP *copy_bitmap(const ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height) {
+    ALLEGRO_BITMAP *res=NULL;
+    if(bitmap!=NULL && width>0 && height>0) {
+        ALLEGRO_BITMAP *disp=al_get_target_bitmap(); //current display
+        int origx=al_get_bitmap_width(const_cast<ALLEGRO_BITMAP *>(bitmap));
+        int origy=al_get_bitmap_height(const_cast<ALLEGRO_BITMAP *>(bitmap));
+        res=al_create_bitmap(width,height); //the new bitmap with the given size
+        al_set_target_bitmap(res);
+        al_draw_scaled_bitmap(const_cast<ALLEGRO_BITMAP *>(bitmap),0,0, origx, origy,0,0, width,height,0); //draw the original bitmap to the new one (resized)
+        al_set_target_bitmap(disp); //returns the target to the display
+    }
+    return res;
+}
 
-//slice given bitmap in a vector of bitmaps, each birmap with given height and width (if ntiles>0, represents the max tiles to slice)
-vector<ALLEGRO_BITMAP *> slice_bitmap(ALLEGRO_BITMAP *bitmap,int width,int height,int ntiles) {
+
+//slice given bitmap in a vector of bitmaps, each bitmap with given height and width (if ntiles>0, represents the max tiles to slice)
+vector<ALLEGRO_BITMAP *> slice_bitmap(const ALLEGRO_BITMAP *bitmap,int width,int height,int ntiles) {
     vector<ALLEGRO_BITMAP *> v;
     if(!bitmap) debug_log::report("null pointer to slice",err,true,true);
     else {
         ALLEGRO_BITMAP *disp=al_get_target_bitmap(); //actual display (stores for re-target)
-        int x=al_get_bitmap_width(bitmap);
-        int y=al_get_bitmap_height(bitmap);
+        int x=al_get_bitmap_width(const_cast<ALLEGRO_BITMAP *>(bitmap));
+        int y=al_get_bitmap_height(const_cast<ALLEGRO_BITMAP *>(bitmap));
         if(height>y || width>x) debug_log::report("impossible to slice bitmap",err,true,true);
         else {
             if(x%width!=0 || y%height) debug_log::report("slice section not exact",warning,true,false);
@@ -50,7 +77,7 @@ vector<ALLEGRO_BITMAP *> slice_bitmap(ALLEGRO_BITMAP *bitmap,int width,int heigh
                         ALLEGRO_BITMAP *temp;
                         temp=al_create_bitmap(width,height);
                         al_set_target_bitmap(temp); //sets new bitmap as target
-                        al_draw_bitmap_region(bitmap,x,y,width,height,0,0,0); //draw the region into the bitmap
+                        al_draw_bitmap_region(const_cast<ALLEGRO_BITMAP *>(bitmap),x,y,width,height,0,0,0); //draw the region into the bitmap
                         v.push_back(temp); //adds bitmap to vector
                         x+=width;
                     }

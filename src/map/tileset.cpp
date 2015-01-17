@@ -10,6 +10,8 @@
 
 tileset::tileset() {
     tile_size=0;
+    name="";
+    lowest_free=0;
 }
 /*   tileset::tileset(const Tmx::Tileset *ts) {
            height=ts->GetTileHeight();
@@ -19,27 +21,62 @@ tileset::tileset() {
        }*/
 
 tileset::tileset(const string &name,ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles) {
-    this->name=name;
+    set_name(name);
+    lowest_free=0;
     this->tile_size=tile_size;
     load_from_bitmap(bitmap,types,tile_size,ntiles);
 }
 tileset::tileset(ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles) {
-    name="";
+    set_name("");
+    lowest_free=0;
     this->tile_size=tile_size;
     load_from_bitmap(bitmap,types,tile_size,ntiles);
 }
 tileset::~tileset() {
-    destroy_tileset();
+    name.clear();
+    tile_list.clear();
+}
+tile_id tileset::add_tile(tile_type type,ALLEGRO_BITMAP *bitmap) {
+    tile_list.insert(make_pair(lowest_free,tile(type,bitmap)));
+    tile_id r=lowest_free;
+    if(tile_size==0) tile_size=tile_list[r].get_size();
+    else tile_list[r].resize(tile_size);
+    lowest_free=get_next_free_id();
+    return  r;
+}
+tile_id tileset::add_tile(const tile &t) {
+    tile_list.insert(make_pair(lowest_free,t));
+    tile_id r=lowest_free;
+    if(tile_size==0) tile_size=tile_list[r].get_size();
+    else tile_list[r].resize(tile_size);
+    lowest_free=get_next_free_id();
+    return  r;
+}
+vector<tile_id> tileset::load_from_bitmap(ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles) {
+    vector<ALLEGRO_BITMAP *> v=slice_bitmap(bitmap,tile_size,tile_size,ntiles); //slice the bitmap in small bitmaps
+    vector<tile_id> vid;
+    tile_type type;
+    if(v.size()==0) debug_log::report("loading bitmap with size=0",err,true,true,false);
+    for(unsigned int i=0; i<v.size(); i++) {
+        if(i<types.size()) type=types[i];
+        else type=null_tile; //defines each tile from vector, if there is not a tile_type, is null by default
+        vid.push_back(add_tile(type,v[i])); //adds the tile to the tileset with id=i
+    }
+    return vid;
+}
+void tileset::remove_tile(tile_id id) {
+    tile_list.erase(id);
+    if(id<lowest_free) lowest_free=id;
+}
+void tileset::set_name(string name) {
+    this->name=name;
+}
+bool tileset::is_tile(tile_id id) const {
+    if(tile_list.find(id)!=tile_list.end()) return true;
+    else return false;
 }
 unsigned int tileset::size() const {
     return tile_list.size();
-}
-tile tileset::get_tile(tile_id id) const {
-    tile ret;
-    map<tile_id,tile>::const_iterator it;
-    it=tile_list.find(id);
-    if(it!=tile_list.end()) ret=it->second;
-    return ret;
 }
 unsigned int tileset::get_tile_width() const {
     return tile_size;
@@ -50,11 +87,22 @@ unsigned int tileset::get_tile_height() const {
 string tileset::get_name() const {
     return name;
 }
+tile_type tileset::get_tile_type(tile_id id) const {
+    tile_type type=null_tile;
+    map<tile_id,tile>::const_iterator it;
+    it=tile_list.find(id);
+    if(it!=tile_list.end()) type=it->second.type;
+    return type;
+}
 void tileset::draw_tile(tile_id id,float x,float y) const {
-    get_tile(id).draw(x,y);
+    map<tile_id,tile>::const_iterator it;
+    it=tile_list.find(id);
+    if(it!=tile_list.end()) it->second.draw(x,y);
 }
 void tileset::draw_resized_tile(tile_id id,float x,float y,unsigned int tile_size) const {
-    get_tile(id).draw_resized(x,y,tile_size);
+    map<tile_id,tile>::const_iterator it;
+    it=tile_list.find(id);
+    if(it!=tile_list.end()) it->second.draw_resized(x,y,tile_size); //CHANGE!!!
 }
 void tileset::resize_tileset(unsigned int tile_size) {
     if(tile_size<=0) debug_log::report("resize tileset: new size not allowed (not resized)",err,true,true,false);
@@ -98,41 +146,8 @@ void tileset::resize_tileset(unsigned int tile_size) {
           }
           check();
       }*/
-void tileset::destroy_tileset() {
-    name.clear();
-    tile_size=0;
-    for(unsigned int i=0; i<tile_list.size(); i++) tile_list[i].destroy_bitmap();
-    tile_list.clear();
-}
-//PRIVATE METHODS
-
-bool tileset::add_tile(tile_id id,tile_type type,ALLEGRO_BITMAP *bitmap) {
-    if((unsigned int)al_get_bitmap_height(bitmap)!=tile_size || (unsigned int)al_get_bitmap_width(bitmap)!=tile_size)
-        resize_bitmap(bitmap,tile_size,tile_size);
-    return  tile_list.insert(make_pair(id,tile(type,bitmap))).second;
-}
-void tileset::load_from_bitmap(ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles) {
-    vector<ALLEGRO_BITMAP *> v=slice_bitmap(bitmap,tile_size,tile_size,ntiles); //slice the bitmap in small bitmaps
-    tile_type type;
-    if(v.size()==0) debug_log::report("loading bitmap with size=0",err,true,true,false);
-    for(unsigned int i=0; i<v.size(); i++) {
-        if(i<types.size()) type=types[i];
-        else type=null_tile; //defines each tile from vector, if there is not a tile_type, is null by default
-        add_tile(i,type,v[i]); //adds the tile to the tileset with id=i
-    }
-    check();
-}
-
 bool tileset::check() const {
     bool b=true;
-    if(tile_list.empty()) {
-        debug_log::report("tile list empty",warning,true,false,false);
-        b=false;
-    }
-    if(name.empty()) {
-        debug_log::report("tile list with no name",warning,true,false,false);
-        b=false;
-    }
     map<tile_id,tile>::const_iterator it;
     for(it=tile_list.begin(); it!=tile_list.end(); it++) {
         if(it->second.check()==false) b=false;
@@ -143,3 +158,18 @@ bool tileset::check() const {
     }
     return b;
 }
+//PRIVATE METHODS
+unsigned int tileset::get_next_free_id() const {
+    map<tile_id,tile>::const_iterator it=tile_list.lower_bound(lowest_free);
+    tile_id cid=it->first;
+    it++;
+    for(; it!=tile_list.end(); it++) {
+        cid++;
+        if(it->first!=cid) {
+            return cid;
+        }
+    }
+    cid++;
+    return cid;
+}
+
