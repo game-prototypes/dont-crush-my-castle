@@ -1,4 +1,4 @@
-Don´t Crush My Castle
+Don´t Crush My Castle     [![Build Status](https://travis-ci.org/demiurgosoft/dont-crush-my-castle.svg?branch=master)](https://travis-ci.org/demiurgosoft/dont-crush-my-castle)
 =====================
 
 Highly customizable tower defense style game
@@ -13,6 +13,7 @@ Highly customizable tower defense style game
  * Test: execute test.sh   
 
 ***To compile DCmC following liballegro5-dev should be installed with all liballegro5 addons***
+To install all allegro dependencies, go to https://wiki.allegro.cc/index.php?title=Getting_Started#Installing_Allegro
 
 This project participates in the following contests:
 

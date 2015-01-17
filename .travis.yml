@@ -1,0 +1,23 @@
+language: cpp
+compiler:
+  - g++
+  - clang
+  
+branches:
+  only:
+    - master
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y libglu-dev build-essential git cmake cmake-curses-gui xorg-dev libgl1-mesa-dev freeglut3-dev libpng-dev libcurl4-openssl-dev libfreetype6-dev libjpeg-dev libvorbis-dev libopenal-dev libphysfs-dev libgtk2.0-dev libasound-dev libpulse-dev libflac-dev libdumb1-dev
+  - git clone git://git.code.sf.net/p/alleg/allegro
+  - cd allegro
+  - mkdir build
+  - cd build
+  - cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+  - make
+  - sudo make install
+  - cd ..
+  - cd ..
+#add -sudo ldconfig before cd.. maybe  
+script: ./test.sh

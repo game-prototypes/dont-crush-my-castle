@@ -10,18 +10,18 @@
 #FLAGS
 CXX = g++
 CPPFLAGS= -Wall -O1 #-g
-ALLEGROFLAGS=`pkg-config --cflags --libs allegro-5.0 allegro_acodec-5.0 allegro_audio-5.0 allegro_color-5.0 allegro_dialog-5.0 allegro_font-5.0 allegro_image-5.0 allegro_main-5.0 allegro_memfile-5.0 allegro_physfs-5.0 allegro_primitives-5.0 allegro_ttf-5.0`
-
+ALLEGROFLAGSOLD=`pkg-config --cflags --libs allegro-5.0 allegro_acodec-5.0 allegro_audio-5.0 allegro_color-5.0 allegro_dialog-5.0 allegro_font-5.0 allegro_image-5.0 allegro_main-5.0 allegro_memfile-5.0 allegro_physfs-5.0 allegro_primitives-5.0 allegro_ttf-5.0`
+ALLEGROFLAGS=-lallegro -lallegro_primitives -lallegro_font -lallegro_ttf -lallegro_image -lallegro_main -lallegro_acodec -lallegro_audio -lallegro_color -lallegro_dialog -lallegro_memfile -lallegro_physfs -lallegro_primitives
 #DIR
 IDIR=include
 ODIR=obj
 SDIR=src
-IBIN=bin
+BDIR=bin
 
-UTILSDIR=utilities/
-MAPDIR=map/
-ENEMYDIR=enemy/
-BUILDINGDIR=building/
+UTILSDIR=utilities
+MAPDIR=map
+ENEMYDIR=enemy
+BUILDINGDIR=building
 
 _INC=$(UTILSDIR)
 INC=$(patsubst %,$(IDIR)/%,$(_INC))
@@ -38,22 +38,34 @@ TEST_ANIM_O=$(patsubst %,$(ODIR)/%,$(_TEST_ANIM))
 .PHONY: all
 all: test
 
+#Compile both tests
 bin/test_utils: $(TEST_UTILS_O)
 	$(CXX) -o $@ $^ $(CPPFLAGS) -I $(INC)  $(ALLEGROFLAGS)
 bin/test_anim: $(TEST_ANIM_O)
 	$(CXX) -o $@ $^ $(CPPFLAGS) -I $(INC)  $(ALLEGROFLAGS)
-	
+#compile a generic .o
 obj/%.o: $(SDIR)/*/%.cpp $(INC)
 	$(CXX) -c -o $@ $< -I $(INC) $(CPPFLAGS)
 
-
+#Creates directories if dont exists
+$(BDIR)/:
+	mkdir $(BDIR)
+$(ODIR)/:
+	mkdir $(ODIR)
+	
+	
+	
+#compile tests binaries
 .PHONY: test
-test: bin/test_utils bin/test_anim
+test: $(BDIR) $(ODIR)  bin/test_utils bin/test_anim
+#astyle for all code (.cpp and .h)
 .PHONY: astyle
 astyle:
 	astyle --style=attach --break-closing-brackets --align-pointer=name --delete-empty-lines --indent-col1-comments --unpad-paren -n -Q $(IDIR)/*/*.h $(SDIR)/*/*.cpp
+#print variable
 .PHONY: print-%
 print-%  : ; @echo $* = $($*)
+#clean obj and bin directories as well as *~ files
 .PHONY: clean
 clean:
-	rm -f $(ODIR)/*.o *~ $(IDIR)/*/*~ $(IBIN)/*
+	rm -f $(ODIR)/*.o *~ $(IDIR)/*/*~ $(SDIR)/*/*~ $(BDIR)/*
