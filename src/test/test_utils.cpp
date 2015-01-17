@@ -3,7 +3,7 @@
 //AUTHOR: Andrés Ortiz
 //VERSION: 0.3
 /*DESCRIPTION: basic test of allegro utilities (src/utilities) for DCmC
-This test will test proper work of:
+This test will check:
 al_utils
 */
 #include "al_utils.h"
@@ -34,7 +34,6 @@ int main() {
         cout<<" || ERROR - bitmap not loaded\n";
         test_result=false;
     }
-    //test_result=al_utils_test(bmp,timer);
     vector<ALLEGRO_BITMAP *> v;
     int x=al_get_bitmap_width(bmp);
     int y=al_get_bitmap_height(bmp);
@@ -43,10 +42,19 @@ int main() {
     //Testing Resize
     resize_bitmap(bmp,x2,y2);
     if(al_get_bitmap_width(bmp)!=x2 || al_get_bitmap_height(bmp)!=y2) test_result=false;
+    //Testing copy
+    ALLEGRO_BITMAP *bmp2=copy_bitmap(bmp);
+    if(bmp2==NULL || bmp==NULL) test_result=false;
+    if(al_get_bitmap_width(bmp2)!=al_get_bitmap_width(bmp) || al_get_bitmap_height(bmp2)!=al_get_bitmap_height(bmp)) test_result=false;
+    al_destroy_bitmap(bmp2);
+    bmp2=copy_bitmap(bmp,x,y);
+    if(bmp2==NULL || bmp==NULL) test_result=false;
+    if(al_get_bitmap_width(bmp2)!=x || al_get_bitmap_height(bmp2)!=y) test_result=false;
+    if(al_get_bitmap_width(bmp)!=x2 || al_get_bitmap_height(bmp)!=y2) test_result=false;
+    al_destroy_bitmap(bmp2);
     //Testing Slice 1
     v=slice_bitmap(bmp,x,y2);
     if(v.size()!=2) test_result=false;
-    if(bmp==NULL) test_result=false;
     for(unsigned int i=0; i<v.size(); i++) {
         if(v[i]==NULL) test_result=false;
         else {
@@ -60,7 +68,6 @@ int main() {
     //Testing Slice 2
     v=slice_bitmap(bmp,x,y,3);
     if(v.size()!=3) test_result=false;
-    if(bmp==NULL) test_result=false;
     for(unsigned int i=0; i<v.size(); i++) {
         if(v[i]==NULL) test_result=false;
         else {

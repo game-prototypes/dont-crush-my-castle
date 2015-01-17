@@ -3,8 +3,8 @@
 //AUTHOR: Andrés Ortiz
 //VERSION: 0.3
 /*DESCRIPTION: basic test of allegro utilities (src/utilities) for DCmC
-This test will test proper work of:
-al_utils
+This test will check:
+al_anim
 */
 
 #include "al_anim.h"
