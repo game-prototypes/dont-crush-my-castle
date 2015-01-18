@@ -45,9 +45,6 @@ public:
     bool check() const;
     //OPERATORS
     tile &operator=(const tile &other);
-private:
-    //destroy the tile bitmap and set the type to null
-    void destroy_bitmap();
 };
 
 #endif
