@@ -61,11 +61,11 @@ public:
     //adds a tileset from tmx file to the actual tileset (resizing bitmaps), name and sizes will remain unchanged
     //tiles with same id will not be inserted
     //void add_tmx_tileset(const Tmx::Tileset *ts);
-    void destroy_tileset();
+    
     //return true if everything correct
     bool check() const;
 private:
     //return next free id after or equal to actual lower_id
-    unsigned int get_next_free_id() const;
+    tile_id get_next_free_id() const;
 };
 #endif

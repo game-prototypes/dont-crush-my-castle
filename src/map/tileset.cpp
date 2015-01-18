@@ -159,7 +159,7 @@ bool tileset::check() const {
     return b;
 }
 //PRIVATE METHODS
-unsigned int tileset::get_next_free_id() const {
+tile_id tileset::get_next_free_id() const {
     map<tile_id,tile>::const_iterator it=tile_list.lower_bound(lowest_free);
     tile_id cid=it->first;
     it++;
