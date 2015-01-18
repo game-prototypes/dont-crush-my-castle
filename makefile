@@ -42,7 +42,7 @@ TEST_MAP_O=$(ODIR)/test_map.o $(AL_UTILS_O) $(MAP_O)
 .PHONY: all
 all: test
 
-#Compile both tests
+#Compile tests
 bin/test_utils: $(TEST_UTILS_O)
 	$(CXX) -o $@ $^ $(CPPFLAGS) $(I_INC)  $(ALLEGROFLAGS)
 bin/test_anim: $(TEST_ANIM_O)

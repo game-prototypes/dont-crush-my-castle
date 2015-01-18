@@ -38,7 +38,7 @@ tile::tile(const tile &other) {
     this->bitmap=copy_bitmap(other.bitmap);
 }
 tile::~tile() {
-    destroy_bitmap();
+     al_destroy_bitmap(this->bitmap);
 }
 //MODIFICATION
 void tile::resize(unsigned int width) {
@@ -79,8 +79,4 @@ tile &tile::operator=(const tile &other) {
         this->bitmap=copy_bitmap(other.bitmap);
     }
     return *this;
-}
-//PRIVATE
-void tile::destroy_bitmap() {
-    al_destroy_bitmap(bitmap);
 }

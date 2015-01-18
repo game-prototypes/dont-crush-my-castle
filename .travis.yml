@@ -20,5 +20,4 @@ before_install:
   - sudo make install
   - cd ..
   - cd ..
-#add -sudo ldconfig before cd.. maybe  
-script: ./test.sh
+script: bash test.sh

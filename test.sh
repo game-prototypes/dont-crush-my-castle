@@ -2,7 +2,6 @@
 #by demiurgosoft
 
 #This script will compile,test and clean Don't Crush My Castle
-pwd
 echo 'Compiling and testing (may take a while)';
 #COMPILE TEST
 make test >/dev/null;
