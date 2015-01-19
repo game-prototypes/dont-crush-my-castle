@@ -28,3 +28,5 @@
 *.app
 # backup files
 *~
+#non-copy folder
+ncp/

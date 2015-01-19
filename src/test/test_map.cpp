@@ -81,8 +81,25 @@ int main() {
     if(tset3.size()!=1) test_result=false;
     if(tset3.get_tile_width()!=80) test_result=false;
     //TESTING MAP
-
-
+    vector<tile_id> row;
+    row.push_back(1);//ground
+    row.push_back(2);//road
+    row.push_back(3);//road
+    vector<vector<tile_id> > mapids;
+    mapids.push_back(row);
+    mapids.push_back(row);
+    mapids.push_back(row);
+    mapids.push_back(row);
+    /*Map (with the tset "test)
+    1 2 3
+    1 2 3
+    1 2 3
+    1 2 3
+    */
+    tilemap testmap("testing map",mapids,&tset);
+    if(testmap.get_name()!="testing map") test_result=false;
+    if(testmap.get_width()!=3 || testmap.get_height()!=4) test_result=false;
+    //test background,foreground and path map
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
     //MAP UNTESTED YET

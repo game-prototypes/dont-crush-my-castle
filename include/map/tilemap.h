@@ -15,12 +15,11 @@ private:
     vector< vector<bool> > foreground; //foreground (occupied tiles)
     vector< vector<int> > path_map; //defines the distance to destiny of each tile
     string name;
-    tileset *tiles; //pointer to tileset
+    const tileset *tiles; //pointer to tileset
 public:
     tilemap();
-    tilemap(const string &name,const vector< vector<tile_id> > &background,tileset *tiles);
-    tilemap(const vector< vector<tile_id> > &background,tileset *tiles);
-
+    tilemap(const string &name,const vector< vector<tile_id> > &background,const tileset *tiles);
+    tilemap(const vector< vector<tile_id> > &background,const tileset *tiles);
     //Loads from tmx file
     // void loadtmx(string filename);
 
@@ -35,6 +34,8 @@ public:
     void free_tile(unsigned int x,unsigned int y);
     //set all tiles to empty in the given section
     void free_section(unsigned int x,unsigned int y,unsigned int width,unsigned int height);
+    //set destiny and update path map
+    void set_destiny(const vector< pair<unsigned int,unsigned int> > &destination);
     //ACCESS
     //returns map width in tiles
     unsigned int get_width() const;
@@ -60,7 +61,7 @@ private:
     //init foreground matrix to 0 and path_map to -1 and generate foreground
     void init_submatrix(unsigned int width,unsigned int height);
     //generate path_map from background given destination tiles
-    void update_path_map(vector< pair<unsigned int,unsigned int> > destination);
+    void update_path_map(const vector< pair<unsigned int,unsigned int> > &destination);
     //updates foreground according to background
     void generate_foreground();
     //      void load_background(const Tmx::Layer *lay,int width,int height);

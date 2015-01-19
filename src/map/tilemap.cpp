@@ -8,14 +8,14 @@
 
 tilemap::tilemap() {
 }
-tilemap::tilemap(const string &name,const vector< vector<tile_id> > &background,tileset *tiles) {
+tilemap::tilemap(const string &name,const vector< vector<tile_id> > &background,const tileset *tiles) {
     this->tiles=tiles;
     this->name=name;
     this->background=background;
     if(background.size()>0) init_submatrix(background[0].size(),background.size());
     check();
 }
-tilemap::tilemap(const vector< vector<tile_id> > &background,tileset *tiles) {
+tilemap::tilemap(const vector< vector<tile_id> > &background,const tileset *tiles) {
     this->tiles=tiles;
     this->background=background;
     if(background.size()>0) init_submatrix(background[0].size(),background.size());
@@ -74,6 +74,9 @@ void tilemap::free_section(unsigned int x,unsigned int y,unsigned int width,unsi
         for(unsigned int j=0; j<height; j++)
             foreground[x+i][y+j]=0;
     }
+}
+void tilemap::set_destiny(const vector< pair<unsigned int,unsigned int> > &destination) {
+    if(!destination.empty()) update_path_map(destination);
 }
 unsigned int tilemap::get_width() const {
     if(background.size()>0) return background[0].size();
@@ -148,8 +151,7 @@ void tilemap::init_submatrix(unsigned int width,unsigned int height) {
     }
     generate_foreground();
 }
-void tilemap::update_path_map(vector< pair<unsigned int,unsigned int> > destination) {
-    if(destination.empty()) debug_log::report("no final destination in map",err,true,true,false);
+void tilemap::update_path_map(const vector< pair<unsigned int,unsigned int> > &destination) {
     for(unsigned int i=0; i<path_map.size(); i++)
         for(unsigned int j=0; j<path_map[0].size(); j++)
             path_map[i][j]=-1; //all path map set to -1
