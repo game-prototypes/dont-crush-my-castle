@@ -13,6 +13,22 @@
 //#include <allegro5/allegro_image.h>
 //using namespace std;
 
+//returns width (in pixels) as an unsigned int from a const bitmap (with const cast)
+unsigned int get_bitmap_width(const ALLEGRO_BITMAP *bmp) {
+    return (unsigned int) al_get_bitmap_width(const_cast<ALLEGRO_BITMAP *>(bmp));
+}
+//returns height (in pixels) as an unsigned int from a const bitmap (with const cast)
+unsigned int get_bitmap_height(const ALLEGRO_BITMAP *bmp) {
+    return (unsigned int) al_get_bitmap_height(const_cast<ALLEGRO_BITMAP *>(bmp));
+}
+//draw bitmap (with const cast)
+void draw_bitmap(const ALLEGRO_BITMAP *bmp,unsigned int x,unsigned int y) {
+    al_draw_bitmap(const_cast<ALLEGRO_BITMAP *>(bmp),x,y,0);
+}
+void draw_scaled(const ALLEGRO_BITMAP *bmp,unsigned int x,unsigned int y,unsigned int width,unsigned int height) {
+    al_draw_scaled_bitmap(const_cast<ALLEGRO_BITMAP *>(bmp),0,0, get_bitmap_width(bmp),  get_bitmap_height(bmp),x,y,width,height,0);//draw the original bitmap to the new one (resized)
+}
+
 
 //resize bmp to given width and height (x and y), destroying the original bitmap
 void resize_bitmap(ALLEGRO_BITMAP *&bitmap,unsigned int x,unsigned int y) {
@@ -33,11 +49,11 @@ ALLEGRO_BITMAP *copy_bitmap(const ALLEGRO_BITMAP *bitmap) {
     ALLEGRO_BITMAP *res=NULL;
     if(bitmap!=NULL) {
         ALLEGRO_BITMAP *disp=al_get_target_bitmap(); //current display
-        int origx=al_get_bitmap_width(const_cast<ALLEGRO_BITMAP *>(bitmap));
-        int origy=al_get_bitmap_height(const_cast<ALLEGRO_BITMAP *>(bitmap));
+        unsigned int origx=get_bitmap_width(bitmap);
+        unsigned int origy=get_bitmap_height(bitmap);
         res=al_create_bitmap(origx,origy); //the new bitmap with the given size
         al_set_target_bitmap(res);
-        al_draw_bitmap(const_cast<ALLEGRO_BITMAP *>(bitmap),0,0,0); //draw the original bitmap to the new one
+        draw_bitmap(bitmap,0,0); //draw the original bitmap to the new one
         al_set_target_bitmap(disp); //returns the target to the display
     }
     return res;
@@ -46,11 +62,9 @@ ALLEGRO_BITMAP *copy_bitmap(const ALLEGRO_BITMAP *bitmap,unsigned int width,unsi
     ALLEGRO_BITMAP *res=NULL;
     if(bitmap!=NULL && width>0 && height>0) {
         ALLEGRO_BITMAP *disp=al_get_target_bitmap(); //current display
-        int origx=al_get_bitmap_width(const_cast<ALLEGRO_BITMAP *>(bitmap));
-        int origy=al_get_bitmap_height(const_cast<ALLEGRO_BITMAP *>(bitmap));
         res=al_create_bitmap(width,height); //the new bitmap with the given size
         al_set_target_bitmap(res);
-        al_draw_scaled_bitmap(const_cast<ALLEGRO_BITMAP *>(bitmap),0,0, origx, origy,0,0, width,height,0); //draw the original bitmap to the new one (resized)
+        draw_scaled(bitmap,0,0,width,height);
         al_set_target_bitmap(disp); //returns the target to the display
     }
     return res;
@@ -63,8 +77,8 @@ vector<ALLEGRO_BITMAP *> slice_bitmap(const ALLEGRO_BITMAP *bitmap,int width,int
     if(!bitmap) debug_log::report("null pointer to slice",err,true,true);
     else {
         ALLEGRO_BITMAP *disp=al_get_target_bitmap(); //actual display (stores for re-target)
-        int x=al_get_bitmap_width(const_cast<ALLEGRO_BITMAP *>(bitmap));
-        int y=al_get_bitmap_height(const_cast<ALLEGRO_BITMAP *>(bitmap));
+        int x=get_bitmap_width(bitmap);
+        int y=get_bitmap_height(bitmap);
         if(height>y || width>x) debug_log::report("impossible to slice bitmap",err,true,true);
         else {
             if(x%width!=0 || y%height) debug_log::report("slice section not exact",warning,true,false);
@@ -134,10 +148,10 @@ double convert_speed(double speed,const ALLEGRO_TIMER *timer) {
     return speed*al_get_timer_speed(timer);
 }
 //draw given bitmap centered in position
-void draw_centered(ALLEGRO_BITMAP *bitmap,double x,double y) {
-    x-=al_get_bitmap_width(bitmap)/2;
-    y-=al_get_bitmap_height(bitmap)/2;
-    al_draw_bitmap(bitmap,x,y,0);
+void draw_centered(const ALLEGRO_BITMAP *bitmap,double x,double y) {
+    x-=get_bitmap_width(bitmap)/2;
+    y-=get_bitmap_height(bitmap)/2;
+    draw_bitmap(bitmap,x,y);
 }
 
 #endif

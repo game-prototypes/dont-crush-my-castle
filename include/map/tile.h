@@ -26,9 +26,9 @@ public:
     //default constructor
     tile();
     //full constructor
-    tile(tile_type type,ALLEGRO_BITMAP *bitmap);
+    tile(tile_type type,const ALLEGRO_BITMAP *bitmap);
     //full constructor with resizing
-    tile(tile_type type,ALLEGRO_BITMAP *bitmap,unsigned int width);
+    tile(tile_type type,const ALLEGRO_BITMAP *bitmap,unsigned int width);
     //copy constructor
     tile(const tile &other);
     //destructor
