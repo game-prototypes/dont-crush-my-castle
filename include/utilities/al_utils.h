@@ -13,7 +13,13 @@
 #include <allegro5/allegro_image.h>
 //using namespace std;
 
-
+//returns width (in pixels) as an unsigned int from a const bitmap (with const cast)
+unsigned int get_bitmap_width(const ALLEGRO_BITMAP *bmp);
+//returns height (in pixels) as an unsigned int from a const bitmap (with const cast)
+unsigned int get_bitmap_height(const ALLEGRO_BITMAP *bmp);
+//draw bitmap (with const cast)
+void draw_bitmap(const ALLEGRO_BITMAP *bmp,unsigned int x,unsigned int y);
+void draw_scaled(const ALLEGRO_BITMAP *bmp,unsigned int x,unsigned int y,unsigned int width,unsigned int height);
 //resize bmp to given width and height (x and y), destroying the original bitmap
 void resize_bitmap(ALLEGRO_BITMAP *&bitmap,unsigned int x,unsigned int y);
 //copy bitmap
@@ -31,5 +37,5 @@ double convert_speed(double speed,const ALLEGRO_TIMER *timer);
 
 
 //draw given bitmap centered in position
-void draw_centered(ALLEGRO_BITMAP *bitmap,double x,double y);
+void draw_centered(const ALLEGRO_BITMAP *bitmap,double x,double y);
 #endif

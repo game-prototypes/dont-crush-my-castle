@@ -30,7 +30,7 @@ public:
     //full constructor for an al_anim, will set it to unactive by default,duration is the total duration of animation in seconds
     al_anim(const vector<ALLEGRO_BITMAP *> bitmap_sheet,double duration,const ALLEGRO_TIMER *timer);
     //loads animationa from one bitmap slicing it
-    al_anim(ALLEGRO_BITMAP *bitmap_sheet,unsigned int width,unsigned int height,double duration,const ALLEGRO_TIMER *timer);
+    al_anim(const ALLEGRO_BITMAP *bitmap_sheet,unsigned int width,unsigned int height,double duration,const ALLEGRO_TIMER *timer);
     //MODIFICATION
     //checks animation and activates it
     void activate();
@@ -53,11 +53,11 @@ public:
 
     //ACCESS
     //return true if animation is active
-    bool is_active()const;
+    bool is_active() const;
     //return current frame(count)
     unsigned int get_frame() const;
     //returns size of animation (number of frames)
-    unsigned int size()const;
+    unsigned int size() const;
     //returns total duration of animation
     double duration() const;
     //return animation fps
@@ -85,7 +85,7 @@ public:
     void destroy();
 private:
     //slice the given bitmap into pieces of equal size for animation
-    void load_from_bitmap(ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height);
+    void load_from_bitmap(const ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height);
     void check() const;
 };
 #endif

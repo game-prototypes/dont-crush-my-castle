@@ -22,7 +22,7 @@ al_anim::al_anim(const vector<ALLEGRO_BITMAP *> bitmap_sheet,double duration,con
         set_duration(duration,timer);
     }
 }
-al_anim::al_anim(ALLEGRO_BITMAP *bitmap_sheet,unsigned int width,unsigned int height,double duration,const ALLEGRO_TIMER *timer) {
+al_anim::al_anim(const ALLEGRO_BITMAP *bitmap_sheet,unsigned int width,unsigned int height,double duration,const ALLEGRO_TIMER *timer) {
     load_from_bitmap(bitmap_sheet,width,height);
     if(bitmap_set.empty()==false) {
         count=0;
@@ -135,7 +135,7 @@ void al_anim::destroy() {
     for(unsigned int i=0; i<bitmap_set.size(); i++) al_destroy_bitmap(bitmap_set[i]);
     clear();
 }
-void al_anim::load_from_bitmap(ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height) {
+void al_anim::load_from_bitmap(const ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height) {
     bitmap_set=slice_bitmap(bitmap,width,height); //slice the bitmap in small bitmaps
     check();
 }

@@ -23,20 +23,25 @@ public:
     //contructor from tmx file
     //      tileset(const Tmx::Tileset *ts);
     //full constructor
-    tileset(const string &name,ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles=-1);
+    tileset(const string &name,const ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles=-1);
     //full constructor (without name)
-    tileset(ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles=-1);
+    tileset(const ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles=-1);
+    //contructors with one tile
+    tileset(const string &name,const tile &t,unsigned int tile_size);
+    tileset(const tile &t,unsigned int tile_size);
+    //size of tileset tiles will be tile size
+    tileset(const tile &t);
     ~tileset();
     //MODIFICATION
     //adds a tile,returning tile_id used
-    tile_id add_tile(tile_type type,ALLEGRO_BITMAP *bitmap);
+    tile_id add_tile(tile_type type,const ALLEGRO_BITMAP *bitmap);
     tile_id add_tile(const tile &t);
     //slices given bitmap and adds tiles to the tileset, return vector of ids used
-    vector<tile_id> load_from_bitmap(ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles);
+    vector<tile_id> load_from_bitmap(const ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles);
     //removes tile with given id
     void remove_tile(tile_id id);
     //change name
-    void set_name(string name);
+    void set_name(const string &name);
     //ACCESStypes.push_back(road);
     //return true if tile with given tile_id exists
     bool is_tile(tile_id id) const;
@@ -46,6 +51,8 @@ public:
     unsigned int get_tile_width() const;
     //gets height of each tile (same as get_tile_height)
     unsigned int get_tile_height() const;
+    //gets tile size (same as get_tile_width)
+    unsigned int get_tile_size() const;
     //returns name of tileset
     string get_name() const;
     //returns tile type (null if not found)
@@ -61,7 +68,7 @@ public:
     //adds a tileset from tmx file to the actual tileset (resizing bitmaps), name and sizes will remain unchanged
     //tiles with same id will not be inserted
     //void add_tmx_tileset(const Tmx::Tileset *ts);
-    
+
     //return true if everything correct
     bool check() const;
 private:

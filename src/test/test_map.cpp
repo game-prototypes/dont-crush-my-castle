@@ -60,6 +60,7 @@ int main() {
     //tile set test with 4 tiles of 20x20
     tileset tset("test",bmp,types,20,4);
     if(tset.size()!=4) test_result=false;
+    if(tset.get_name()!="test") test_result=false;
     if(tset.get_tile_width()!=20) test_result=false;
     if(tset.add_tile(testtile)!=4) test_result=false;
     if(tset.size()!=5) test_result=false;
@@ -73,6 +74,15 @@ int main() {
     for(unsigned int i=0; i<v2.size(); i++)
         if(v2[i]!=i+5) test_result=false;
     if(tset.check()==false) test_result=false;
+    tileset tset2(testtile,12);
+    if(tset2.get_tile_width()!=12) test_result=false;
+    if(tset2.size()!=1) test_result=false;
+    tileset tset3(testtile);
+    if(tset3.size()!=1) test_result=false;
+    if(tset3.get_tile_width()!=80) test_result=false;
+    //TESTING MAP
+
+
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
     //MAP UNTESTED YET
