@@ -1,47 +1,47 @@
-//TITLE: BUILDING_H
+//TITLE: TOWER_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
 //VERSION: 0.2
-//DESCRIPTION: defines each player building
+//DESCRIPTION: defines each player tower
 
-#ifndef BUILDING_H
-#define BUILDING_H
+#ifndef TOWER_H
+#define TOWER_H
 
 #include "tower_atk.h"
 
 
-//defines the attributes of the building
-struct building_attributes {
-    ALLEGRO_BITMAP *bitmap; //main bitmap of the buildings (static)
+//defines the attributes of the tower
+struct tower_attributes {
+    ALLEGRO_BITMAP *bitmap; //main bitmap of the towers (static)
     //	ALLEGRO_BITMAP *secondary_bitmap; //secondary bitmap (rotate)
     atk_attributes atk; //attack attributes
 
     //METHODS
-    building_attributes();
-    building_attributes(ALLEGRO_BITMAP *bitmap,atk_attributes atk);
+    tower_attributes();
+    tower_attributes(ALLEGRO_BITMAP *bitmap,atk_attributes atk);
     //return bitmap width (in pixels)
     unsigned int get_width() const;
     //returns bitmap height (in pixels)
     unsigned int get_height() const;
     //resize bitmap (overriding old) to given size
     void resize(unsigned int width,unsigned int height);
-    //destroy building attributes (including bitmaps and attack attribute)
+    //destroy tower attributes (including bitmaps and attack attribute)
     void destroy();
 
 };
 
-class building {
+class tower {
 private:
-    building_attributes attributes;
-    pair<double,double> position; //building position (centered)
+    tower_attributes attributes;
+    pair<double,double> position; //tower position (centered)
     double atk_counter; //time to next attack (depending on delay) in frames
     double atk_delay; //atk delay (in frames)
     bool active;
 
 public:
-    building();
+    tower();
     //full constructor
-    building(building_attributes attribute,double posx,double posy,const ALLEGRO_TIMER *timer);
+    tower(tower_attributes attribute,double posx,double posy,const ALLEGRO_TIMER *timer);
 
     //deactivates the tower drawing/updating
     void deactivate();
@@ -59,9 +59,9 @@ public:
     //return true if given position is in range of attack
     bool in_range(pair<double,double> objective) const;
     bool can_attack()const;
-    //update building
+    //update tower
     void update();
-    //draw building
+    //draw tower
     void draw() const;
     //attacks an enemy (atk destiny will be that enemy), return the attack
     tower_atk attack(const pair<double,double> target);

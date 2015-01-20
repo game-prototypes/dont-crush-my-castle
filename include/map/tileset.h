@@ -9,7 +9,8 @@
 #include "tile.h"
 #include <map>
 
-typedef unsigned int tile_id; //defines a id for a tile in the tileset
+typedef int tile_id; //defines a id for a tile in the tileset
+static const tile_id null_tile_id=-1;
 class tileset {
 private:
     string name;

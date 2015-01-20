@@ -20,7 +20,7 @@ BDIR=bin
 UTILSDIR=utilities
 MAPDIR=map
 ENEMYDIR=enemy
-BUILDINGDIR=building
+TOWERDIR=tower
 
 _INC=$(UTILSDIR) $(MAPDIR)
 INC=$(patsubst %,$(IDIR)/%,$(_INC))
@@ -76,4 +76,4 @@ print-%  : ; @echo $* = $($*)
 .PHONY: clean
 clean:
 	rm -f $(ODIR)/*.o *~ $(IDIR)/*/*~ $(SDIR)/*/*~ $(BDIR)/*
-	rm -r $(BDIR) $(ODIR) 
+	rm -r -f $(BDIR) $(ODIR) 
