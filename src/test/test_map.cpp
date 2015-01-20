@@ -151,6 +151,14 @@ int main() {
     for(unsigned int i=0; i<testmap.get_width(); i++) {
         if(testmap.get_path_value(i,2)!=(int) i) test_result=false;
     }
+    pair<unsigned int,unsigned int> pos=make_pair(3,1);
+    for(int i=3; i>=0; i--) {
+        pos=testmap.get_next_position(pos.first,pos.second);
+        if(testmap.get_path_value(pos.first,pos.second)!=i) test_result=false;
+    }
+    pos=testmap.get_next_position(pos.first,pos.second);
+    if(testmap.get_path_value(pos.first,pos.second)!=0) test_result=false;
+    if(pos!=dest[0]) test_result=false;
     //TODO: test map with different row (different size)
     //test background,foreground and path map
     al_destroy_event_queue(event_queue);
