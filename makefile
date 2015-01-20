@@ -20,7 +20,7 @@ BDIR=bin
 UTILSDIR=utilities
 MAPDIR=map
 ENEMYDIR=enemy
-BUILDINGDIR=building
+TOWERDIR=tower
 
 _INC=$(UTILSDIR) $(MAPDIR)
 INC=$(patsubst %,$(IDIR)/%,$(_INC))
