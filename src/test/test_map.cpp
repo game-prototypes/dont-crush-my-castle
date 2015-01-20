@@ -18,7 +18,7 @@ void test(tile &t) {
 }
 
 int main() {
-    cout<<"TILESET TEST";
+    cout<<"TILEMAP TEST";
     //Final result of test, true if everything OK
     bool test_result=true;
     //ALLEGRO timer and queue pointers
@@ -72,7 +72,7 @@ int main() {
     if(tset.size()!=9) test_result=false;
     if(v2.size()!=4) test_result=false;
     for(unsigned int i=0; i<v2.size(); i++)
-        if(v2[i]!=i+5) test_result=false;
+        if(v2[i]!=(int) i+5) test_result=false;
     if(tset.check()==false) test_result=false;
     tileset tset2(testtile,12);
     if(tset2.get_tile_width()!=12) test_result=false;
@@ -82,8 +82,8 @@ int main() {
     if(tset3.get_tile_width()!=80) test_result=false;
     //TESTING MAP
     vector<tile_id> row;
-    row.push_back(1);//ground
-    row.push_back(2);//road
+    row.push_back(2);//ground
+    row.push_back(1);//road
     row.push_back(3);//road
     vector<vector<tile_id> > mapids;
     mapids.push_back(row);
@@ -91,14 +91,61 @@ int main() {
     mapids.push_back(row);
     mapids.push_back(row);
     /*Map (with the tset "test)
-    1 2 3
-    1 2 3
-    1 2 3
-    1 2 3
+    2 2 2 2
+    1 1 1 1
+    3 3 3 3
     */
+    //i=vertical
+    //j=horizontal
     tilemap testmap("testing map",mapids,&tset);
     if(testmap.get_name()!="testing map") test_result=false;
-    if(testmap.get_width()!=3 || testmap.get_height()!=4) test_result=false;
+    if(testmap.get_width()!=4 || testmap.get_height()!=3) test_result=false;
+    if(testmap.check()==false) test_result=false;
+    testmap.occupy_tile(1,1);
+    if(testmap.empty_section(0,0,4,1)==false) test_result=false;
+    if(testmap.empty_section(1,0,1,2)==true) test_result=false;
+    //TESTING BACKGROUND && foreground
+    for(unsigned int i=0; i<testmap.get_width(); i++) {
+        for(unsigned int j=0; j<testmap.get_height(); j++) {
+            if(testmap.get_tile_id(i,j)!=mapids[i][j]) test_result=false;
+            if(testmap.get_tile_type(i,j)==road && j==0) test_result=false;
+            if(testmap.get_tile_type(i,j)==ground && j!=0) test_result=false;
+            if(testmap.empty_tile(i,j)==true && j!=0 && (i!=1 && j!=1)) test_result=false;
+            if(testmap.empty_tile(i,j)==false && j==0) test_result=false;
+        }
+    }
+    vector<tile_id> row2;
+    row2.push_back(3);//road
+    vector<vector<tile_id> > mapids2;
+    mapids2.push_back(row);
+    mapids2.push_back(row2);
+    /*
+    2 3
+    1 -
+    3 -
+    */
+    tilemap testmap2("testing map2",mapids2,&tset);
+    if(testmap2.get_name()!="testing map2") test_result=false;
+    if(testmap2.get_width()!=2 || testmap2.get_height()!=3) test_result=false;
+    if(testmap2.check()==false) test_result=false;
+    for(unsigned int i=0; i<testmap2.get_width(); i++) {
+        for(unsigned int j=0; j<testmap2.get_height(); j++) {
+            if(testmap2.get_tile_id(i,j)!=null_tile_id && i==1 && j>=1) test_result=false;
+        }
+    }
+    //CHECK PATH
+    /* vector< pair<unsigned int,unsigned int> > dest;
+     dest.push_back(make_pair(0,2));
+    // testmap.set_destiny(dest);
+     cout<<endl;
+      for(unsigned int i=0; i<testmap.get_width(); i++) {
+         for(unsigned int j=0; j<testmap.get_height(); j++) {
+             cout<<testmap.get_path_value(i,j)<<" ";
+
+         }
+         cout<<endl;
+     }*/
+    //TODO: test map with different rowd (different size)
     //test background,foreground and path map
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
