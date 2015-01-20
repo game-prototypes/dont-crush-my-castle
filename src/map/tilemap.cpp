@@ -76,7 +76,7 @@ void tilemap::set_destiny(const vector< pair<unsigned int,unsigned int> > &desti
     if(!destination.empty()) update_path_map(destination);
 }
 bool tilemap::in_matrix(unsigned int x,unsigned int y)const {
-    if(x<get_width() || y<get_height()) return true;
+    if(x<get_width() && y<get_height()) return true;
     else return false;
 }
 unsigned int tilemap::get_width() const {
@@ -168,12 +168,12 @@ void tilemap::draw_tilemap() const {
 bool tilemap::check() const {
     bool b=true;
     if(background.size()!=foreground.size() || background.size()!=path_map.size()) {
-        debug_log::report("map matrix don't match(height)",err,true,true,false);
+        debug_log::report("map matrix don't match(width)",err,true,true,false);
         b=false;
     }
     if(background.empty()==false)
-        if(background[0].size()!=foreground[0].size() || background[0].empty()) {
-            debug_log::report("map matrix incorrect width",err,true,true,false);
+        if(background[0].size()!=foreground[0].size() || background[0].empty() || path_map[0].empty() || background[0].size()!=path_map[0].size()) {
+            debug_log::report("map matrix incorrect height",err,true,true,false);
             b=false;
         }
     if(tiles==NULL) {
@@ -182,6 +182,8 @@ bool tilemap::check() const {
     }
     for(unsigned int i=0; i<background.size(); i++) {
         if(background[i].size()!=get_height()) b=false;
+        if(foreground[i].size()!=get_height()) b=false;
+        if(path_map[i].size()!=get_height()) b=false;
     }
     return b;
 }
@@ -220,12 +222,17 @@ void tilemap::update_path_map(const vector< pair<unsigned int,unsigned int> > &d
                 if(i!=j && i!=-j) {
                     int x=til.first+i;
                     int y=til.second+j;
-                    if(x>0 && y>0) {
+                    if(x>=0 && y>=0) {
                         if(in_matrix(x,y)) {
-                            if(get_tile_type(x,y)==road || (get_tile_type(x,y)==open_ground && foreground[x][y]==0)) {
-                                if(path_map[x][y]==-1) left_tiles.push(make_pair(x,y)); //push tile if havent been updated yet
+                            if(get_tile_type(x,y)==road || (get_tile_type(x,y)==open_ground && empty_tile(x,y)==0)) {
                                 int val=path_map[til.first][til.second]+1;
-                                if(path_map[x][y]<val) path_map[x][y]=val;
+                                if(path_map[x][y]==-1 || path_map[x][y]>val) {
+                                    left_tiles.push(make_pair(x,y)); //push tile if havent been updated yet
+                                    path_map[x][y]=val;
+                                }
+                                //    else if(path_map[x][y]<val && path_map[x][y]!=-1){
+                                //    path_map[x][y]=val;
+                                // }
                             }
                         }
                     }

@@ -134,22 +134,27 @@ int main() {
         }
     }
     //CHECK PATH
-    /* vector< pair<unsigned int,unsigned int> > dest;
-     dest.push_back(make_pair(0,2));
-    // testmap.set_destiny(dest);
-     cout<<endl;
-      for(unsigned int i=0; i<testmap.get_width(); i++) {
-         for(unsigned int j=0; j<testmap.get_height(); j++) {
-             cout<<testmap.get_path_value(i,j)<<" ";
-
-         }
-         cout<<endl;
-     }*/
-    //TODO: test map with different rowd (different size)
+    for(unsigned int i=0; i<testmap.get_width(); i++)
+        for(unsigned int j=0; j<testmap.get_height(); j++)
+            if(testmap.get_path_value(i,j)!=-1) test_result=false;
+    vector< pair<unsigned int,unsigned int> > dest;
+    dest.push_back(make_pair(0,2));
+    testmap.set_destiny(dest);
+    if(testmap.check()==false) test_result=false;
+    if(testmap.get_path_value(0,2)!=0) test_result=false;
+    for(unsigned int i=0; i<testmap.get_width(); i++) {
+        if(testmap.get_path_value(i,0)!=-1) test_result=false;
+    }
+    for(unsigned int i=0; i<testmap.get_width(); i++) {
+        if(testmap.get_path_value(i,1)!=(int) i+1) test_result=false;
+    }
+    for(unsigned int i=0; i<testmap.get_width(); i++) {
+        if(testmap.get_path_value(i,2)!=(int) i) test_result=false;
+    }
+    //TODO: test map with different row (different size)
     //test background,foreground and path map
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
-    //MAP UNTESTED YET
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
     return !test_result;
