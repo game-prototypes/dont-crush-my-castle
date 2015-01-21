@@ -1,7 +1,7 @@
 //TITLE: ENEMY_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.3
+//VERSION: 0.4
 //DESCRIPTION: defines each single enemy
 
 #ifndef ENEMY_H
@@ -22,8 +22,8 @@ struct enemy_attributes {
     unsigned int reward; //reward when killed
     //Methods
     enemy_attributes();
-    enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed);
-    enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation);
+    enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,unsigned int reward=0);
+    enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation,unsigned int reward=0);
     //insert animation (erasing previous animations and reseting all counters)
     void insert_animation(enemy_animation type,const al_anim &anim);
     //clear all attributes (dont destroy bitmaps)
@@ -48,6 +48,7 @@ private:
     bool active; //if false, update will not take effect, false by default in constructors
 
     enemy_animation current_animation;
+    const ALLEGRO_TIMER *timer;
 public:
     //CONSTRUCTORS
     //default constructor (actie=false by default)
@@ -65,6 +66,8 @@ public:
     //CONSULT
     //return enemy name
     string get_name() const;
+    //returns enemy_speed (in pixels per second)
+    double get_speed() const;
     //return enemy life
     unsigned int get_life() const;
     //return max life
@@ -100,7 +103,8 @@ public:
     //draw the current_animation in the enemy position
     //note that draw the enemy with the position at its feet
     void draw();
-
+    //check enemy class is working well, debug_log output if error or warning, return true if everything is ok
+    bool check() const;
 private:
     //changes to given movement animation
     void change_movement_animation(enemy_animation anim);
@@ -110,8 +114,7 @@ private:
     void stop_movement_anim();
     //set speed (pixels per second), need timer wich will be used
     void set_speed(double spd,const ALLEGRO_TIMER *timer);
-    //check enemy class is working well, debug_log output if error or warning
-    bool check() const;
+
 };
 
 

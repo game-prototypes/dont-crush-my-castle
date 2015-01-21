@@ -1,27 +1,29 @@
 //TITLE: ENEMY_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.3
+//VERSION: 0.4
 //DESCRIPTION: defines each single enemy
 
 #include "enemy.h"
 
 //STRUCT enemy_attributes
 enemy_attributes::enemy_attributes() {
-    speed=max_life=armor=0;
+    speed=max_life=armor=reward=0;
 }
-enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed) {
+enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,unsigned int reward) {
     this->name=name;
     this->max_life=life;
     this->armor=armor;
     this->speed=enemy_speed;
+    this->reward=reward;
 }
-enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation) {
+enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation,unsigned int rewatd) {
     this->name=name;
     this->max_life=life;
     this->armor=armor;
     this->animation=animation;
     this->speed=enemy_speed;
+    this->reward=reward;
 }
 void enemy_attributes::insert_animation(enemy_animation type,const al_anim &anim) {
     if(anim.size()==0) debug_log::report("setting empty animation",err,true,true,false);
@@ -104,6 +106,9 @@ void enemy::spawn(double posx,double posy) {
 string enemy::get_name() const {
     return attributes.name;
 }
+double enemy::get_speed() const {
+    return attributes.speed;
+}
 unsigned int enemy::get_life() const {
     return life;
 }
@@ -185,13 +190,23 @@ void enemy::update() {
         //TODO: deactivate and clear after some time with dead animation stopped
     }
 }
-
-
 void enemy::draw() {
     if(spawned()) {
         unsigned int hoffset=attributes.animation[current_animation].get_height()/2;
         attributes.animation[current_animation].draw(position.first,position.second+hoffset);
     }
+}
+bool enemy::check() const {
+    bool b=attributes.check();
+    if(life>get_max_life()) {
+        b=false;
+        debug_log::report("enemy life>max life",warning,true,true,false);
+    }
+    if(speed<=0) {
+        b=false;
+        debug_log::report("speed<=0",err,true,true,false);
+    }
+    return b;
 }
 
 //PRIVATE
@@ -221,17 +236,4 @@ void enemy::stop_movement_anim() {
 
 void enemy::set_speed(double spd,const ALLEGRO_TIMER *timer) {
     this->speed=convert_speed(spd,timer);
-}
-
-bool enemy::check() const {
-    bool b=attributes.check();
-    if(life>get_max_life()) {
-        b=false;
-        debug_log::report("enemy life>max life",warning,true,true,false);
-    }
-    if(speed<=0) {
-        b=false;
-        debug_log::report("speed<=0",err,true,true,false);
-    }
-    return b;
 }
