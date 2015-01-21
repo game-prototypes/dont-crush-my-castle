@@ -41,7 +41,6 @@ private:
     unsigned int life; //current life of enemy
     unsigned int level; //level may change enemy parameters (unused)
     double speed; //pixels per frame
-    unsigned int reward;
 
     pair<double,double> position; //actual position, it refers to foot centered position
     pair<double,double> destiny; //position to move
