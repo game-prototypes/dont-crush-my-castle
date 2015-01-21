@@ -1,7 +1,7 @@
 //TITLE: ENEMY_SET_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.3
+//VERSION: 0.4
 //DESCRIPTION: stores all kinds of enemies and spawn instances of each enemy
 
 #include "enemyset.h"
@@ -41,12 +41,18 @@ void enemy_set::add_enemy(const enemy_attributes &info) {
 void enemy_set::set_timer(const ALLEGRO_TIMER *timer) {
     this->timer=timer;
 }
+void enemy_set::remove_enemy(const string &name) {
+    enemies.erase(name);
+}
 //CONSULT
 string enemy_set::get_name() const {
     return name;
 }
 unsigned int enemy_set::get_size() const {
     return enemies.size();
+}
+bool enemy_set::empty() const {
+    return enemies.empty();
 }
 
 enemy enemy_set::spawn_enemy(const string &name,unsigned int level,double posx,double posy) {
@@ -57,17 +63,10 @@ enemy enemy_set::spawn_enemy(const string &name,unsigned int level,double posx,d
     else
         return enemy(enemies[name],level,posx,posy,timer);
 }
-
-
-//PRIVATE
 bool enemy_set::check() {
     bool b=true;
     if(name.empty()) {
         debug_log::report("enemy_set with no name",warning,true,false,false);
-        b=false;
-    }
-    if(enemies.empty()) {
-        debug_log::report("enemy_set with no enemies",warning,true,false,false);
         b=false;
     }
     if(timer==NULL) {

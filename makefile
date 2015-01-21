@@ -1,4 +1,4 @@
-#Don't Crush my Castle Makefile v0.3
+#Don't Crush my Castle Makefile v0.4
 #by demiurgosoft
 #Just type make to compile project (currently compiling tests)
 #make test: compile tests
@@ -22,7 +22,7 @@ MAPDIR=map
 ENEMYDIR=enemy
 TOWERDIR=tower
 
-_INC=$(UTILSDIR) $(MAPDIR)
+_INC=$(UTILSDIR) $(MAPDIR) $(ENEMYDIR)
 INC=$(patsubst %,$(IDIR)/%,$(_INC))
 I_INC=$(patsubst %,-I %,$(INC))
 
@@ -30,14 +30,14 @@ _AL_UTILS=al_anim.cpp al_utils.cpp debug_log.cpp
 AL_UTILS_O=$(patsubst %,$(ODIR)/%,$(_AL_UTILS:.cpp=.o))
 _MAP=tile.cpp tileset.cpp tilemap.cpp
 MAP_O=$(patsubst %,$(ODIR)/%,$(_MAP:.cpp=.o))
+_ENEMY=enemy.cpp enemyset.cpp
+ENEMY_O=$(patsubst %,$(ODIR)/%,$(_ENEMY:.cpp=.o))
 
-_TEST_UTILS=test_utils.o al_utils.o debug_log.o
+_TEST_UTILS=al_utils.o debug_log.o test_utils.o
 TEST_UTILS_O=$(patsubst %,$(ODIR)/%,$(_TEST_UTILS))
-TEST_ANIM_O=$(ODIR)/test_anim.o $(AL_UTILS_O)
-#TEST_ANIM_O=$(patsubst %,$(ODIR)/%,$(_TEST_ANIM))
-
-TEST_MAP_O=$(ODIR)/test_map.o $(AL_UTILS_O) $(MAP_O)
-
+TEST_ANIM_O=$(AL_UTILS_O) $(ODIR)/test_anim.o 
+TEST_MAP_O=$(AL_UTILS_O) $(MAP_O) $(ODIR)/test_map.o
+TEST_ENEMY_O=$(AL_UTILS_O) $(ENEMY_O) $(ODIR)/test_enemy.o
 
 .PHONY: all
 all: test
@@ -49,7 +49,8 @@ bin/test_anim: $(TEST_ANIM_O)
 	$(CXX) -o $@ $^ $(CPPFLAGS) $(I_INC)  $(ALLEGROFLAGS)
 bin/test_map: $(TEST_MAP_O)
 	$(CXX) -o $@ $^ $(CPPFLAGS) $(I_INC)  $(ALLEGROFLAGS)
-	
+bin/test_enemy: $(TEST_ENEMY_O)
+	$(CXX) -o $@ $^ $(CPPFLAGS) $(I_INC)  $(ALLEGROFLAGS)
 #compile a generic .o
 obj/%.o: $(SDIR)/*/%.cpp $(INC)
 	$(CXX) -c -o $@ $< $(I_INC) $(CPPFLAGS)
@@ -64,7 +65,7 @@ $(ODIR)/:
 	
 #compile tests binaries
 .PHONY: test
-test: $(BDIR) $(ODIR)  bin/test_utils bin/test_anim bin/test_map
+test: $(BDIR) $(ODIR)  bin/test_utils bin/test_anim bin/test_map bin/test_enemy
 #astyle for all code (.cpp and .h)
 .PHONY: astyle
 astyle:
@@ -75,5 +76,4 @@ print-%  : ; @echo $* = $($*)
 #clean obj and bin directories as well as *~ files
 .PHONY: clean
 clean:
-	rm -f $(ODIR)/*.o *~ $(IDIR)/*/*~ $(SDIR)/*/*~ $(BDIR)/*
-	rm -r -f $(BDIR) $(ODIR) 
+	rm -r -f $(BDIR) $(ODIR) *~ $(SDIR)/*/*~ $(IDIR)/*/*~

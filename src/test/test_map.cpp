@@ -1,14 +1,13 @@
 //TITLE: Map Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.3
-//DESCRIPTION: thest od DCmC for maps
+//VERSION: 0.4
+//DESCRIPTION: test of DCmC for maps
 /*This test will check:
 tile
 tileset
 tilemap
 */
-#include "al_anim.h"
 #include "tilemap.h"
 
 void test(tile &t) {
@@ -21,18 +20,9 @@ int main() {
     cout<<"TILEMAP TEST";
     //Final result of test, true if everything OK
     bool test_result=true;
-    //ALLEGRO timer and queue pointers
-    ALLEGRO_TIMER *timer;
-    ALLEGRO_EVENT_QUEUE *event_queue;
     //allegro startup with image addon
     al_init();
     al_init_image_addon();
-    //Declaration and assign of display,event_queue and timer
-    event_queue = al_create_event_queue();
-    timer = al_create_timer(1.0 / 60); //60 fps timer
-    //register timer and events
-    al_register_event_source(event_queue,al_get_timer_event_source(timer));
-    al_start_timer(timer); //begin timer
     //load example bitmap
     ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
     if(bmp==NULL) {
@@ -161,8 +151,6 @@ int main() {
     if(pos!=dest[0]) test_result=false;
     //TODO: test map with different row (different size)
     //test background,foreground and path map
-    al_destroy_event_queue(event_queue);
-    al_destroy_timer(timer);
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
     return !test_result;
