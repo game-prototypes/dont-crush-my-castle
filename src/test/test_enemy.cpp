@@ -53,26 +53,23 @@ int main() {
     if(testenemy.check()==false) test_result=false;
     if(testenemy.alive()==false || testenemy.spawned()==false) test_result=false;
     if(testenemy.idle()==false) test_result=false;
-   if(testenemy.get_current_animation()!=idle_anim) test_result=false;
+    if(testenemy.get_current_animation()!=idle_anim) test_result=false;
     testenemy.move_to(2,2);
     if(testenemy.get_position()!=make_pair(0.0,0.0)) test_result=false;
     if(testenemy.idle()==true) test_result=false;
     testenemy.update();
-if(testenemy.get_current_animation()!=down_anim || testenemy.get_current_animation()!=right_anim) test_result=false;
-   //cout<<endl<<testenemy.get_current_animation()<<endl;
-   //FIXME
+    if(testenemy.get_current_animation()!=down_anim && testenemy.get_current_animation()!=right_anim) test_result=false;
+    //FIXME
     if(testenemy.idle()==true) test_result=false;
     if(testenemy.get_position()==make_pair(0.0,0.0)) test_result=false;
     while(testenemy.idle()==false) testenemy.update();
     if(testenemy.get_position()!=make_pair(2.0,2.0)) test_result=false;
-
-   /* testenemy.damage(109);
+    testenemy.damage(109);
     if(testenemy.get_life()!=1) test_result=false;
     if(testenemy.alive()==false) test_result=false;
     testenemy.kill();
-    if(testenemy.alive()==true); test_result=false;*/
-    //test animations in enemy
-    //test enemyset
+    if(testenemy.alive()==true) test_result=false;
+    //ENEMYSET
     anim.destroy();
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);

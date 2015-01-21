@@ -133,9 +133,9 @@ bool enemy::spawned() const {
 bool enemy::idle() const {
     return position==destiny;
 }
-enemy_animation enemy::get_current_animation() const{
+enemy_animation enemy::get_current_animation() const {
     return current_animation;
-    }
+}
 
 //ENEMY CONTROL
 void enemy::stop() {
@@ -177,8 +177,8 @@ void enemy::update() {
                 double x=destiny.first-position.first;
                 double y=destiny.second-position.second;
                 if(abs(x)>=abs(y)) { //horizontal animation
-                    if(x>0) change_movement_animation(left_anim);
-                    else change_movement_animation(right_anim); //position 0,0 is top-left
+                    if(x>0) change_movement_animation(right_anim);
+                    else change_movement_animation(left_anim); //position 0,0 is top-left
                 }
                 else { //vertical animation
                     if(y>0) change_movement_animation(down_anim);
