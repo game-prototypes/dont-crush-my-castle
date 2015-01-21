@@ -133,6 +133,9 @@ bool enemy::spawned() const {
 bool enemy::idle() const {
     return position==destiny;
 }
+enemy_animation enemy::get_current_animation() const{
+    return current_animation;
+    }
 
 //ENEMY CONTROL
 void enemy::stop() {
@@ -202,6 +205,7 @@ bool enemy::check() const {
         b=false;
         debug_log::report("enemy life>max life",warning,true,true,false);
     }
+    if(attributes.animation.size()!=6) b=false;
     if(speed<=0) {
         b=false;
         debug_log::report("speed<=0",err,true,true,false);

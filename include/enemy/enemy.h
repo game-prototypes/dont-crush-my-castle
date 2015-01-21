@@ -84,6 +84,8 @@ public:
     bool spawned() const;
     //return true if enemy is idle (destiny==position)
     bool idle() const;
+    //return current aimation
+    enemy_animation get_current_animation() const;
 
     //ENEMY CONTROL (make sure to call update in each iteration)
     //stop the movement(idle) (final destination will be the current position)
