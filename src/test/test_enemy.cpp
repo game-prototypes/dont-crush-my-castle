@@ -46,6 +46,7 @@ int main() {
     if(testenemy.get_name()!="minion test") test_result=false;
     if(testenemy.get_speed()!=2) test_result=false;
     if(testenemy.get_life()!=100) test_result=false;
+    if(testenemy.get_level()!=1) test_result=false;
     if(testenemy.get_max_life()!=100) test_result=false;
     if(testenemy.get_reward()!=5) test_result=false;
     if(testenemy.get_position()!=make_pair(0.0,0.0)) test_result=false;
@@ -70,6 +71,25 @@ int main() {
     testenemy.kill();
     if(testenemy.alive()==true) test_result=false;
     //ENEMYSET
+    enemy_set testset("Minions of darkness",testenemy_attr,timer);
+    if(testset.get_name()!="Minions of darkness") test_result=false;
+    if(testset.get_size()!=1) test_result=false;
+    if(testset.check()==false) test_result=false;
+    enemy testenemy2=testset.spawn_enemy("minion test",2,5.0,5.0);
+    if(testenemy2.get_name()!="minion test") test_result=false;
+    if(testenemy2.get_speed()!=2) test_result=false;
+    if(testenemy2.get_level()!=2) test_result=false;
+    if(testenemy2.get_life()!=100) test_result=false; //some of these may change in the future
+    if(testenemy2.get_max_life()!=100) test_result=false;
+    if(testenemy2.get_reward()!=5) test_result=false;
+    if(testenemy2.get_position()!=make_pair(5.0,5.0)) test_result=false;
+    if(testenemy2.get_destiny()!=make_pair(5.0,5.0)) test_result=false;
+    if(testenemy2.check()==false) test_result=false;
+    if(testenemy2.alive()==false || testenemy.spawned()==false) test_result=false;
+    if(testenemy2.idle()==false) test_result=false;
+    if(testenemy2.get_current_animation()!=idle_anim) test_result=false;
+    testset.remove_enemy("minion test");
+    if(testset.get_size()!=0 || testset.empty()==false) test_result=false;
     anim.destroy();
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);

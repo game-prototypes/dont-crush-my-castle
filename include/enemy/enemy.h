@@ -70,6 +70,8 @@ public:
     double get_speed() const;
     //return enemy life
     unsigned int get_life() const;
+    //returns level
+    unsigned int get_level() const;
     //return max life
     unsigned int get_max_life() const;
     //returns reward when killed

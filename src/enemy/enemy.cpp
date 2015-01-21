@@ -51,7 +51,7 @@ bool enemy_attributes::check() const {
         debug_log::report("enemy info without name",err,true,true,false);
         b=false;
     }
-    if(animation.size()<6) {
+    if(animation.size()!=6) {
         debug_log::report("enemy without all necesssary animations",err,true,true,false);
         b=false;
     }
@@ -78,15 +78,16 @@ enemy::enemy() {
     reward=0;
     position=destiny=make_pair(-1,-1);
     active=false;
+    current_animation=idle_anim;
 }
 enemy::enemy(const enemy_attributes &attributes,unsigned int level,double posx,double posy,const ALLEGRO_TIMER *timer) {
     this->life=attributes.max_life;
     this->attributes=attributes;
     this->reward=attributes.reward;
+    current_animation=idle_anim;
     set_speed(attributes.speed,timer);
     set_level(level);
     spawn(posx,posy);
-    check();
     update();
 }
 
@@ -100,7 +101,6 @@ void enemy::spawn(double posx,double posy) {
         destiny=position=make_pair(posx,posy);
         active=true;
     }
-    check();
 }
 //CONSULT
 string enemy::get_name() const {
@@ -111,6 +111,9 @@ double enemy::get_speed() const {
 }
 unsigned int enemy::get_life() const {
     return life;
+}
+unsigned int enemy::get_level() const {
+    return level;
 }
 unsigned int enemy::get_max_life() const {
     return attributes.max_life;
