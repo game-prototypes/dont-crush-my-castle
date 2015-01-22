@@ -22,7 +22,7 @@ MAPDIR=map
 ENEMYDIR=enemy
 TOWERDIR=tower
 
-_INC=$(UTILSDIR) $(MAPDIR) $(ENEMYDIR)
+_INC=$(UTILSDIR) $(MAPDIR) $(ENEMYDIR) $(TOWERDIR)
 INC=$(patsubst %,$(IDIR)/%,$(_INC))
 I_INC=$(patsubst %,-I %,$(INC))
 
@@ -32,12 +32,15 @@ _MAP=tile.cpp tileset.cpp tilemap.cpp
 MAP_O=$(patsubst %,$(ODIR)/%,$(_MAP:.cpp=.o))
 _ENEMY=enemy.cpp enemyset.cpp
 ENEMY_O=$(patsubst %,$(ODIR)/%,$(_ENEMY:.cpp=.o))
+_TOWER=tower_atk.cpp tower.cpp
+TOWER_O=$(patsubst %,$(ODIR)/%,$(_TOWER:.cpp=.o))
 
 _TEST_UTILS=al_utils.o debug_log.o test_utils.o
 TEST_UTILS_O=$(patsubst %,$(ODIR)/%,$(_TEST_UTILS))
 TEST_ANIM_O=$(AL_UTILS_O) $(ODIR)/test_anim.o 
 TEST_MAP_O=$(AL_UTILS_O) $(MAP_O) $(ODIR)/test_map.o
 TEST_ENEMY_O=$(AL_UTILS_O) $(ENEMY_O) $(ODIR)/test_enemy.o
+TEST_TOWER_O=$(AL_UTILS_O) $(TOWER_O) $(ODIR)/test_tower.o
 
 .PHONY: all
 all: test
@@ -50,6 +53,8 @@ bin/test_anim: $(TEST_ANIM_O)
 bin/test_map: $(TEST_MAP_O)
 	$(CXX) -o $@ $^ $(CPPFLAGS) $(I_INC)  $(ALLEGROFLAGS)
 bin/test_enemy: $(TEST_ENEMY_O)
+	$(CXX) -o $@ $^ $(CPPFLAGS) $(I_INC)  $(ALLEGROFLAGS)
+bin/test_tower: $(TEST_TOWER_O)
 	$(CXX) -o $@ $^ $(CPPFLAGS) $(I_INC)  $(ALLEGROFLAGS)
 #compile a generic .o
 obj/%.o: $(SDIR)/*/%.cpp $(INC)
@@ -65,7 +70,7 @@ $(ODIR)/:
 	
 #compile tests binaries
 .PHONY: test
-test: $(BDIR) $(ODIR)  bin/test_utils bin/test_anim bin/test_map bin/test_enemy
+test: $(BDIR) $(ODIR)  bin/test_utils bin/test_anim bin/test_map bin/test_enemy bin/test_tower
 #astyle for all code (.cpp and .h)
 .PHONY: astyle
 astyle:

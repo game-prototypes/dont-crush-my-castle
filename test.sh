@@ -14,13 +14,16 @@ RES2=$?
 RES3=$?
 ./bin/test_enemy;
 RES4=$?
-echo 'Cleaning binaries and .o files'
-#CLEAN DIRECTORIES
-make clean >/dev/null;
-RES=$(($RES1 || $RES2 || $RES3 || $RES4))
+./bin/test_tower;
+RES5=$?
+RES=$(($RES1 || $RES2 || $RES3 || $RES4 || $RES5))
 if test $RES -eq 0
 	then echo 'FINAL RESULT - OK'
 else
 	echo 'FINAL RESULT - FAIL'
 fi
+echo 'Cleaning binaries and .o files'
+#CLEAN DIRECTORIES
+make clean >/dev/null;
+
 exit $RES

@@ -1,7 +1,7 @@
 //TITLE: TOWER_ATK_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.2
+//VERSION: 0.4
 //DESCRIPTION: defines the attack of buildings
 #ifndef TOWER_ATK_H
 #define TOWER_ATK_H
@@ -9,19 +9,21 @@
 #include "al_anim.h"
 
 enum atk_type {shoot_atk,explosion_atk,continuous_atk};
-double atk_speed=1; //base attack speed (pixels by frame) (may vary depending on attack type)
+
 //defines the atributes of an attack
 struct atk_attributes {
     ALLEGRO_BITMAP *bitmap; //attack bitmap
     al_anim collision_anim; //collision animation (explosion) or continuous
     unsigned int damage; //damage of the attack
-    unsigned int range; //range of damage in pixels (0= one enemy dage)
+    unsigned int range; //range of damage in pixels
     double delay; //delay (in seconds) between attacks (except continuous)
     atk_type type;
+    double speed; //speed of attack (in pixels/second)
 
     //METHODS
     atk_attributes();
-    atk_attributes(ALLEGRO_BITMAP *bitmap,al_anim collision_anim,unsigned int damage,unsigned int range,unsigned int delay,atk_type type);
+    atk_attributes(ALLEGRO_BITMAP *bitmap,al_anim collision_anim,unsigned int damage,unsigned int range,unsigned int delay,double speed,atk_type type=shoot_atk);
+    ~atk_attributes();
     //clear data (dont destroy animations)
     void clear();
     //destroy all bitmaps and clear data
@@ -35,16 +37,24 @@ private:
     atk_attributes attributes;
     pair<double,double> position; //actual position
     pair<double,double> destiny; //position to move
+    double speed; //speed (pixels per frame)
     bool collide; //true if the attack reached destiny
     bool active;
 public:
     //default constructor
     tower_atk();
     //full constructor
-    tower_atk(const atk_attributes &attributes,pair<double,double> position,pair<double,double> destiny);
-
+    tower_atk(const atk_attributes &attributes,pair<double,double> position,pair<double,double> destiny,const ALLEGRO_TIMER *timer);
+    //destroyed (dont destroy animation or bitmap!!)
+    ~tower_atk();
     //return atk damage
     unsigned int get_damage() const;
+    //returns speed in pixels per second
+    double get_speed() const;
+    //return range of attack
+    unsigned int get_range() const;
+    //returns attack type
+    atk_type get_type() const;
     //return true if active
     bool is_active() const;
     //return true after collision
@@ -52,13 +62,13 @@ public:
     //updates the attack,updating its position and colliding if necessary
     void update();
     //draws the attack
-    void draw();
-
+    void draw() const;
+    //check class, return false if problem
+    bool check() const;
 private:
     //when attack hit, starts collision, and damage enemy (if still available)
     void collision();
-    //check class is working properly
-    void check() const;
-
+    //set speed (pixels per second), need timer wich will be used
+    void set_speed(const ALLEGRO_TIMER *timer);
 };
 #endif

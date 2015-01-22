@@ -194,10 +194,12 @@ void enemy::update() {
         //TODO: deactivate and clear after some time with dead animation stopped
     }
 }
-void enemy::draw() {
+void enemy::draw() const {
     if(spawned()) {
-        unsigned int hoffset=attributes.animation[current_animation].get_height()/2;
-        attributes.animation[current_animation].draw(position.first,position.second+hoffset);
+        map<enemy_animation,al_anim>::const_iterator it;
+        it=attributes.animation.find(current_animation);
+        unsigned int hoffset=it->second.get_height()/2;
+        it->second.draw(position.first,position.second+hoffset);
     }
 }
 bool enemy::check() const {

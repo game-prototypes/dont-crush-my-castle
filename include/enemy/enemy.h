@@ -47,7 +47,6 @@ private:
     bool active; //if false, update will not take effect, false by default in constructors
 
     enemy_animation current_animation;
-    const ALLEGRO_TIMER *timer;
 public:
     //CONSTRUCTORS
     //default constructor (actie=false by default)
@@ -105,7 +104,7 @@ public:
     void update();
     //draw the current_animation in the enemy position
     //note that draw the enemy with the position at its feet
-    void draw();
+    void draw() const;
     //check enemy class is working well, debug_log output if error or warning, return true if everything is ok
     bool check() const;
 private:

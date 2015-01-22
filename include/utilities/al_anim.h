@@ -83,9 +83,9 @@ public:
     void clear();
     //destroy all the bitmaps and clear the animation
     void destroy();
+    bool check() const;
 private:
     //slice the given bitmap into pieces of equal size for animation
     void load_from_bitmap(const ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height);
-    void check() const;
 };
 #endif

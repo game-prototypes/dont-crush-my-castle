@@ -1,7 +1,7 @@
 //TITLE: AL UTILS
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.3
+//VERSION: 0.4
 //DESCRIPTION: Generic functions for drawing and handdling allegro bitmaps
 #ifndef AL_UTILS_H
 #define AL_UTILS_H
@@ -34,6 +34,8 @@ vector<ALLEGRO_BITMAP *> slice_bitmap(const ALLEGRO_BITMAP *bitmap,int width,int
 pair<double,double> movement_update(pair<double,double> position,pair<double,double> destiny,double speed);
 //return speed per frame from speed per second from given timer
 double convert_speed(double speed,const ALLEGRO_TIMER *timer);
+//get frames in given seconds
+unsigned int get_frames(double seconds, const ALLEGRO_TIMER *timer);
 //draw given bitmap centered in position
 void draw_centered(const ALLEGRO_BITMAP *bitmap,double x,double y);
 #endif
