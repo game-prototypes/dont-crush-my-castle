@@ -15,10 +15,10 @@ struct tower_attributes {
     ALLEGRO_BITMAP *bitmap; //main bitmap of the towers (static)
     //	ALLEGRO_BITMAP *secondary_bitmap; //secondary bitmap (rotate)
     atk_attributes atk; //attack attributes
-
+    string name;
     //METHODS
     tower_attributes();
-    tower_attributes(ALLEGRO_BITMAP *bitmap,atk_attributes atk);
+    tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,atk_attributes atk);
     ~tower_attributes();
     //return bitmap width (in pixels)
     unsigned int get_width() const;
@@ -45,11 +45,13 @@ private:
 public:
     tower();
     //full constructor
-    tower(tower_attributes attribute,double posx,double posy,const ALLEGRO_TIMER *timer);
+    tower(const tower_attributes &attributes,double posx,double posy,const ALLEGRO_TIMER *timer);
     //deactivates the tower updating
     void deactivate();
     //return true if active
     bool is_active() const;
+    //returns tower name
+    string get_name() const;
     //return tower position (in pixels)
     pair<double,double> get_position()const;
     //return tower range in pixels
@@ -60,6 +62,7 @@ public:
     atk_type get_attack_type()const;
     //return true if given position is in range of attack
     bool in_range(pair<double,double> target) const;
+    //return true if tower can attack (counter=0)
     bool can_attack()const;
     //update tower
     void update();

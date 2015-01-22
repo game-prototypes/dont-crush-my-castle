@@ -7,9 +7,10 @@
 #include "tower.h"
 tower_attributes::tower_attributes() {
 }
-tower_attributes::tower_attributes(ALLEGRO_BITMAP *bitmap,atk_attributes atk) {
+tower_attributes::tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,atk_attributes atk) {
     this->bitmap=bitmap;
     this->atk=atk;
+    this->name=name;
 }
 tower_attributes::~tower_attributes() {
 }
@@ -27,6 +28,7 @@ bool tower_attributes::check() const {
     bool b=true;
     if(bitmap==NULL) b=false;
     if(atk.check()==false) b=false;
+    if(name.empty()==true) b=false;
     return b;
 }
 //destroy tower attributes (including bitmaps and attack attribute)
@@ -43,7 +45,7 @@ tower::tower() {
     atk_delay=0;
     active=false;
 }
-tower::tower(tower_attributes attribute,double posx,double posy,const ALLEGRO_TIMER *timer) {
+tower::tower(const tower_attributes &attributes,double posx,double posy,const ALLEGRO_TIMER *timer) {
     this->attributes=attributes;
     this->position=make_pair(posx,posy);
     this->timer=timer;
@@ -57,6 +59,9 @@ void tower::deactivate() {
 }
 bool tower::is_active() const {
     return active;
+}
+string tower::get_name() const {
+    return attributes.name;
 }
 pair<double,double> tower::get_position()const {
     return position;
@@ -90,17 +95,19 @@ void tower::draw() const {
 
 tower_atk tower::attack(const pair<double,double> target) {
     if(atk_counter>0) debug_log::report("tower attack before counter reach 0",warning,true,false,false);
+    if(in_range(target)==false) debug_log::report("tower attack out of range",warning,true,false,false);
     reset_counter();
     return tower_atk(attributes.atk,position,target,timer);
 }
 bool tower::check() const {
     bool b=true;
     if(attributes.check()==false) b=false;
+    if(atk_delay==0) b=false;
     return b;
 }
 //PRIVATE
 void tower::set_delay() {
-    atk_delay=convert_speed(attributes.atk.delay,timer);
+    atk_delay=get_frames(attributes.atk.delay,timer);
 }
 void tower::reset_counter() {
     atk_counter=atk_delay;

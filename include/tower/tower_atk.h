@@ -19,7 +19,7 @@ struct atk_attributes {
     double delay; //delay (in seconds) between attacks (except continuous)
     atk_type type;
     double speed; //speed of attack (in pixels/second)
-
+    //string name ¿?
     //METHODS
     atk_attributes();
     atk_attributes(ALLEGRO_BITMAP *bitmap,al_anim collision_anim,unsigned int damage,unsigned int range,unsigned int delay,double speed,atk_type type=shoot_atk);

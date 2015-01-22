@@ -55,9 +55,49 @@ int main() {
     if(atk.is_active()==true) test_result=true;
     if(atk.hit()==false) test_result=false;
     //TOWER
-    
-
-    
+    tower_attributes attr2("towerTest",bmp,attr);
+    if(attr2.check()==false) test_result=false;
+    if(attr2.get_width()!=(unsigned int)al_get_bitmap_width(bmp) || attr2.get_height()!=(unsigned int)al_get_bitmap_height(bmp)) test_result=false;
+    tower towertest(attr2,0,0,timer);
+    if(towertest.get_name()!="towerTest") test_result=false;
+    if(towertest.is_active()==false) test_result=false;
+    if(towertest.check()==false) test_result=false;
+    if(towertest.get_position()!=make_pair(0.0,0.0)) test_result=false;
+    if(towertest.get_range()!=8) test_result=false;
+    if(towertest.get_damage()!=10) test_result=false;
+    if(towertest.get_attack_type()!=shoot_atk) test_result=false;
+    if(towertest.can_attack()==true) test_result=false;
+    for(unsigned int i=0; i<179; i++) towertest.update();
+    if(towertest.can_attack()==true) test_result=false;
+    towertest.update();
+    if(towertest.can_attack()==false) test_result=false;
+    if(towertest.in_range(make_pair(8.2,0.0))==true) test_result=false;
+    if(towertest.in_range(make_pair(0.0,8.2))==true) test_result=false;
+    if(towertest.in_range(make_pair(8.0,0.0))==false) test_result=false;
+    if(towertest.in_range(make_pair(6.0,5.0))==false) test_result=false;
+    if(towertest.in_range(make_pair(6.0,6.0))==true) test_result=false;
+    atk=towertest.attack(make_pair(2.2,2.2));
+    if(atk.check()==false) test_result=false;
+    if(atk.get_damage()!=10) test_result=false;
+    if(atk.get_speed()!=2) test_result=false;
+    if(atk.get_range()!=8) test_result=false;
+    if(atk.get_type()!=shoot_atk) test_result=false;
+    if(atk.is_active()==false) test_result=false;
+    if(atk.hit()==true) test_result=false;
+    if(atk.get_position()!=make_pair(0.0,0.0)) test_result=false;
+    while(atk.hit()==false) {
+        atk.update();
+        if(atk.get_position()==make_pair(0.0,0.0) || atk.get_position().first>2.2 || atk.get_position().second>2.2) {
+            test_result=false;
+            break;
+        }
+    }
+    if(atk.get_position()!=make_pair(2.2,2.2)) test_result=false;
+    if(atk.is_active()==false) test_result=false;
+    for(int i=0; i<5; i++) atk.update();
+    if(atk.is_active()==true) test_result=true;
+    if(atk.hit()==false) test_result=false;
+    //TOWER SET (to do)
     al_destroy_bitmap(bmp);
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
