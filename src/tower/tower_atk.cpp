@@ -79,6 +79,9 @@ double tower_atk::get_speed() const {
 unsigned int tower_atk::get_range() const {
     return attributes.range;
 }
+pair<double,double> tower_atk::get_position() const {
+    return position;
+}
 atk_type tower_atk::get_type() const {
     return attributes.type;
 }

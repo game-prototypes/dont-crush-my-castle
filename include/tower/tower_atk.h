@@ -53,6 +53,8 @@ public:
     double get_speed() const;
     //return range of attack
     unsigned int get_range() const;
+    //returns attack position
+    pair<double,double> get_position() const;
     //returns attack type
     atk_type get_type() const;
     //return true if active
