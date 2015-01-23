@@ -55,11 +55,12 @@ int main() {
     if(atk.is_active()==true) test_result=true;
     if(atk.hit()==false) test_result=false;
     //TOWER
-    tower_attributes attr2("towerTest",bmp,attr);
+    tower_attributes attr2("towerTest",bmp,attr,110);
     if(attr2.check()==false) test_result=false;
     if(attr2.get_width()!=(unsigned int)al_get_bitmap_width(bmp) || attr2.get_height()!=(unsigned int)al_get_bitmap_height(bmp)) test_result=false;
     tower towertest(attr2,0,0,timer);
     if(towertest.get_name()!="towerTest") test_result=false;
+    if(towertest.get_cost()!=110) test_result=false;
     if(towertest.is_active()==false) test_result=false;
     if(towertest.check()==false) test_result=false;
     if(towertest.get_position()!=make_pair(0.0,0.0)) test_result=false;
