@@ -1,7 +1,7 @@
 //TITLE: AL UTILS
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.3
+//VERSION: 0.4
 //DESCRIPTION: Generic functions for drawing and handdling allegro bitmaps
 #ifndef AL_UTILS_H
 #define AL_UTILS_H
@@ -28,8 +28,6 @@ void draw_bitmap(const ALLEGRO_BITMAP *bmp,unsigned int x,unsigned int y) {
 void draw_scaled(const ALLEGRO_BITMAP *bmp,unsigned int x,unsigned int y,unsigned int width,unsigned int height) {
     al_draw_scaled_bitmap(const_cast<ALLEGRO_BITMAP *>(bmp),0,0, get_bitmap_width(bmp),  get_bitmap_height(bmp),x,y,width,height,0);//draw the original bitmap to the new one (resized)
 }
-
-
 //resize bmp to given width and height (x and y), destroying the original bitmap
 void resize_bitmap(ALLEGRO_BITMAP *&bitmap,unsigned int x,unsigned int y) {
     if(bitmap!=NULL && x>0 && y>0) {
@@ -136,16 +134,17 @@ pair<double,double> movement_update(pair<double,double> position,pair<double,dou
 }
 //return speed per frame from speed per second from given timer
 double convert_speed(double speed,const ALLEGRO_TIMER *timer) {
-    if(timer==NULL) {
-        debug_log::report("timer not set",err,true,true,false);
-        return speed;
-    }
     if(speed<0) {
         debug_log::report("enemy speed negative (set to positive)",warning,true,false,false);
         speed=-speed;
     }
-    if(speed==0) debug_log::report("enemy speed set to 0",warning,true,false,false);
     return speed*al_get_timer_speed(timer);
+}
+unsigned int get_frames(double seconds,const ALLEGRO_TIMER *timer) {
+    unsigned int frames_in_seconds;
+    if(seconds<0) seconds=0;
+    frames_in_seconds=seconds*(1/al_get_timer_speed(timer));
+    return frames_in_seconds;
 }
 //draw given bitmap centered in position
 void draw_centered(const ALLEGRO_BITMAP *bitmap,double x,double y) {

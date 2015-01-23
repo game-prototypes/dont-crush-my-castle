@@ -8,7 +8,7 @@ enemy
 enemyset
 */
 
-#include "enemyset.h"
+#include "enemy_set.h"
 
 int main() {
     cout<<"ENEMY TEST";
@@ -60,7 +60,6 @@ int main() {
     if(testenemy.idle()==true) test_result=false;
     testenemy.update();
     if(testenemy.get_current_animation()!=down_anim && testenemy.get_current_animation()!=right_anim) test_result=false;
-    //FIXME
     if(testenemy.idle()==true) test_result=false;
     if(testenemy.get_position()==make_pair(0.0,0.0)) test_result=false;
     while(testenemy.idle()==false) testenemy.update();

@@ -1,7 +1,7 @@
 //TITLE: AL_ANIM_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.3
+//VERSION: 0.4
 //DESCRIPTION: defines a general animation with allegro as a set of bitmaps
 
 #include "al_anim.h"
@@ -32,14 +32,13 @@ al_anim::al_anim(const ALLEGRO_BITMAP *bitmap_sheet,unsigned int width,unsigned 
     }
 }
 void al_anim::activate() {
-    active=true;
-    check();
+    if(check()==true)
+        active=true;
 }
 void al_anim::start() {
     count=0;
     current_delay=animation_delay;
     active=true;
-    check();
 }
 void al_anim::pause() {
     active=false;
@@ -56,16 +55,14 @@ void al_anim::set_frame(unsigned int frame) {
     }
 }
 void al_anim::set_duration(double seconds) {
-    if(size()>0) {
-        double tspeed=al_get_timer_speed(timer);
-        seconds/=tspeed*size();
-        animation_delay=seconds;
-        if(animation_delay==0) {
-            debug_log::report("animation speed too fast for timer, speed=refresh rate",warning,true,false,false);
-            animation_delay=1;
-        }
-        current_delay=animation_delay;
+    unsigned int frames=get_frames(seconds,timer);
+    frames/=size();
+    animation_delay=frames;
+    if(animation_delay==0) {
+        debug_log::report("animation speed too fast for timer, speed=refresh rate",warning,true,false,false);
+        animation_delay=1;
     }
+    current_delay=animation_delay;
 }
 void al_anim::set_duration(double seconds,const ALLEGRO_TIMER *timer) {
     this->timer=timer;
@@ -118,6 +115,7 @@ void al_anim::draw(double x,double y) const {
         draw_centered(bitmap_set[count],x,y);
     }
 }
+
 /*
 void al_anim::draw_resized(double x,double y,unsigned int width,unsigned int height) const {
     if(width==0 || height==0) debug_log::report("tile size=0",err,true,false,false);
@@ -135,13 +133,12 @@ void al_anim::destroy() {
     for(unsigned int i=0; i<bitmap_set.size(); i++) al_destroy_bitmap(bitmap_set[i]);
     clear();
 }
+bool al_anim::check() const {
+    bool b=true;
+    if(bitmap_set.empty()) debug_log::report("animation with no bitmaps",err,true,true,false);
+    if(animation_delay==0) debug_log::report("animation with speed=0",err,true,true,false);
+    return b;
+}
 void al_anim::load_from_bitmap(const ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height) {
     bitmap_set=slice_bitmap(bitmap,width,height); //slice the bitmap in small bitmaps
-    check();
-}
-void al_anim::check() const {
-    if(active==true) {
-        if(bitmap_set.empty()) debug_log::report("animation with no bitmaps",err,true,true,false);
-        if(animation_delay==0) debug_log::report("animation with speed=0",err,true,true,false);
-    }
 }

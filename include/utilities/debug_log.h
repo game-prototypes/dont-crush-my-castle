@@ -1,7 +1,7 @@
 //TITLE: Debug Log
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.3
+//VERSION: 0.4
 //DESCRIPTION: Logs for warnings and errors
 #ifndef DEBUG_LOG_H
 #define DEBUG_LOG_H

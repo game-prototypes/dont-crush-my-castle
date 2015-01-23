@@ -1,7 +1,7 @@
 //TITLE: AL_ANIM_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.3
+//VERSION: 0.4
 //DESCRIPTION: defines a general animation with allegro as a set of bitmaps
 
 #ifndef AL_ANIM_H
@@ -83,9 +83,9 @@ public:
     void clear();
     //destroy all the bitmaps and clear the animation
     void destroy();
+    bool check() const;
 private:
     //slice the given bitmap into pieces of equal size for animation
     void load_from_bitmap(const ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height);
-    void check() const;
 };
 #endif

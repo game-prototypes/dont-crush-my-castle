@@ -1,15 +1,18 @@
 //TITLE: tower_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.2
+//VERSION: 0.4
 //DESCRIPTION: defines an user tower
 
 #include "tower.h"
 tower_attributes::tower_attributes() {
 }
-tower_attributes::tower_attributes(ALLEGRO_BITMAP *bitmap,atk_attributes atk) {
+tower_attributes::tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,atk_attributes atk) {
     this->bitmap=bitmap;
     this->atk=atk;
+    this->name=name;
+}
+tower_attributes::~tower_attributes() {
 }
 unsigned int tower_attributes::get_width() const {
     return al_get_bitmap_width(bitmap);
@@ -17,20 +20,24 @@ unsigned int tower_attributes::get_width() const {
 unsigned int tower_attributes::get_height() const {
     return al_get_bitmap_height(bitmap);
 }
-
 //resize bitmap (overriding old) to given size
 void tower_attributes::resize(unsigned int width,unsigned int height) {
     resize_bitmap(bitmap,width,height);
+}
+bool tower_attributes::check() const {
+    bool b=true;
+    if(bitmap==NULL) b=false;
+    if(atk.check()==false) b=false;
+    if(name.empty()==true) b=false;
+    return b;
 }
 //destroy tower attributes (including bitmaps and attack attribute)
 void tower_attributes::destroy() {
     //animation.destroy();
     al_destroy_bitmap(bitmap);
-    atk.clear();
+    atk.destroy();
 }
-
-
-//tower
+//TOWER
 
 tower::tower() {
     atk_counter=0;
@@ -38,10 +45,11 @@ tower::tower() {
     atk_delay=0;
     active=false;
 }
-tower::tower(tower_attributes attribute,double posx,double posy,const ALLEGRO_TIMER *timer) {
+tower::tower(const tower_attributes &attributes,double posx,double posy,const ALLEGRO_TIMER *timer) {
     this->attributes=attributes;
     this->position=make_pair(posx,posy);
-    this->atk_delay=convert_speed(attributes.atk.delay,timer);
+    this->timer=timer;
+    set_delay();
     reset_counter();
     active=true;
 }
@@ -51,6 +59,9 @@ void tower::deactivate() {
 }
 bool tower::is_active() const {
     return active;
+}
+string tower::get_name() const {
+    return attributes.name;
 }
 pair<double,double> tower::get_position()const {
     return position;
@@ -64,10 +75,10 @@ unsigned int tower::get_damage() const {
 atk_type tower::get_attack_type() const {
     return attributes.atk.type;
 }
-bool tower::in_range(pair<double,double> objective) const {
+bool tower::in_range(pair<double,double> target) const {
     double rad=attributes.atk.range;
-    double x=objective.first-position.first;
-    double y=objective.second-position.second;
+    double x=target.first-position.first;
+    double y=target.second-position.second;
     return (x*x+y*y)<=(rad*rad);
 }
 bool tower::can_attack() const {
@@ -79,19 +90,26 @@ void tower::update() {
     }
 }
 void tower::draw() const {
-    if(active)
-        draw_centered(attributes.bitmap,position.first,position.second);
-}
-tower_atk tower::attack(const pair<double,double> target) {
-    if(atk_counter>0) debug_log::report("tower attack before counter reach 0",warning,true,false,false);
-    reset_counter();
-    return tower_atk(attributes.atk,position,target);
+    draw_centered(attributes.bitmap,position.first,position.second);
 }
 
+tower_atk tower::attack(const pair<double,double> target) {
+    if(atk_counter>0) debug_log::report("tower attack before counter reach 0",warning,true,false,false);
+    if(in_range(target)==false) debug_log::report("tower attack out of range",warning,true,false,false);
+    reset_counter();
+    return tower_atk(attributes.atk,position,target,timer);
+}
+bool tower::check() const {
+    bool b=true;
+    if(attributes.check()==false) b=false;
+    if(atk_delay==0) b=false;
+    return b;
+}
+//PRIVATE
+void tower::set_delay() {
+    atk_delay=get_frames(attributes.atk.delay,timer);
+}
 void tower::reset_counter() {
     atk_counter=atk_delay;
 }
 
-bool tower::check() const {
-    return true;
-}

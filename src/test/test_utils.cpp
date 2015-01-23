@@ -1,7 +1,7 @@
 //TITLE: Al_utils Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.3
+//VERSION: 0.4
 /*DESCRIPTION: basic test of allegro utilities (src/utilities) for DCmC
 This test will check:
 al_utils
@@ -82,6 +82,8 @@ int main() {
     double spd=42;
     double spd2=convert_speed(spd,timer);
     if(spd2/al_get_timer_speed(timer)!=spd) test_result=false;
+    //Testing get_frames
+    if(get_frames(2,timer)!=120) test_result=false; //frames in 2 seconds should be 120 at 60 fps
     //Testing update_movement
     pair<double,double> p1,p2;
     p1=make_pair(0,0);
