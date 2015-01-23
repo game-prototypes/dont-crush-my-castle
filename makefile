@@ -30,9 +30,9 @@ _AL_UTILS=al_anim.cpp al_utils.cpp debug_log.cpp
 AL_UTILS_O=$(patsubst %,$(ODIR)/%,$(_AL_UTILS:.cpp=.o))
 _MAP=tile.cpp tileset.cpp tilemap.cpp
 MAP_O=$(patsubst %,$(ODIR)/%,$(_MAP:.cpp=.o))
-_ENEMY=enemy.cpp enemyset.cpp
+_ENEMY=enemy.cpp enemy_set.cpp
 ENEMY_O=$(patsubst %,$(ODIR)/%,$(_ENEMY:.cpp=.o))
-_TOWER=tower_atk.cpp tower.cpp
+_TOWER=tower_atk.cpp tower.cpp tower_set.cpp
 TOWER_O=$(patsubst %,$(ODIR)/%,$(_TOWER:.cpp=.o))
 
 _TEST_UTILS=al_utils.o debug_log.o test_utils.o

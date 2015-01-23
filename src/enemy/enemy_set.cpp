@@ -4,7 +4,7 @@
 //VERSION: 0.4
 //DESCRIPTION: stores all kinds of enemies and spawn instances of each enemy
 
-#include "enemyset.h"
+#include "enemy_set.h"
 
 //CONSTRUCTORS
 enemy_set::enemy_set() {
@@ -29,7 +29,7 @@ enemy_set::~enemy_set() {
     map<string,enemy_attributes>::iterator it;
     for(it=enemies.begin(); it!=enemies.end(); it++)
         (it->second).destroy();
-    enemies.clear();
+    clear();
 }
 //MODIFICATION
 void enemy_set::set_name(const string &name) {
@@ -43,6 +43,11 @@ void enemy_set::set_timer(const ALLEGRO_TIMER *timer) {
 }
 void enemy_set::remove_enemy(const string &name) {
     enemies.erase(name);
+}
+void enemy_set::clear() {
+    enemies.clear();
+    name.clear();
+    timer=NULL;
 }
 //CONSULT
 string enemy_set::get_name() const {
@@ -63,7 +68,7 @@ enemy enemy_set::spawn_enemy(const string &name,unsigned int level,double posx,d
     else
         return enemy(enemies[name],level,posx,posy,timer);
 }
-bool enemy_set::check() {
+bool enemy_set::check() const {
     bool b=true;
     if(name.empty()) {
         debug_log::report("enemy_set with no name",warning,true,false,false);

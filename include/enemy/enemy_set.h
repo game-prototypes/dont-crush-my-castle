@@ -27,13 +27,15 @@ public:
     void add_enemy(const enemy_attributes &info);
     void set_timer(const ALLEGRO_TIMER *timer);
     void remove_enemy(const string &name);
+    //clear all the enemies and info without destroyin anything
+    void clear();
     //CONSULT
     string get_name() const;
     unsigned int get_size() const;
     bool empty() const;
 
     enemy spawn_enemy(const string &name,unsigned int level,double posx,double posy);//return new enemy spawned
-    bool check();
+    bool check() const;
 };
 
 #endif

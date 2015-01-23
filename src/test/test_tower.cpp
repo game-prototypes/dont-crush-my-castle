@@ -9,7 +9,7 @@ tower
 tower_set
 */
 
-#include "tower.h"
+#include "tower_set.h"
 
 int main() {
     cout<<"TOWER TEST";
@@ -97,7 +97,27 @@ int main() {
     for(int i=0; i<5; i++) atk.update();
     if(atk.is_active()==true) test_result=true;
     if(atk.hit()==false) test_result=false;
-    //TOWER SET (to do)
+    //TOWER SET
+    tower_set testset("test_tower_set",attr2,timer);
+    if(testset.get_name()!="test_tower_set") test_result=false;
+    if(testset.get_size()!=1) test_result=false;
+    if(testset.empty()==true) test_result=false;
+    if(testset.check()==false) test_result=false;
+    towertest=testset.spawn_tower("towerTest",1,1);
+    if(towertest.get_name()!="towerTest") test_result=false;
+    if(towertest.is_active()==false) test_result=false;
+    if(towertest.check()==false) test_result=false;
+    if(towertest.get_position()!=make_pair(1.0,1.0)) test_result=false;
+    if(towertest.get_range()!=8) test_result=false;
+    if(towertest.get_damage()!=10) test_result=false;
+    if(towertest.get_attack_type()!=shoot_atk) test_result=false;
+    if(towertest.can_attack()==true) test_result=false;
+    for(unsigned int i=0; i<179; i++) towertest.update();
+    if(towertest.can_attack()==true) test_result=false;
+    towertest.update();
+    if(towertest.can_attack()==false) test_result=false;
+    testset.remove_tower("towerTest");
+    if(testset.empty()==false) test_result=false;
     al_destroy_bitmap(bmp);
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
