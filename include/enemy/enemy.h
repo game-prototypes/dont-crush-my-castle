@@ -11,7 +11,7 @@
 #include <map>
 
 enum enemy_animation {idle_anim,up_anim,down_anim,left_anim,right_anim,dead_anim}; //defines each animation for an enemy
-
+const double level_ratio=0.3; //ratio used to increase base values per level
 //defines the basic characteristics of an enemy kind
 struct enemy_attributes {
     map<enemy_animation,al_anim> animation; //stores all animations of an enemy
@@ -26,6 +26,8 @@ struct enemy_attributes {
     enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation,unsigned int reward=0);
     //insert animation (erasing previous animations and reseting all counters)
     void insert_animation(enemy_animation type,const al_anim &anim);
+    //increase values according to level
+    void increase_level(unsigned int level);
     //clear all attributes (dont destroy bitmaps)
     void clear();
     //destroy all animations and clear data
@@ -39,7 +41,7 @@ class enemy {
 private:
     enemy_attributes attributes; //basic info of enemy type
     unsigned int life; //current life of enemy
-    unsigned int level; //level may change enemy parameters (unused)
+    unsigned int level; //level may change enemy parameters
     double speed; //pixels per frame
 
     pair<double,double> position; //actual position, it refers to foot centered position
@@ -49,15 +51,12 @@ private:
     enemy_animation current_animation;
 public:
     //CONSTRUCTORS
-    //default constructor (actie=false by default)
+    //default constructor (active=false by default)
     enemy();
     //constructor with basic info, enemy life will start with the max_life value
     //constructor with spawning in position given
     enemy(const enemy_attributes &attributes,unsigned int level,double posx,double posy,const ALLEGRO_TIMER *timer);
 
-    //MODIFICATION
-    //set enemy level (currently unused)
-    void set_level(unsigned int level);
     //set enemy to active in given position
     void spawn(double posx,double posy);
 
@@ -116,7 +115,8 @@ private:
     void stop_movement_anim();
     //set speed (pixels per second), need timer wich will be used
     void set_speed(double spd,const ALLEGRO_TIMER *timer);
-
+    //set enemy level
+    void set_level(unsigned int level);
 };
 
 
