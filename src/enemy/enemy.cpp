@@ -33,6 +33,18 @@ void enemy_attributes::insert_animation(enemy_animation type,const al_anim &anim
         animation[type].stop(); //set the animation to inactive and restart counters
     }
 }
+void enemy_attributes::increase_level(unsigned int level){
+    double increase=1+(level_ratio*level);
+    double val_inc;
+    val_inc=speed*increase;
+    speed=val_inc;
+    val_inc=max_life*increase;
+    max_life=val_inc;    
+    val_inc=armor*increase;
+    armor=val_inc;
+    val_inc=reward*increase;
+    reward=val_inc;
+    }
 void enemy_attributes::clear() {
     animation.clear();
     name.clear();
@@ -80,19 +92,16 @@ enemy::enemy() {
     current_animation=idle_anim;
 }
 enemy::enemy(const enemy_attributes &attributes,unsigned int level,double posx,double posy,const ALLEGRO_TIMER *timer) {
-    this->life=attributes.max_life;
     this->attributes=attributes;
     current_animation=idle_anim;
-    set_speed(attributes.speed,timer);
     set_level(level);
+    this->life=this->attributes.max_life;
+    set_speed(this->attributes.speed,timer);
     spawn(posx,posy);
     update();
 }
 
 //MODIFICATION
-void enemy::set_level(unsigned int level) {
-    this->level=level;
-}
 void enemy::spawn(double posx,double posy) {
     if(posx<0 ||posy<0) debug_log::report("enemy position negative",err,true,true,false);
     else {
@@ -243,4 +252,8 @@ void enemy::stop_movement_anim() {
 
 void enemy::set_speed(double spd,const ALLEGRO_TIMER *timer) {
     this->speed=convert_speed(spd,timer);
+}
+void enemy::set_level(unsigned int level) {
+    this->level=level;
+    attributes.increase_level(level);
 }

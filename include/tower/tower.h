@@ -15,10 +15,11 @@ struct tower_attributes {
     ALLEGRO_BITMAP *bitmap; //main bitmap of the towers (static)
     //	ALLEGRO_BITMAP *secondary_bitmap; //secondary bitmap (rotate)
     atk_attributes atk; //attack attributes
+    unsigned int cost;
     string name;
     //METHODS
     tower_attributes();
-    tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,atk_attributes atk);
+    tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,atk_attributes atk,unsigned int cost);
     ~tower_attributes();
     //return bitmap width (in pixels)
     unsigned int get_width() const;
@@ -58,6 +59,8 @@ public:
     unsigned int get_range()const;
     //return tower damage
     unsigned int get_damage()const;
+    //return cost of the tower
+    unsigned int get_cost() const;
     //return attack type
     atk_type get_attack_type()const;
     //return true if given position is in range of attack

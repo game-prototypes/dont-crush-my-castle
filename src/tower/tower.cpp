@@ -7,10 +7,11 @@
 #include "tower.h"
 tower_attributes::tower_attributes() {
 }
-tower_attributes::tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,atk_attributes atk) {
+tower_attributes::tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,atk_attributes atk,unsigned int cost) {
     this->bitmap=bitmap;
     this->atk=atk;
     this->name=name;
+    this->cost=cost;
 }
 tower_attributes::~tower_attributes() {
 }
@@ -71,6 +72,9 @@ unsigned int tower::get_range()const {
 }
 unsigned int tower::get_damage() const {
     return attributes.atk.damage;
+}
+unsigned int tower::get_cost() const {
+    return attributes.cost;
 }
 atk_type tower::get_attack_type() const {
     return attributes.atk.type;
