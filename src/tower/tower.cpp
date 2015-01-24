@@ -7,7 +7,7 @@
 #include "tower.h"
 tower_attributes::tower_attributes() {
 }
-tower_attributes::tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,atk_attributes atk,unsigned int cost) {
+tower_attributes::tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,const atk_attributes &atk,unsigned int cost) {
     this->bitmap=bitmap;
     this->atk=atk;
     this->name=name;

@@ -33,6 +33,7 @@ public:
     string get_name() const;
     unsigned int get_size() const;
     bool empty() const;
+    bool is_enemy(const string &name) const;
 
     enemy spawn_enemy(const string &name,unsigned int level,double posx,double posy);//return new enemy spawned
     bool check() const;

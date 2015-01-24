@@ -12,14 +12,14 @@
 
 //defines the attributes of the tower
 struct tower_attributes {
+    atk_attributes atk; //attack attributes
     ALLEGRO_BITMAP *bitmap; //main bitmap of the towers (static)
     //	ALLEGRO_BITMAP *secondary_bitmap; //secondary bitmap (rotate)
-    atk_attributes atk; //attack attributes
     unsigned int cost;
     string name;
     //METHODS
     tower_attributes();
-    tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,atk_attributes atk,unsigned int cost);
+    tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,const atk_attributes &atk,unsigned int cost);
     ~tower_attributes();
     //return bitmap width (in pixels)
     unsigned int get_width() const;
@@ -77,8 +77,6 @@ public:
 private:
     void set_delay();
     void reset_counter();
-
-
 };
 
 
