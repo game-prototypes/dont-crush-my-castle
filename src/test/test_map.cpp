@@ -53,6 +53,7 @@ int main() {
     if(tset.get_name()!="test") test_result=false;
     if(tset.get_tile_width()!=20) test_result=false;
     if(tset.add_tile(testtile)!=4) test_result=false;
+    if(tset.is_tile(4)==false || tset.is_tile(5)==true) test_result=false;
     if(tset.size()!=5) test_result=false;
     tset.remove_tile(2);
     if(tset.size()!=4) test_result=false;

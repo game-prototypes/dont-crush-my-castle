@@ -72,6 +72,7 @@ int main() {
     //ENEMYSET
     enemy_set testset("Minions of darkness",testenemy_attr,timer);
     if(testset.get_name()!="Minions of darkness") test_result=false;
+    if(testset.is_enemy("minion test")==false) test_result=false;
     if(testset.get_size()!=1) test_result=false;
     if(testset.check()==false) test_result=false;
     enemy testenemy2=testset.spawn_enemy("minion test",2,5.0,5.0);
@@ -89,6 +90,7 @@ int main() {
     if(testenemy2.idle()==false) test_result=false;
     if(testenemy2.get_current_animation()!=idle_anim) test_result=false;
     testset.remove_enemy("minion test");
+        if(testset.is_enemy("minion test")==true) test_result=false;
     if(testset.get_size()!=0 || testset.empty()==false) test_result=false;
     anim.destroy();
     al_destroy_event_queue(event_queue);

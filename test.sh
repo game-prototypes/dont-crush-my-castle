@@ -2,6 +2,7 @@
 #by demiurgosoft
 #This script will compile,test and clean Don't Crush My Castle
 echo 'Compiling and testing (may take a while)';
+make clean >/dev/null;
 #COMPILE TEST
 make test >/dev/null;
 #TEST 1
@@ -16,7 +17,7 @@ RES3=$?
 RES4=$?
 ./bin/test_tower;
 RES5=$?
-RES=$(($RES1 || $RES2 || $RES3 || $RES4 || $RES5))
+RES=$(($RES1 || $RES2 || $RES3 || $RES4 || $RES5));
 if test $RES -eq 0
 	then echo 'FINAL RESULT - OK'
 else

@@ -33,18 +33,18 @@ void enemy_attributes::insert_animation(enemy_animation type,const al_anim &anim
         animation[type].stop(); //set the animation to inactive and restart counters
     }
 }
-void enemy_attributes::increase_level(unsigned int level){
+void enemy_attributes::increase_level(unsigned int level) {
     double increase=1+(level_ratio*level);
     double val_inc;
     val_inc=speed*increase;
     speed=val_inc;
     val_inc=max_life*increase;
-    max_life=val_inc;    
+    max_life=val_inc;
     val_inc=armor*increase;
     armor=val_inc;
     val_inc=reward*increase;
     reward=val_inc;
-    }
+}
 void enemy_attributes::clear() {
     animation.clear();
     name.clear();

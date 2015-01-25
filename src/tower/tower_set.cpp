@@ -60,6 +60,10 @@ unsigned int tower_set::get_size() const {
 bool tower_set::empty() const {
     return towers.empty();
 }
+bool tower_set::is_tower(const string &name) const{
+ if(towers.find(name)!=towers.end()) return true;
+    else return false;
+}
 tower tower_set::spawn_tower(const string &name,double posx,double posy) {
     if(towers.find(name)==towers.end()) {
         debug_log::report("spawning non existing tower",err,true,true,false);

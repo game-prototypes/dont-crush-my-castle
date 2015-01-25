@@ -33,6 +33,7 @@ public:
     string get_name() const;
     unsigned int get_size() const;
     bool empty() const;
+    bool is_tower(const string &name) const;
 
     tower spawn_tower(const string &name,double posx,double posy);//return new enemy spawned
     bool check() const;
