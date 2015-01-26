@@ -126,7 +126,9 @@ int main() {
             if(testmap2.get_tile_id(i,j)!=null_tile_id && i==1 && j>=1) test_result=false;
         }
     }
+    testmap2.add_spawner(1,0);
     //CHECK PATH
+    if(testmap2.in_path(0,1)==false) test_result=false;
     if(testmap.check()==false) test_result=false;
     if(testmap.get_path_value(0,2)!=0) test_result=false;
     for(unsigned int i=0; i<testmap.get_width(); i++) {
