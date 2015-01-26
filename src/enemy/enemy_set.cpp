@@ -59,8 +59,8 @@ unsigned int enemy_set::get_size() const {
 bool enemy_set::empty() const {
     return enemies.empty();
 }
-bool enemy_set::is_enemy(const string &name) const{
- if(enemies.find(name)!=enemies.end()) return true;
+bool enemy_set::is_enemy(const string &name) const {
+    if(enemies.find(name)!=enemies.end()) return true;
     else return false;
 }
 enemy enemy_set::spawn_enemy(const string &name,unsigned int level,double posx,double posy) {

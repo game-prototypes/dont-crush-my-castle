@@ -88,7 +88,9 @@ int main() {
     */
     //i=vertical
     //j=horizontal
-    tilemap testmap("testing map",mapids,&tset);
+    set<pair<unsigned int,unsigned int> > dest;
+    dest.insert(make_pair(0,2));
+    tilemap testmap("testing map",mapids,&tset,dest);
     if(testmap.get_name()!="testing map") test_result=false;
     if(testmap.get_width()!=4 || testmap.get_height()!=3) test_result=false;
     if(testmap.check()==false) test_result=false;
@@ -115,7 +117,7 @@ int main() {
     1 -
     3 -
     */
-    tilemap testmap2("testing map2",mapids2,&tset);
+    tilemap testmap2("testing map2",mapids2,&tset,dest);
     if(testmap2.get_name()!="testing map2") test_result=false;
     if(testmap2.get_width()!=2 || testmap2.get_height()!=3) test_result=false;
     if(testmap2.check()==false) test_result=false;
@@ -125,12 +127,6 @@ int main() {
         }
     }
     //CHECK PATH
-    for(unsigned int i=0; i<testmap.get_width(); i++)
-        for(unsigned int j=0; j<testmap.get_height(); j++)
-            if(testmap.get_path_value(i,j)!=-1) test_result=false;
-    vector< pair<unsigned int,unsigned int> > dest;
-    dest.push_back(make_pair(0,2));
-    testmap.set_destiny(dest);
     if(testmap.check()==false) test_result=false;
     if(testmap.get_path_value(0,2)!=0) test_result=false;
     for(unsigned int i=0; i<testmap.get_width(); i++) {
@@ -149,7 +145,7 @@ int main() {
     }
     pos=testmap.get_next_position(pos.first,pos.second);
     if(testmap.get_path_value(pos.first,pos.second)!=0) test_result=false;
-    if(pos!=dest[0]) test_result=false;
+    if(pos!=make_pair((unsigned int)0,(unsigned int)2)) test_result=false;
     //TODO: test map with different row (different size)
     //test background,foreground and path map
     if(test_result==true) cout<<" - OK\n";

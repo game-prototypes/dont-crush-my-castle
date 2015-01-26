@@ -60,8 +60,8 @@ unsigned int tower_set::get_size() const {
 bool tower_set::empty() const {
     return towers.empty();
 }
-bool tower_set::is_tower(const string &name) const{
- if(towers.find(name)!=towers.end()) return true;
+bool tower_set::is_tower(const string &name) const {
+    if(towers.find(name)!=towers.end()) return true;
     else return false;
 }
 tower tower_set::spawn_tower(const string &name,double posx,double posy) {
