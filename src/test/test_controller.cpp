@@ -62,6 +62,8 @@ int main() {
         go.update_towers();
         go.update_enemies();
     }
+    vector<tower_id> v=go.update_towers();
+    if(v.size()!=1) test_result=false;
     if(go.get_tower(tid)->can_attack()==false) test_result=false;
     if(tt->can_attack()==false) test_result=false;
     if(go.enemy_size()!=0 || go.tower_size()!=1) test_result=false;

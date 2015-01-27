@@ -75,6 +75,14 @@ void game_objects::update_enemies() {
         }
     }
 }
+void game_objects::draw_towers() const {
+    for(map<tower_id,tower>::const_iterator it=spawned_towers.begin(); it!=spawned_towers.end(); it++)
+        it->second.draw();
+}
+void game_objects::draw_enemies() const {
+    for(list<enemy>::const_iterator it=spawned_enemies.begin(); it!=spawned_enemies.end(); it++)
+        it->draw();
+}
 bool game_objects::check() {
     bool b=true;
     return b;

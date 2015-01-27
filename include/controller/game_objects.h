@@ -40,6 +40,8 @@ public:
     //updates all enemies and towers, removes unactive enemies, returns vector of towers ready to fire
     vector<tower_id> update_towers();
     void update_enemies();
+    void draw_towers() const;
+    void draw_enemies() const;
     bool check();
 
 };
