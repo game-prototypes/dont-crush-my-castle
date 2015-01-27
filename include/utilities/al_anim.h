@@ -7,11 +7,7 @@
 #ifndef AL_ANIM_H
 #define AL_ANIM_H
 
-//#include "debug_log.h"
 #include "al_utils.h"
-//#include <allegro5/allegro.h>
-//#include <allegro5/allegro_image.h>
-using namespace std;
 
 
 class al_anim {

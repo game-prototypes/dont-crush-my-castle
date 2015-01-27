@@ -7,7 +7,6 @@ This test will check:
 al_utils
 */
 #include "al_utils.h"
-using namespace std;
 
 int main() {
     cout<<"AL_UTILS TEST";

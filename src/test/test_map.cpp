@@ -10,6 +10,7 @@ tilemap
 */
 #include "tilemap.h"
 
+
 void test(tile &t) {
     ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
     tile tt(road,bmp,80);

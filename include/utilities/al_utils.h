@@ -11,7 +11,6 @@
 #include <cmath>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
-//using namespace std;
 
 //returns width (in pixels) as an unsigned int from a const bitmap (with const cast)
 unsigned int get_bitmap_width(const ALLEGRO_BITMAP *bmp);

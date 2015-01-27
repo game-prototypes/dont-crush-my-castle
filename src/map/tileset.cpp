@@ -177,6 +177,7 @@ bool tileset::check() const {
             b=false;
         }
     }
+    if(lowest_free<=-1) b=false;
     return b;
 }
 //PRIVATE METHODS

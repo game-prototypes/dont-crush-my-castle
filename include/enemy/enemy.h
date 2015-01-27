@@ -81,6 +81,8 @@ public:
     bool alive() const;
     //return true if enemy is active
     bool spawned() const;
+    //same as spawned()
+    bool is_active() const;
     //return true if enemy is idle (destiny==position)
     bool idle() const;
     //return current aimation

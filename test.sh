@@ -1,4 +1,4 @@
-#Don't Crush my Castle Testing script v0.4
+#Don't Crush my Castle Testing script v0.5
 #by demiurgosoft
 #This script will compile,test and clean Don't Crush My Castle
 echo 'Compiling and testing (may take a while)';
@@ -17,7 +17,9 @@ RES3=$?
 RES4=$?
 ./bin/test_tower;
 RES5=$?
-RES=$(($RES1 || $RES2 || $RES3 || $RES4 || $RES5));
+./bin/test_controller;
+RES6=$?
+RES=$(($RES1 || $RES2 || $RES3 || $RES4 || $RES5 || $RES6));
 if test $RES -eq 0
 	then echo 'FINAL RESULT - OK'
 else

@@ -140,6 +140,9 @@ bool enemy::alive() const {
 bool enemy::spawned() const {
     return active;
 }
+bool enemy::is_active() const {
+    return active;
+}
 bool enemy::idle() const {
     return position==destiny;
 }
@@ -200,7 +203,7 @@ void enemy::update() {
         }
         else if(current_animation!=dead_anim) kill(); //killed
         attributes.animation[current_animation].update(); //animation update
-        //TODO: deactivate and clear after some time with dead animation stopped
+        if(current_animation==dead_anim && attributes.animation[current_animation].is_active()==false)   deactivate();
     }
 }
 void enemy::draw() const {
