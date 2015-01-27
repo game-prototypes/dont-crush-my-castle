@@ -6,7 +6,7 @@
 #include "game_objects.h"
 
 game_objects::game_objects() {
-    tower_id=0;
+    current_id=0;
 }
 game_objects::game_objects(const list<enemy> &spawned_enemies,const map<tower_id,tower> &spawned_towers) {
     this->spawned_enemies=spawned_enemies;
@@ -19,7 +19,7 @@ game_objects::~game_objects() {
     spawned_enemies.clear();
 }
 void game_objects::add_enemy(const enemy &new_enemy) {
-    spawned_enemies.push_back(enemy);
+    spawned_enemies.push_back(new_enemy);
 }
 tower_id game_objects::add_tower(const tower &new_tower) {
     spawned_towers.insert(make_pair(current_id,new_tower));
@@ -27,7 +27,7 @@ tower_id game_objects::add_tower(const tower &new_tower) {
     return current_id-1;
 }
 void game_objects::remove_tower(tower_id id) {
-    spawned_towers.remove(id);
+    spawned_towers.erase(id);
 }
 unsigned int game_objects::enemy_size() const {
     return spawned_enemies.size();
@@ -36,26 +36,28 @@ unsigned int game_objects::tower_size() const {
     return spawned_towers.size();
 }
 bool game_objects::is_last(list<enemy>::iterator it) const {
-    if(it==spawned_enemies.end) return true;
+    if(it==spawned_enemies.end()) return true;
     else return false;
 }
-list<enemy>::iterator game_objects::get_first() const {
+list<enemy>::iterator game_objects::get_first() {
     return spawned_enemies.begin();
 }
-tower &get_tower(tower_id id)const {
+list<enemy>::const_iterator game_objects::get_first() const {
+    return spawned_enemies.begin();
+}
+tower &game_objects::get_tower(tower_id id) {
     return spawned_towers[id];
 }
-
 vector<tower_id> game_objects::update_towers() {
     vector<tower_id> res;
-    for(map<tower_id,tower>::iterator it=spawned_towers.begin; it!=spawned_towers.end; it++) {
+    for(map<tower_id,tower>::iterator it=spawned_towers.begin(); it!=spawned_towers.end(); it++) {
         it->second.update();
         if(it->second.can_attack()) res.push_back(it->first);
     }
     return res;
 }
 void game_objects::update_enemies() {
-    for(list<enemy>::iterator it=spawned_enemies.begin; it!=spawned_enemies.end; it++) {
+    for(list<enemy>::iterator it=spawned_enemies.begin(); it!=spawned_enemies.end(); it++) {
         it->update();
         if(it->is_active()==false) spawned_enemies.erase(it); //maybe problem here!!!
     }

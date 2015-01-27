@@ -31,8 +31,9 @@ public:
     unsigned int tower_size() const;
 
     bool is_last(list<enemy>::iterator it) const;
-    list<enemy>::iterator get_first() const;
-    tower &get_tower(tower_id id)const ;
+    list<enemy>::iterator get_first();
+    list<enemy>::const_iterator get_first() const;
+    tower &get_tower(tower_id id);
 
     //updates all enemies and towers, removes unactive enemies, returns vector of towers ready to fire
     vector<tower_id> update_towers();
