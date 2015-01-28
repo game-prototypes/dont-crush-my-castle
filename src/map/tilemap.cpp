@@ -190,6 +190,9 @@ pair<unsigned int,unsigned int> tilemap::get_next_position(unsigned int x,unsign
     }
     return res;
 }
+set< pair<unsigned int,unsigned int> > tilemap::spawners_position() const {
+    return spawners;
+}
 bool tilemap::in_path(unsigned int x,unsigned int y) const {
     if(in_matrix(x,y))
         if(path_map[x][y]>-1) return true;

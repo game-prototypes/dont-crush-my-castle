@@ -13,6 +13,11 @@
 
 typedef unsigned int tower_id; //defines a id for a tile in the tileset
 //will be always >=1, 0 reserved for null id
+
+/*
+ordenar enemigos por posicion (map)
+reiniciar tower_id si llega muy alto
+*/
 class game_objects {
 private:
     list<enemy> spawned_enemies;

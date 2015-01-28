@@ -16,7 +16,7 @@ private:
     vector< vector<bool> > foreground; //foreground (occupied tiles)
     vector< vector<int> > path_map; //defines the distance to destiny of each tile
     set< pair<unsigned int,unsigned int> > destination; //possible targets of enemies
-    set< pair<unsigned int,unsigned int> > spawners; //possible targets of enemies
+    set< pair<unsigned int,unsigned int> > spawners; //enemy spawners
     string name;
     const tileset *tiles; //pointer to tileset
 public:
@@ -74,6 +74,8 @@ public:
     int get_path_value(unsigned int x,unsigned int y) const;
     //returns next tile (following path map)
     pair<unsigned int,unsigned int> get_next_position(unsigned int x,unsigned int y) const;
+    //return position of spawners
+    set< pair<unsigned int,unsigned int> > spawners_position() const;
     //return true if given position is in the path of the enemies
     bool in_path(unsigned int x,unsigned int y) const;
     //return true if is posible to build in given position (correct empty tile and enemy path not blocked
