@@ -84,7 +84,7 @@ int main() {
     //tile set test with 4 tiles of 20x20
     tileset tiles("test",bmp2,types,20,4);
     vector<tile_id> row;
-    row.push_back(2);//ground
+    row.push_back(0);//ground
     row.push_back(1);//road
     row.push_back(3);//road
     vector<vector<tile_id> > mapids;
