@@ -1,7 +1,7 @@
 //TITLE: TILESET_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 //DESCRIPTION: Information about a set of tiles to be used on maps
 
 #include "tileset.h"

@@ -1,7 +1,7 @@
 //TITLE: Enemy Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 //DESCRIPTION: test of enemies
 /*This test will check:
 enemy

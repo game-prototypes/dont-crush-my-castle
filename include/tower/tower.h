@@ -47,6 +47,7 @@ public:
     tower();
     //full constructor
     tower(const tower_attributes &attributes,double posx,double posy,const ALLEGRO_TIMER *timer);
+    ~tower();
     //deactivates the tower updating
     void deactivate();
     //return true if active

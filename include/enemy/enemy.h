@@ -1,7 +1,7 @@
 //TITLE: ENEMY_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 //DESCRIPTION: defines each single enemy
 
 #ifndef ENEMY_H
@@ -24,6 +24,7 @@ struct enemy_attributes {
     enemy_attributes();
     enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,unsigned int reward=0);
     enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation,unsigned int reward=0);
+    ~enemy_attributes();
     //insert animation (erasing previous animations and reseting all counters)
     void insert_animation(enemy_animation type,const al_anim &anim);
     //increase values according to level
@@ -56,7 +57,7 @@ public:
     //constructor with basic info, enemy life will start with the max_life value
     //constructor with spawning in position given
     enemy(const enemy_attributes &attributes,unsigned int level,double posx,double posy,const ALLEGRO_TIMER *timer);
-
+    ~enemy();
     //set enemy to active in given position
     void spawn(double posx,double posy);
 
