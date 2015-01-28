@@ -1,7 +1,7 @@
 //TITLE: TILEMAP_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 //DESCRIPTION: Generate,write,read and draw maps
 #ifndef TILEMAP_H
 #define TILEMAP_H
@@ -28,7 +28,7 @@ public:
     tilemap(const vector< vector<tile_id> > &background,const tileset *tiles,const set< pair<unsigned int,unsigned int> > &destination);
     //Loads from tmx file
     // void loadtmx(string filename);
-
+    ~tilemap();
     //MODIFICATION
     //clear all the map info (except tileset)
     void clear();
@@ -53,6 +53,12 @@ public:
     unsigned int get_width() const;
     //returns map height in tiles
     unsigned int get_height() const;
+    //return positon in tiles
+    pair<unsigned int,unsigned int> translate_position(double x,double y) const;
+    //return position in pixels (the center of the tile)
+    pair<double,double> translate_position(unsigned int x,unsigned int y) const;
+    //return size (height or width) of tile (in pixels)
+    unsigned int get_tile_size() const;
     //returns the map name
     string get_name() const;
     //return empty tile (true) or occupied tile(false)

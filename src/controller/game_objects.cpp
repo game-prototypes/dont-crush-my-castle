@@ -6,12 +6,12 @@
 #include "game_objects.h"
 
 game_objects::game_objects() {
-    current_id=0;
+    current_id=1;
 }
 game_objects::game_objects(const list<enemy> &spawned_enemies,const map<tower_id,tower> &spawned_towers) {
     this->spawned_enemies=spawned_enemies;
     this->spawned_towers=spawned_towers;
-    if(spawned_towers.empty()) current_id=0;
+    if(spawned_towers.empty()) current_id=1;
     else current_id=(spawned_towers.rbegin()->first)+1;
 }
 game_objects::~game_objects() {
@@ -31,7 +31,7 @@ void game_objects::remove_tower(tower_id id) {
 void game_objects::clear() {
     spawned_enemies.clear();
     spawned_towers.clear();
-    current_id=0;
+    current_id=1;
 }
 unsigned int game_objects::enemy_size() const {
     return spawned_enemies.size();

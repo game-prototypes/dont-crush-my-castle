@@ -1,7 +1,7 @@
 //TITLE: Map Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 //DESCRIPTION: test of DCmC for maps
 /*This test will check:
 tile
@@ -94,6 +94,11 @@ int main() {
     tilemap testmap("testing map",mapids,&tset,dest);
     if(testmap.get_name()!="testing map") test_result=false;
     if(testmap.get_width()!=4 || testmap.get_height()!=3) test_result=false;
+    if(testmap.get_tile_size()!=20) test_result=false;
+    if(testmap.translate_position(0.0,0.0)!=make_pair((unsigned int)0,(unsigned int)0)) test_result=false;
+    if(testmap.translate_position(-10.0,-5.0)!=make_pair((unsigned int)0,(unsigned int)0)) test_result=false;
+    if(testmap.translate_position(1000.0,1000.0)!=make_pair((unsigned int)4,(unsigned int)3)) test_result=false;
+    if(testmap.translate_position(25.0,15.0)!=make_pair((unsigned int)1,(unsigned int)0)) test_result=false;
     if(testmap.check()==false) test_result=false;
     testmap.occupy_tile(1,1);
     if(testmap.empty_section(0,0,4,1)==false) test_result=false;

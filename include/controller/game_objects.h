@@ -12,6 +12,7 @@
 #include <list>
 
 typedef unsigned int tower_id; //defines a id for a tile in the tileset
+//will be always >=1, 0 reserved for null id
 class game_objects {
 private:
     list<enemy> spawned_enemies;
@@ -30,7 +31,6 @@ public:
     //CONSULT
     unsigned int enemy_size() const;
     unsigned int tower_size() const;
-
     bool is_last_enemy(list<enemy>::iterator it) const;
     list<enemy>::iterator get_first_enemy();
     list<enemy>::const_iterator get_first_enemy() const;

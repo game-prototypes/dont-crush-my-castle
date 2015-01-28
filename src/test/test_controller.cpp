@@ -5,9 +5,10 @@
 //DESCRIPTION: will test different game controllers
 /*This test will check:
 game_objects
+player_controller
 */
 
-#include "game_objects.h"
+#include "player_controller.h"
 
 int main() {
     cout<<"GAME CONTROLLERS TEST";
@@ -70,7 +71,53 @@ int main() {
     go.remove_tower(tid);
     if(go.check()==false) test_result=false;
     if(go.tower_size()!=0) test_result=false;
-    al_destroy_bitmap(bmp);
+    //PLAYER CONTROLLER
+    ALLEGRO_BITMAP *bmp3=al_load_bitmap("spr/example_clock.png");
+    tower_attributes attr3("towerTest",bmp3,attr,110);
+    tower_set towers("tset",attr3,timer);
+    ALLEGRO_BITMAP *bmp2=al_load_bitmap("spr/example_clock.png");
+    vector<tile_type> types;
+    types.push_back(ground);
+    types.push_back(road);
+    types.push_back(road);
+    types.push_back(road);
+    //tile set test with 4 tiles of 20x20
+    tileset tiles("test",bmp2,types,20,4);
+    vector<tile_id> row;
+    row.push_back(2);//ground
+    row.push_back(1);//road
+    row.push_back(3);//road
+    vector<vector<tile_id> > mapids;
+    mapids.push_back(row);
+    mapids.push_back(row);
+    mapids.push_back(row);
+    mapids.push_back(row);
+    /*Map (with the tset "test)
+    2 2 2 2
+    1 1 1 1
+    3 3 3 3
+    */
+    //i=vertical
+    //j=horizontal
+    set<pair<unsigned int,unsigned int> > dest;
+    dest.insert(make_pair(0,2));
+    tilemap testmap("testing map",mapids,&tiles,dest);
+    player_controller pc(towers,go,testmap);
+    if(pc.check()==false) test_result=false;
+    if(pc.get_towers_size()!=towers.get_size()) test_result=false;
+    if(pc.get_tower_names().size()!=towers.get_size()) test_result=false;
+    if(pc.build_tower("towerTest",1,1)==false) test_result=false;
+    if(pc.build_tower("towerTest",10,10)==true) test_result=false;
+    if(pc.build_tower("towerTest",10,30)==true) test_result=false;
+    if(pc.spawned_towers()!=1) test_result=false;
+    if(pc.can_build(10,10)==true || pc.can_build(10,30)==true) test_result=false;
+    if(pc.can_build(30,10)==false) test_result=false;
+    if(pc.check()==false) test_result=false;
+    if(pc.get_tower(12,8)->get_name()!="towerTest") test_result=false;
+    pc.remove_tower(1,1);
+    if(pc.spawned_towers()!=0) test_result=false;
+    if(pc.check()==false) test_result=false;
+    al_destroy_bitmap(bmp2); //this is not destryed because tileset copy original bitmap with slice
     al_destroy_timer(timer);
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";

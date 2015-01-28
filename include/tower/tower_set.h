@@ -1,7 +1,7 @@
 //TITLE: TOWER_ATK_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 //DESCRIPTION: stores a set of towers
 
 #ifndef TOWER_SET_H
@@ -9,6 +9,7 @@
 
 #include "tower.h"
 #include <map>
+#include <set>
 
 class tower_set {
 private:
@@ -34,8 +35,9 @@ public:
     unsigned int get_size() const;
     bool empty() const;
     bool is_tower(const string &name) const;
+    set<string> get_towers_names() const;
 
-    tower spawn_tower(const string &name,double posx,double posy);//return new enemy spawned
+    tower spawn_tower(const string &name,double posx,double posy) const;//return new tower spawned
     bool check() const;
 };
 

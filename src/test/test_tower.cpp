@@ -102,6 +102,7 @@ int main() {
     tower_set testset("test_tower_set",attr2,timer);
     if(testset.get_name()!="test_tower_set") test_result=false;
     if(testset.get_size()!=1) test_result=false;
+    if((testset.get_towers_names()).size()!=1) test_result=false;
     if(testset.is_tower("towerTest")==false) test_result=false;
     if(testset.empty()==true) test_result=false;
     if(testset.check()==false) test_result=false;

@@ -1,7 +1,7 @@
 //TITLE: TILEMAP_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 //DESCRIPTION: Generate,write,read and draw maps
 
 #include "tilemap.h"
@@ -46,7 +46,9 @@ tilemap::tilemap(const vector< vector<tile_id> > &background,const tileset *tile
                }
            }
        }*/
-
+tilemap::~tilemap() {
+    clear();
+}
 void tilemap::clear() {
     name.clear();
     background.clear();
@@ -105,6 +107,27 @@ unsigned int tilemap::get_width() const {
 unsigned int tilemap::get_height() const {
     if(background.size()>0) return background[0].size();
     else return 0;
+}
+pair<unsigned int,unsigned int> tilemap::translate_position(double x,double y) const {
+    unsigned int siz=get_tile_size();
+    pair<unsigned int,unsigned int> res;
+    if(x<0) x=0.0;
+    if(y<0) y=0.0;
+    x/=siz;
+    y/=siz;
+    res=make_pair((unsigned int) x,(unsigned int) y);
+    if(res.first>get_width()) res.first=get_width();
+    if(res.second>get_height()) res.second=get_height();
+    return res;
+}
+pair<double,double> tilemap::translate_position(unsigned int x,unsigned int y) const {
+    unsigned int siz=get_tile_size();
+    double rx=(x*siz)+(siz/2);
+    double ry=(y*siz)+(siz/2);
+    return make_pair(rx,ry);
+}
+unsigned int tilemap::get_tile_size() const {
+    return tiles->get_tile_size();
 }
 
 string tilemap::get_name() const {
