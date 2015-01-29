@@ -53,7 +53,7 @@ int main() {
     if(it->is_active()==false) test_result=false;
     it->kill();
     it++;
-    if(go.is_last_enemy(it)==false) test_result=false;
+    if(go.get_last_enemy()!=it) test_result=false;
     tower *tt=go.get_tower(tid);
     if(tt->get_name()!="towerTest") test_result=false;
     if(tt->can_attack()==true) test_result=false;

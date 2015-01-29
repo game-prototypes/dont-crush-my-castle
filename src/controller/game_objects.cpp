@@ -39,15 +39,17 @@ unsigned int game_objects::enemy_size() const {
 unsigned int game_objects::tower_size() const {
     return spawned_towers.size();
 }
-bool game_objects::is_last_enemy(list<enemy>::iterator it) const {
-    if(it==spawned_enemies.end()) return true;
-    else return false;
-}
 list<enemy>::iterator game_objects::get_first_enemy() {
     return spawned_enemies.begin();
 }
 list<enemy>::const_iterator game_objects::get_first_enemy() const {
     return spawned_enemies.begin();
+}
+list<enemy>::iterator game_objects::get_last_enemy() {
+    return spawned_enemies.end();
+}
+list<enemy>::const_iterator game_objects::get_last_enemy() const {
+    return spawned_enemies.end();
 }
 tower *game_objects::get_tower(tower_id id) {
     return &spawned_towers[id];

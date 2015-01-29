@@ -36,7 +36,7 @@ public:
 
 class game_master {
 private:
-	game_spawner spawner;
+    game_spawner spawner;
     enemy_set *enemies;
     game_objects *objects;
     const tilemap *game_map;
@@ -45,7 +45,7 @@ public:
     game_master(enemy_set &enemies,game_objects &objects,const tilemap &tilemap);
     ~game_master();
 
-//TODO
+    //TODO
 
 
 

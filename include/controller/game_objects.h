@@ -36,9 +36,10 @@ public:
     //CONSULT
     unsigned int enemy_size() const;
     unsigned int tower_size() const;
-    bool is_last_enemy(list<enemy>::iterator it) const;
     list<enemy>::iterator get_first_enemy();
     list<enemy>::const_iterator get_first_enemy() const;
+    list<enemy>::iterator get_last_enemy();
+    list<enemy>::const_iterator get_last_enemy() const;
     tower *get_tower(tower_id id);
     const tower *get_tower(tower_id id) const;
 
