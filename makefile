@@ -36,7 +36,7 @@ _ENEMY=enemy.cpp enemy_set.cpp
 ENEMY_O=$(patsubst %,$(ODIR)/%,$(_ENEMY:.cpp=.o))
 _TOWER=tower_atk.cpp tower.cpp tower_set.cpp
 TOWER_O=$(patsubst %,$(ODIR)/%,$(_TOWER:.cpp=.o))
-_CONTROLLER=game_objects.cpp player_controller.cpp
+_CONTROLLER=game_objects.cpp player_controller.cpp game_master.cpp
 CONTROLLER_O=$(patsubst %,$(ODIR)/%,$(_CONTROLLER:.cpp=.o))
 
 _TEST_UTILS=al_utils.o debug_log.o test_utils.o

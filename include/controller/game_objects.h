@@ -23,6 +23,7 @@ private:
     list<enemy> spawned_enemies;
     map<tower_id,tower> spawned_towers;
     tower_id current_id;
+    unsigned int killed;
 public:
     game_objects();
     game_objects(const list<enemy> &spawned_enemies,const map<tower_id,tower> &spawned_towers);
@@ -36,6 +37,7 @@ public:
     //CONSULT
     unsigned int enemy_size() const;
     unsigned int tower_size() const;
+    unsigned int killed_enemies() const;
     list<enemy>::iterator get_first_enemy();
     list<enemy>::const_iterator get_first_enemy() const;
     list<enemy>::iterator get_last_enemy();
@@ -45,7 +47,8 @@ public:
 
     //updates all enemies and towers, removes unactive enemies, returns vector of towers ready to fire
     vector<tower_id> update_towers();
-    void update_enemies();
+    //updates all enemies, returns all enemies in idle
+    vector<list<enemy>::iterator> update_enemies();
     void draw_towers() const;
     void draw_enemies() const;
     bool check();

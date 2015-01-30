@@ -2,17 +2,19 @@
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
 //VERSION: 0.5
-//DESCRIPTION: stores all instantiated ofjects in the scene
+//DESCRIPTION: stores all instantiated objects in the scene
 #include "game_objects.h"
 
 game_objects::game_objects() {
     current_id=1;
+    killed=0;
 }
 game_objects::game_objects(const list<enemy> &spawned_enemies,const map<tower_id,tower> &spawned_towers) {
     this->spawned_enemies=spawned_enemies;
     this->spawned_towers=spawned_towers;
     if(spawned_towers.empty()) current_id=1;
     else current_id=(spawned_towers.rbegin()->first)+1;
+    killed=0;
 }
 game_objects::~game_objects() {
     clear();
@@ -32,12 +34,16 @@ void game_objects::clear() {
     spawned_enemies.clear();
     spawned_towers.clear();
     current_id=1;
+    killed=0;
 }
 unsigned int game_objects::enemy_size() const {
     return spawned_enemies.size();
 }
 unsigned int game_objects::tower_size() const {
     return spawned_towers.size();
+}
+unsigned int game_objects::killed_enemies() const {
+    return killed;
 }
 list<enemy>::iterator game_objects::get_first_enemy() {
     return spawned_enemies.begin();
@@ -67,15 +73,19 @@ vector<tower_id> game_objects::update_towers() {
     }
     return res;
 }
-void game_objects::update_enemies() {
+vector<list<enemy>::iterator> game_objects::update_enemies() {
+    vector<list<enemy>::iterator> res;
     for(list<enemy>::iterator it=spawned_enemies.begin(); it!=spawned_enemies.end(); it++) {
         it->update();
         if(it->is_active()==false) {
+            killed++;
             list<enemy>::iterator it2=it;
-            it++;
-            spawned_enemies.erase(it2); //maybe problem here!!!
+            it--;
+            spawned_enemies.erase(it2);
         }
+        else if(it->idle()) res.push_back(it);
     }
+    return res;
 }
 void game_objects::draw_towers() const {
     for(map<tower_id,tower>::const_iterator it=spawned_towers.begin(); it!=spawned_towers.end(); it++)

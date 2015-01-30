@@ -9,6 +9,7 @@ player_controller
 */
 
 #include "player_controller.h"
+#include "game_master.h"
 
 int main() {
     cout<<"GAME CONTROLLERS TEST";
