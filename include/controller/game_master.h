@@ -11,6 +11,8 @@
 #include "tilemap.h"
 #include "enemy_set.h"
 #include <stack>
+//#include <stdlib.h>
+//#include <time.h>
 
 typedef std::stack<std::pair<unsigned int,string> > spawn_wave;
 const double enemies_spawn_speed=0.1; //speed between spawning
@@ -37,6 +39,7 @@ public:
 class game_master {
 private:
     game_spawner spawner;
+    //list<pair<tower_atk,list<enemy>::iterator> spawned_attacks;
     spawn_wave left;
     enemy_set *enemies;
     game_objects *objects;
@@ -56,9 +59,11 @@ public:
     void update();
     bool check() const;
 private:
-    void update_attacks(vector<tower_id> &towers);
-    void update_position(vector<list<enemy>::iterator> &enemy_list);
+    void update_tower_attacks(vector<tower_id> &towers);
+    void update_enemy_position(const vector<list<enemy>::iterator> &enemy_list);
+    void update_attacks();
     void spawn(const spawn_wave &wave);
-    void spawn(const string &enemy);
+    //spawn one enemy in a random place in map
+    void spawn(const string &enemy_name);
 };
 #endif

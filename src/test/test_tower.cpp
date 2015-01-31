@@ -35,6 +35,9 @@ int main() {
     if(attr.check()==false) test_result=false;
     tower_atk atk(attr,make_pair(0,0),make_pair(5,5),timer);
     if(atk.check()==false) test_result=false;
+    if(atk.is_valid()==false) test_result=false;
+    atk.invalidate();
+    if(atk.is_valid()==true) test_result=false;
     if(atk.get_damage()!=10) test_result=false;
     if(atk.get_speed()!=2) test_result=false;
     if(atk.get_range()!=8) test_result=false;

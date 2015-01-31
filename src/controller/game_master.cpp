@@ -61,6 +61,7 @@ bool active;
 game_master::game_master() {
     this->current_wave=0;
     set_active(false);
+    srand(time(NULL));
 }
 game_master::game_master(enemy_set &enemies,game_objects &objects,const tilemap &game_map) {
     this->enemies=&enemies;
@@ -68,6 +69,7 @@ game_master::game_master(enemy_set &enemies,game_objects &objects,const tilemap 
     this->game_map=&game_map;
     current_wave=0;
     set_active(true);
+    srand(time(NULL));
 }
 game_master::~game_master() {
     current_wave=0;
@@ -89,16 +91,32 @@ void game_master::set_active(bool active) {
 //updates all info
 void game_master::update() {
     if(active) {
+        //  	vector<tower_id> update_towers();
+        //update_tower_attacks;
+        //  vector<list<enemy>::iterator> update_enemies();
+        //update_enemy_position();
+        //  	objects->update_attacks();
     }
 }
 bool game_master::check()const {
+    bool b=true;
+    return b;
 }
 //Private
-void game_master::update_attacks(vector<tower_id> &towers) {
+void game_master::update_tower_attacks(vector<tower_id> &towers) {
 }
-void game_master::update_position(vector<list<enemy>::iterator> &enemy_list) {
+void game_master::update_enemy_position(const vector<list<enemy>::iterator> &enemy_list) {
 }
+void game_master::update_attacks() {
+}
+
 void game_master::spawn(const spawn_wave &wave) {
 }
-void game_master::spawn(const string &enemy) {
+void game_master::spawn(const string &enemy_name) {
+    if(enemies->is_enemy(enemy_name)) {
+        vector< pair<unsigned int,unsigned int> > spawner_vector=game_map->spawners_position();
+        unsigned int rand_spaw = rand() % spawner_vector.size();
+        objects->add_enemy(enemies->spawn_enemy(enemy_name,current_wave,spawner_vector[rand_spaw].first,spawner_vector[rand_spaw].second));
+    }
+    else debug_log::report("enemy name not in set",err,true,true,false);
 }

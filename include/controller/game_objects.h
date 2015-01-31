@@ -22,15 +22,18 @@ class game_objects {
 private:
     list<enemy> spawned_enemies;
     map<tower_id,tower> spawned_towers;
+    list<pair<list<enemy>::iterator,tower_atk> > spawned_attacks;
+
     tower_id current_id;
     unsigned int killed;
 public:
     game_objects();
-    game_objects(const list<enemy> &spawned_enemies,const map<tower_id,tower> &spawned_towers);
+    //game_objects(const list<enemy> &spawned_enemies,const map<tower_id,tower> &spawned_towers,const multimap<list<enemy>::iterator,tower_atk> &spawned_attacks);
     ~game_objects();
     //MODIFIERS
     void add_enemy(const enemy &new_enemy);
     tower_id add_tower(const tower &new_tower);
+    void add_attack(const tower_atk &atk,list<enemy>::iterator target);
     void remove_tower(tower_id id);
     void clear(); //removes all data (without destroying)
 
@@ -47,11 +50,16 @@ public:
 
     //updates all enemies and towers, removes unactive enemies, returns vector of towers ready to fire
     vector<tower_id> update_towers();
-    //updates all enemies, returns all enemies in idle
+    //updates all enemies, returns all enemies in idle, set to invalid all attacks of killed enemy
     vector<list<enemy>::iterator> update_enemies();
+    //updates all attacks, damaging all enemies when collided
+    void update_attacks();
     void draw_towers() const;
     void draw_enemies() const;
     bool check();
+
+private:
+    void invalidate_attacks(vector<list<enemy>::iterator> to_invalidate);
 
 };
 
