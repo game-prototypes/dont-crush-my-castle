@@ -23,6 +23,7 @@ MAPDIR=$(IDIR)/map
 ENEMYDIR=$(IDIR)/enemy
 TOWERDIR=$(IDIR)/tower
 CONTROLLERDIR=$(IDIR)/controller
+TESTDIR=$(SDIR)/test
 
 _INC=$(UTILSDIR) $(MAPDIR) $(ENEMYDIR) $(TOWERDIR) $(CONTROLLERDIR)
 #INC=$(patsubst %,$(IDIR)/%,$(_INC))
@@ -39,32 +40,16 @@ TOWER_O=$(patsubst %,$(ODIR)/%,$(_TOWER:.cpp=.o))
 _CONTROLLER=game_objects.cpp player_controller.cpp game_master.cpp
 CONTROLLER_O=$(patsubst %,$(ODIR)/%,$(_CONTROLLER:.cpp=.o))
 
-_TEST_UTILS=al_utils.o debug_log.o test_utils.o
-TEST_UTILS_O=$(patsubst %,$(ODIR)/%,$(_TEST_UTILS))
-TEST_ANIM_O=$(AL_UTILS_O) $(ODIR)/test_anim.o 
-TEST_MAP_O=$(AL_UTILS_O) $(MAP_O) $(ODIR)/test_map.o
-TEST_ENEMY_O=$(AL_UTILS_O) $(ENEMY_O) $(ODIR)/test_enemy.o
-TEST_TOWER_O=$(AL_UTILS_O) $(TOWER_O) $(ODIR)/test_tower.o
-TEST_CONTROLLER_O=$(AL_UTILS_O) $(MAP_O) $(ENEMY_O) $(TOWER_O) $(CONTROLLER_O) $(ODIR)/test_controller.o
+TEST_O=$(AL_UTILS_O) $(MAP_O) $(ENEMY_O) $(TOWER_O) $(CONTROLLER_O) $(TESTDIR)/main_test.cpp
 
 .PHONY: all
 all: test
 
 #Compile tests
-bin/test_utils: $(TEST_UTILS_O)
-	$(CXX) -o $@ $^ $(CPPFLAGS) -I $(UTILSDIR) $(ALLEGROFLAGS)
-bin/test_anim: $(TEST_ANIM_O)
-	$(CXX) -o $@ $^ $(CPPFLAGS) -I $(UTILSDIR) $(ALLEGROFLAGS)
-bin/test_map: $(TEST_MAP_O)
-	$(CXX) -o $@ $^ $(CPPFLAGS) -I $(UTILSDIR) -I $(MAPDIR) $(ALLEGROFLAGS)
-bin/test_enemy: $(TEST_ENEMY_O)
-	$(CXX) -o $@ $^ $(CPPFLAGS) -I $(UTILSDIR) -I $(ENEMYDIR)  $(ALLEGROFLAGS)
-bin/test_tower: $(TEST_TOWER_O)
-	$(CXX) -o $@ $^ $(CPPFLAGS) -I $(UTILSDIR) -I $(TOWERDIR)  $(ALLEGROFLAGS)
-bin/test_controller: $(TEST_CONTROLLER_O)
-	$(CXX) -o $@ $^ $(CPPFLAGS) $(I_INC) $(ALLEGROFLAGS)
+bin/main_test: $(TEST_O)
+	$(CXX) -o $@ $^ $(CPPFLAGS) $(I_INC) -I $(TESTDIR) $(ALLEGROFLAGS)
 #compile a generic .o
-obj/%.o: $(SDIR)/*/%.cpp $(INC)
+obj/%.o: $(SDIR)/*/%.cpp
 	$(CXX) -c -o $@ $< $(I_INC) $(CPPFLAGS)
 
 #Creates directories if dont exists
@@ -77,7 +62,7 @@ $(ODIR)/:
 	
 #compile tests binaries
 .PHONY: test
-test: $(BDIR) $(ODIR)  bin/test_utils bin/test_anim bin/test_map bin/test_enemy bin/test_tower bin/test_controller
+test: $(BDIR) $(ODIR) bin/main_test
 #astyle for all code (.cpp and .h)
 .PHONY: astyle
 astyle:

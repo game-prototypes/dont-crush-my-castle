@@ -8,10 +8,10 @@ game_objects
 player_controller
 */
 
-#include "player_controller.h"
-#include "game_master.h"
+#ifndef CONTROLLER_TEST
+#define CONTROLLER_TEST
 
-int main() {
+bool test_controller() {
     cout<<"GAME CONTROLLERS TEST";
     bool test_result=true;
     //ALLEGRO display,timer and queue pointers
@@ -123,5 +123,6 @@ int main() {
     al_destroy_timer(timer);
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
-    return !test_result;
+    return test_result;
 }
+#endif

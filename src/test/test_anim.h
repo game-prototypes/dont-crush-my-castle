@@ -6,11 +6,11 @@
 This test will check:
 al_anim
 */
+#ifndef AL_ANIM_TEST
+#define AL_ANIM_TEST
 
-#include "al_anim.h"
-using namespace std;
 
-int main() {
+bool test_animation() {
     cout<<"AL_ANIM TEST";
     //Final result of test, true if everything OK
     bool test_result=true;
@@ -69,5 +69,6 @@ int main() {
     if(animtest.size()>0) test_result=false;
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
-    return !test_result;
+    return test_result;
 }
+#endif

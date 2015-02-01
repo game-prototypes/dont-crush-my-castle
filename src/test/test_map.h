@@ -8,16 +8,17 @@ tile
 tileset
 tilemap
 */
-#include "tilemap.h"
+#ifndef MAP_TEST
+#define MAP_TEST
 
 
-void test(tile &t) {
+void test_func(tile &t) {
     ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
     tile tt(road,bmp,80);
     t=tt;
 }
 
-int main() {
+bool test_map() {
     cout<<"TILEMAP TEST";
     //Final result of test, true if everything OK
     bool test_result=true;
@@ -40,7 +41,7 @@ int main() {
     testtile=*testtile2;
     delete testtile2;
     if(testtile.get_size()!=256 || testtile.type!=ground) test_result=false;
-    test(testtile);
+    test_func(testtile);
     if(testtile.get_size()!=80) test_result=false;
     //TESTING TILESET
     vector<tile_type> types;
@@ -159,6 +160,7 @@ int main() {
     //test background,foreground and path map
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
-    return !test_result;
+    return test_result;
 }
 
+#endif

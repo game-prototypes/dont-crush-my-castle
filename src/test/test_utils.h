@@ -6,9 +6,10 @@
 This test will check:
 al_utils
 */
-#include "al_utils.h"
+#ifndef UTILITIES_TEST
+#define UTILITIES_TEST
 
-int main() {
+ bool test_utilities() {
     cout<<"AL_UTILS TEST";
     //Final result of test, true if everything OK
     bool test_result=true;
@@ -17,8 +18,6 @@ int main() {
     ALLEGRO_TIMER *timer;
     ALLEGRO_EVENT_QUEUE *event_queue;
     //allegro startup with image addon
-    al_init();
-    al_init_image_addon();
     //Declaration and assign of display,event_queue and timer
     //display = al_create_display(640, 480);
     event_queue = al_create_event_queue();
@@ -118,5 +117,7 @@ int main() {
     //al_destroy_display(display);
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
-    return !test_result;
+    return test_result;
 }
+
+#endif
