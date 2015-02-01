@@ -15,7 +15,9 @@
 //#include <time.h>
 
 typedef std::stack<std::pair<unsigned int,string> > spawn_wave;
-const double enemies_spawn_speed=0.1; //speed between spawning
+const double enemies_spawn_delay=0.1; //speed between spawning (seconds)
+const unsigned int check_towers_atk_delay=10; //delay (in frames) between checks of tower attacks (costly operation to do each frame)
+
 //information about spawning enemies
 class game_spawner {
 private:
@@ -31,7 +33,7 @@ public:
     void clear();
     unsigned int get_delay() const;
     unsigned int get_total_waves() const;
-    const spawn_wave &get_wave(unsigned int wave_number)const;
+    const spawn_wave &get_wave(unsigned int wave_number) const;
     bool check() const;
 };
 
@@ -45,10 +47,18 @@ private:
     game_objects *objects;
     const tilemap *game_map;
     unsigned int current_wave;
+
+    unsigned int spawn_delay; //in frames
+    unsigned int wave_delay; //in frames
+
+    unsigned int tower_atk_counter; //count for next update_tower_attacks
+    unsigned int wave_delay_counter;
+    unsigned int spawn_delay_counter;
+
     bool active;
 public:
     game_master();
-    game_master(enemy_set &enemies,game_objects &objects,const tilemap &game_map);
+    game_master(enemy_set &enemies,game_objects &objects,const tilemap &game_map,const game_spawner &spawner,const ALLEGRO_TIMER *timer);
     ~game_master();
 
     unsigned int get_current_wave() const;
@@ -61,9 +71,11 @@ public:
 private:
     void update_tower_attacks(vector<tower_id> &towers);
     void update_enemy_position(const vector<list<enemy>::iterator> &enemy_list);
-    void update_attacks();
+    //spawn a wave (set it to left)
     void spawn(const spawn_wave &wave);
     //spawn one enemy in a random place in map
-    void spawn(const string &enemy_name);
+    void spawn();
+    void set_delays(const ALLEGRO_TIMER *timer);
+    void game_over();
 };
 #endif

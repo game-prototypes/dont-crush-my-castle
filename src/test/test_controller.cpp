@@ -72,6 +72,7 @@ int main() {
     go.remove_tower(tid);
     if(go.check()==false) test_result=false;
     if(go.tower_size()!=0) test_result=false;
+    //TODO: test tower_atk in gameobjects
     //PLAYER CONTROLLER
     ALLEGRO_BITMAP *bmp3=al_load_bitmap("spr/example_clock.png");
     tower_attributes attr3("towerTest",bmp3,attr,110);

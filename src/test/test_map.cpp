@@ -137,6 +137,7 @@ int main() {
     if(testmap2.in_path(0,1)==false) test_result=false;
     if(testmap.check()==false) test_result=false;
     if(testmap.get_path_value(0,2)!=0) test_result=false;
+    if(testmap.get_path_value_of_position(5,46)!=0) test_result=false;
     for(unsigned int i=0; i<testmap.get_width(); i++) {
         if(testmap.get_path_value(i,0)!=-1) test_result=false;
     }

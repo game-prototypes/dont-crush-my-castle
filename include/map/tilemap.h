@@ -72,8 +72,12 @@ public:
     tile_type get_tile_type(unsigned int x,unsigned int y) const;
     //returns path value
     int get_path_value(unsigned int x,unsigned int y) const;
+    //returns path value of position in pixels
+    int get_path_value_of_position(double x,double y) const;
     //returns next tile (following path map)
     pair<unsigned int,unsigned int> get_next_position(unsigned int x,unsigned int y) const;
+    //return position to move (in pixels)
+    pair<double,double> get_next_position(double x,double y) const;
     //return position of spawners
     vector< pair<unsigned int,unsigned int> > spawners_position() const;
     //return true if given position is in the path of the enemies

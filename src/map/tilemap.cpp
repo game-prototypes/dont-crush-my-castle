@@ -169,6 +169,10 @@ int tilemap::get_path_value(unsigned int x,unsigned int y)const {
         return path_map[x][y];
     else return -1;
 }
+int tilemap::get_path_value_of_position(double x,double y) const {
+    pair<unsigned int,unsigned int> p=translate_position(x,y);
+    return get_path_value(p.first,p.second);
+}
 pair<unsigned int,unsigned int> tilemap::get_next_position(unsigned int x,unsigned int y) const {
     pair<unsigned int,unsigned int> res=make_pair(x,y);
     int min=get_path_value(x,y);
@@ -189,6 +193,12 @@ pair<unsigned int,unsigned int> tilemap::get_next_position(unsigned int x,unsign
         res=make_pair(x+1,y);
     }
     return res;
+}
+pair<double,double> tilemap::get_next_position(double x,double y) const {
+    pair<unsigned int,unsigned int> p2=translate_position(x,y);
+    p2=get_next_position(p2.first,p2.second);
+    pair<double,double> p=translate_position(p2.first,p2.second);
+    return p;
 }
 vector< pair<unsigned int,unsigned int> > tilemap::spawners_position() const {
     return vector< pair<unsigned int,unsigned int> > (spawners.begin(),spawners.end());
