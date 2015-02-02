@@ -22,9 +22,6 @@ bool test_map() {
     cout<<"TILEMAP TEST";
     //Final result of test, true if everything OK
     bool test_result=true;
-    //allegro startup with image addon
-    al_init();
-    al_init_image_addon();
     //load example bitmap
     ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
     if(bmp==NULL) {

@@ -14,13 +14,6 @@ player_controller
 bool test_controller() {
     cout<<"GAME CONTROLLERS TEST";
     bool test_result=true;
-    //ALLEGRO display,timer and queue pointers
-    ALLEGRO_TIMER *timer;
-    //allegro startup with image addon
-    al_init();
-    al_init_image_addon();
-    timer = al_create_timer(1.0 / 60); //60 fps timer
-    al_start_timer(timer); //begin timer
     ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
     resize_bitmap(bmp,100,100);
     //ENEMY
@@ -120,7 +113,6 @@ bool test_controller() {
     if(pc.spawned_towers()!=0) test_result=false;
     if(pc.check()==false) test_result=false;
     al_destroy_bitmap(bmp2); //this is not destryed because tileset copy original bitmap with slice
-    al_destroy_timer(timer);
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
     return test_result;

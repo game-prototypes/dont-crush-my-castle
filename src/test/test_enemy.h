@@ -14,18 +14,6 @@ enemyset
 bool test_enemy() {
     cout<<"ENEMY TEST";
     bool test_result=true;
-    //ALLEGRO display,timer and queue pointers
-    ALLEGRO_TIMER *timer;
-    ALLEGRO_EVENT_QUEUE *event_queue;
-    //allegro startup with image addon
-    al_init();
-    al_init_image_addon();
-    //Declaration and assign of display,event_queue and timer
-    event_queue = al_create_event_queue();
-    timer = al_create_timer(1.0 / 60); //60 fps timer
-    //register timer and events
-    al_register_event_source(event_queue,al_get_timer_event_source(timer));
-    al_start_timer(timer); //begin timer
     //ENEMY ATTRIBUTES
     enemy_attributes testenemy_attr("minion test",100,10,2,5);
     map<enemy_animation,al_anim> vanim;
@@ -94,8 +82,6 @@ bool test_enemy() {
     if(testset.is_enemy("minion test")==true) test_result=false;
     if(testset.get_size()!=0 || testset.empty()==false) test_result=false;
     anim.destroy();
-    al_destroy_event_queue(event_queue);
-    al_destroy_timer(timer);
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
     return test_result;

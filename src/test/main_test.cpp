@@ -8,6 +8,8 @@
 #include "player_controller.h"
 #include "game_master.h"
 using namespace std;
+//ALLEGRO,timer and queue pointers
+ALLEGRO_TIMER *timer;
 
 #include "test_utils.h"
 #include "test_anim.h"
@@ -16,17 +18,22 @@ using namespace std;
 #include "test_tower.h"
 #include "test_controller.h"
 
+
+
 int main() {
     cout<<"DCmC Test\n";
     bool test_result=true;
     al_init();
     al_init_image_addon();
+    timer = al_create_timer(1.0 / 60); //60 fps timer
+    al_start_timer(timer); //begin timer
     test_result=test_result && test_utilities();
     test_result=test_result && test_animation();
     test_result=test_result && test_map();
     test_result=test_result && test_enemy();
     test_result=test_result && test_tower();
     test_result=test_result && test_controller();
+    al_destroy_timer(timer);
     cout<<"Final Result - ";
     if(test_result==true) cout<<"OK\n";
     else cout<<"FAIL\n";
