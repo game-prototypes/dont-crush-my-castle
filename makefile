@@ -1,4 +1,4 @@
-#Don't Crush my Castle Makefile v0.5
+#Don't Crush my Castle Makefile v0.6
 #by demiurgosoft
 #Just type make to compile project (currently compiling tests)
 #make test: compile tests
@@ -24,6 +24,7 @@ ENEMYDIR=$(IDIR)/enemy
 TOWERDIR=$(IDIR)/tower
 CONTROLLERDIR=$(IDIR)/controller
 TESTDIR=$(SDIR)/test
+MAINDIR=$(SDIR)/main
 
 _INC=$(UTILSDIR) $(MAPDIR) $(ENEMYDIR) $(TOWERDIR) $(CONTROLLERDIR)
 #INC=$(patsubst %,$(IDIR)/%,$(_INC))
@@ -44,9 +45,13 @@ TEST_O=$(AL_UTILS_O) $(MAP_O) $(ENEMY_O) $(TOWER_O) $(CONTROLLER_O) $(TESTDIR)/m
 _TEST_H=test_utils.h test_anim.h test_map.h test_tower.h test_enemy.h test_controller.h
 TEST_H=$(patsubst %,$(TESTDIR)/%,$(_TEST_H))
 
-.PHONY: all
-all: test
+MAIN_O=$(AL_UTILS_O) $(MAP_O) $(ENEMY_O) $(TOWER_O) $(CONTROLLER_O) $(ODIR)/DCmC.o
 
+.PHONY: all
+all: main
+
+bin/DCmC: $(MAIN_O)
+	$(CXX) -o $@ $^ $(CPPFLAGS) $(I_INC) -I $(TESTDIR) $(ALLEGROFLAGS)
 #Compile tests
 bin/main_test: $(TEST_O)
 	$(CXX) -o $@ $^ $(CPPFLAGS) $(I_INC) -I $(TESTDIR) $(ALLEGROFLAGS)
@@ -61,7 +66,8 @@ $(ODIR)/:
 	mkdir $(ODIR)
 	
 	
-	
+.PHONY: main
+main: $(BDIR) $(ODIR) bin/DCmC
 #compile tests binaries
 .PHONY: test
 test: $(BDIR) $(ODIR) $(TEST_H) bin/main_test

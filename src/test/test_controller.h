@@ -113,7 +113,7 @@ bool test_controller() {
     if(pc.spawned_towers()!=0) test_result=false;
     if(pc.check()==false) test_result=false;
     //GAME MASTER
-    spawn_wave wave; 
+    spawn_wave wave;
     wave.push(make_pair(5,"enemyTest"));
     game_spawner gspawn(wave,2);
     if(gspawn.get_delay()!=2) test_result=false;
