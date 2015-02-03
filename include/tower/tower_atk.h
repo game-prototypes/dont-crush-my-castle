@@ -1,7 +1,7 @@
 //TITLE: TOWER_ATK_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 //DESCRIPTION: defines the attack of buildings
 #ifndef TOWER_ATK_H
 #define TOWER_ATK_H
@@ -39,6 +39,7 @@ private:
     pair<double,double> destiny; //position to move
     double speed; //speed (pixels per frame)
     bool collide; //true if the attack reached destiny
+    bool valid; //true if attack is valid (enemy alive)
     bool active;
 public:
     //default constructor
@@ -47,6 +48,8 @@ public:
     tower_atk(const atk_attributes &attributes,pair<double,double> position,pair<double,double> destiny,const ALLEGRO_TIMER *timer);
     //destroyed (dont destroy animation or bitmap!!)
     ~tower_atk();
+    //invalidates attack
+    void invalidate();
     //return atk damage
     unsigned int get_damage() const;
     //returns speed in pixels per second
@@ -59,6 +62,8 @@ public:
     atk_type get_type() const;
     //return true if active
     bool is_active() const;
+    //return true if valid
+    bool is_valid() const;
     //return true after collision
     bool hit() const;
     //updates the attack,updating its position and colliding if necessary

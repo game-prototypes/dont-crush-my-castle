@@ -1,7 +1,7 @@
 //TITLE: TILE_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 //DESCRIPTION: Defines one tile of a tileset
 
 #ifndef TILE_H

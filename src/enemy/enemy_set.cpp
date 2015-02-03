@@ -1,7 +1,7 @@
 //TITLE: ENEMY_SET_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 //DESCRIPTION: stores all kinds of enemies and spawn instances of each enemy
 
 #include "enemy_set.h"
@@ -59,8 +59,8 @@ unsigned int enemy_set::get_size() const {
 bool enemy_set::empty() const {
     return enemies.empty();
 }
-bool enemy_set::is_enemy(const string &name) const{
- if(enemies.find(name)!=enemies.end()) return true;
+bool enemy_set::is_enemy(const string &name) const {
+    if(enemies.find(name)!=enemies.end()) return true;
     else return false;
 }
 enemy enemy_set::spawn_enemy(const string &name,unsigned int level,double posx,double posy) {

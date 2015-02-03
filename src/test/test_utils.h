@@ -1,33 +1,18 @@
 //TITLE: Al_utils Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 /*DESCRIPTION: basic test of allegro utilities (src/utilities) for DCmC
 This test will check:
 al_utils
 */
-#include "al_utils.h"
-using namespace std;
+#ifndef UTILITIES_TEST
+#define UTILITIES_TEST
 
-int main() {
+bool test_utilities() {
     cout<<"AL_UTILS TEST";
     //Final result of test, true if everything OK
     bool test_result=true;
-    //ALLEGRO display,timer and queue pointers
-    //ALLEGRO_DISPLAY *display;
-    ALLEGRO_TIMER *timer;
-    ALLEGRO_EVENT_QUEUE *event_queue;
-    //allegro startup with image addon
-    al_init();
-    al_init_image_addon();
-    //Declaration and assign of display,event_queue and timer
-    //display = al_create_display(640, 480);
-    event_queue = al_create_event_queue();
-    timer = al_create_timer(1.0 / 60); //60 fps timer
-    //register timer and display events
-    //al_register_event_source(event_queue,al_get_display_event_source(display));
-    al_register_event_source(event_queue,al_get_timer_event_source(timer));
-    al_start_timer(timer); //begin timer
     //load example bitmap
     ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
     if(bmp==NULL) {
@@ -96,28 +81,10 @@ int main() {
     p1=movement_update(p1,p2,spd2);
     if(p1!=p2) test_result=false; //now whe are here
     //draw centered not tested
-    /*
-    al_anim animtest(bmp,64,64,0.5,timer);
-    animtest.start();
-    double x=0,y=0;
-
-    while(true) {
-        ALLEGRO_EVENT event;
-        al_wait_for_event(event_queue,&event);
-        if(event.type==ALLEGRO_EVENT_DISPLAY_CLOSE) break;
-        if(event.type==ALLEGRO_EVENT_TIMER) {
-            al_clear_to_color(al_map_rgb(1,1,1));
-            animtest.update();
-            animtest.draw(x,y);
-            al_flip_display();
-        }
-    }
-    animtest.destroy();*/
     al_destroy_bitmap(bmp);
-    al_destroy_event_queue(event_queue);
-    al_destroy_timer(timer);
-    //al_destroy_display(display);
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
-    return !test_result;
+    return test_result;
 }
+
+#endif

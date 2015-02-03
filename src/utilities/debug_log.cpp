@@ -1,7 +1,7 @@
 //TITLE: Debug Log
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 //DESCRIPTION: Logs for warnings and errors
 
 #include "debug_log.h"

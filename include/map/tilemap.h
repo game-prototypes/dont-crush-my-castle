@@ -1,28 +1,34 @@
 //TITLE: TILEMAP_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 //DESCRIPTION: Generate,write,read and draw maps
 #ifndef TILEMAP_H
 #define TILEMAP_H
 
 #include "tileset.h"
 #include <stack>
+#include <set>
 
 class tilemap {
 private:
     vector< vector<tile_id> > background; //background (grass,roads...)
     vector< vector<bool> > foreground; //foreground (occupied tiles)
     vector< vector<int> > path_map; //defines the distance to destiny of each tile
+    set< pair<unsigned int,unsigned int> > destination; //possible targets of enemies
+    set< pair<unsigned int,unsigned int> > spawners; //enemy spawners
     string name;
     const tileset *tiles; //pointer to tileset
 public:
+    //default coonstructor
     tilemap();
-    tilemap(const string &name,const vector< vector<tile_id> > &background,const tileset *tiles);
-    tilemap(const vector< vector<tile_id> > &background,const tileset *tiles);
+    //full constructor with name
+    tilemap(const string &name,const vector< vector<tile_id> > &background,const tileset *tiles,const set< pair<unsigned int,unsigned int> > &destination);
+    //full constructor without name
+    tilemap(const vector< vector<tile_id> > &background,const tileset *tiles,const set< pair<unsigned int,unsigned int> > &destination);
     //Loads from tmx file
     // void loadtmx(string filename);
-
+    ~tilemap();
     //MODIFICATION
     //clear all the map info (except tileset)
     void clear();
@@ -34,8 +40,12 @@ public:
     void free_tile(unsigned int x,unsigned int y);
     //set all tiles to empty in the given section
     void free_section(unsigned int x,unsigned int y,unsigned int width,unsigned int height);
-    //set destiny and update path map
-    void set_destiny(const vector< pair<unsigned int,unsigned int> > &destination);
+    //add destiny to map
+    void add_destiny(unsigned int x,unsigned int y);
+    //adds new spawner
+    void add_spawner(unsigned int x,unsigned int y);
+    //sets tile in position[x,y] with given tile id
+    void set_tile(unsigned int x,unsigned int y,tile_id tid);
     //ACCESS
     //return true if given positon is in matrix
     bool in_matrix(unsigned int x,unsigned int y) const;
@@ -43,6 +53,12 @@ public:
     unsigned int get_width() const;
     //returns map height in tiles
     unsigned int get_height() const;
+    //return positon in tiles
+    pair<unsigned int,unsigned int> translate_position(double x,double y) const;
+    //return position in pixels (the center of the tile)
+    pair<double,double> translate_position(unsigned int x,unsigned int y) const;
+    //return size (height or width) of tile (in pixels)
+    unsigned int get_tile_size() const;
     //returns the map name
     string get_name() const;
     //return empty tile (true) or occupied tile(false)
@@ -55,22 +71,36 @@ public:
     //return tile_type
     tile_type get_tile_type(unsigned int x,unsigned int y) const;
     //returns path value
-    int get_path_value(unsigned int x,unsigned int y)const;
+    int get_path_value(unsigned int x,unsigned int y) const;
+    //returns path value of position in pixels
+    int get_path_value_of_position(double x,double y) const;
     //returns next tile (following path map)
     pair<unsigned int,unsigned int> get_next_position(unsigned int x,unsigned int y) const;
+    //return position to move (in pixels)
+    pair<double,double> get_next_position(double x,double y) const;
+    //return position of spawners
+    vector< pair<unsigned int,unsigned int> > spawners_position() const;
+    //return true if given position is in the path of the enemies
+    bool in_path(unsigned int x,unsigned int y) const;
+    //return true if is posible to build in given position (correct empty tile and enemy path not blocked
+    bool can_build(unsigned int x,unsigned int y) const;
+    //will check if build in [x,y] isolates any spawner (use only when necessary)
+    bool check_path_if_build(unsigned int x,unsigned int y);
+
     //DRAWING
     //draw all the tilemap in the target bitmap
     void draw_tilemap() const;
+    //check if everything is ok
     bool check() const;
 private:
-    //init foreground matrix to 0 and path_map to -1 and generate foreground
-    void init_submatrix();
     //generate path_map from background given destination tiles
-    void update_path_map(const vector< pair<unsigned int,unsigned int> > &destination);
+    bool spawners_in_path() const;
+    void update_path_map();
     //updates foreground according to background
     void generate_foreground();
     //set background so its rectgular
     void set_background(const vector< vector<tile_id> > &back);
+    vector< vector<int> > generate_path_map() const;
     //      void load_background(const Tmx::Layer *lay,int width,int height);
 
 };

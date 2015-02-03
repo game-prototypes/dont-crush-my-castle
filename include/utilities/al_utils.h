@@ -1,7 +1,7 @@
 //TITLE: AL UTILS
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 //DESCRIPTION: Generic functions for drawing and handdling allegro bitmaps
 #ifndef AL_UTILS_H
 #define AL_UTILS_H
@@ -11,7 +11,6 @@
 #include <cmath>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
-//using namespace std;
 
 //returns width (in pixels) as an unsigned int from a const bitmap (with const cast)
 unsigned int get_bitmap_width(const ALLEGRO_BITMAP *bmp);

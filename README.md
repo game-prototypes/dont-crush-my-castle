@@ -1,6 +1,6 @@
 Don´t Crush My Castle
 =====================
-_Version 0.4_
+_Version 0.5 (alpha)_
 
 Highly customizable tower defense style game
 

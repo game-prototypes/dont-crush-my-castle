@@ -1,7 +1,7 @@
 //TITLE: ENEMY_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 //DESCRIPTION: defines each single enemy
 
 #include "enemy.h"
@@ -24,6 +24,8 @@ enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned
     this->animation=animation;
     this->speed=enemy_speed;
     this->reward=reward;
+}
+enemy_attributes::~enemy_attributes() {
 }
 void enemy_attributes::insert_animation(enemy_animation type,const al_anim &anim) {
     if(anim.size()==0) debug_log::report("setting empty animation",err,true,true,false);
@@ -100,7 +102,8 @@ enemy::enemy(const enemy_attributes &attributes,unsigned int level,double posx,d
     spawn(posx,posy);
     update();
 }
-
+enemy::~enemy() {
+}
 //MODIFICATION
 void enemy::spawn(double posx,double posy) {
     if(posx<0 ||posy<0) debug_log::report("enemy position negative",err,true,true,false);
@@ -138,6 +141,9 @@ bool enemy::alive() const {
     return life>0;
 }
 bool enemy::spawned() const {
+    return active;
+}
+bool enemy::is_active() const {
     return active;
 }
 bool enemy::idle() const {
@@ -200,7 +206,7 @@ void enemy::update() {
         }
         else if(current_animation!=dead_anim) kill(); //killed
         attributes.animation[current_animation].update(); //animation update
-        //TODO: deactivate and clear after some time with dead animation stopped
+        if(current_animation==dead_anim && attributes.animation[current_animation].is_active()==false)   deactivate();
     }
 }
 void enemy::draw() const {

@@ -1,28 +1,27 @@
 //TITLE: Map Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 //DESCRIPTION: test of DCmC for maps
 /*This test will check:
 tile
 tileset
 tilemap
 */
-#include "tilemap.h"
+#ifndef MAP_TEST
+#define MAP_TEST
 
-void test(tile &t) {
+
+void test_func(tile &t) {
     ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
     tile tt(road,bmp,80);
     t=tt;
 }
 
-int main() {
+bool test_map() {
     cout<<"TILEMAP TEST";
     //Final result of test, true if everything OK
     bool test_result=true;
-    //allegro startup with image addon
-    al_init();
-    al_init_image_addon();
     //load example bitmap
     ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
     if(bmp==NULL) {
@@ -39,7 +38,7 @@ int main() {
     testtile=*testtile2;
     delete testtile2;
     if(testtile.get_size()!=256 || testtile.type!=ground) test_result=false;
-    test(testtile);
+    test_func(testtile);
     if(testtile.get_size()!=80) test_result=false;
     //TESTING TILESET
     vector<tile_type> types;
@@ -88,9 +87,16 @@ int main() {
     */
     //i=vertical
     //j=horizontal
-    tilemap testmap("testing map",mapids,&tset);
+    set<pair<unsigned int,unsigned int> > dest;
+    dest.insert(make_pair(0,2));
+    tilemap testmap("testing map",mapids,&tset,dest);
     if(testmap.get_name()!="testing map") test_result=false;
     if(testmap.get_width()!=4 || testmap.get_height()!=3) test_result=false;
+    if(testmap.get_tile_size()!=20) test_result=false;
+    if(testmap.translate_position(0.0,0.0)!=make_pair((unsigned int)0,(unsigned int)0)) test_result=false;
+    if(testmap.translate_position(-10.0,-5.0)!=make_pair((unsigned int)0,(unsigned int)0)) test_result=false;
+    if(testmap.translate_position(1000.0,1000.0)!=make_pair((unsigned int)4,(unsigned int)3)) test_result=false;
+    if(testmap.translate_position(25.0,15.0)!=make_pair((unsigned int)1,(unsigned int)0)) test_result=false;
     if(testmap.check()==false) test_result=false;
     testmap.occupy_tile(1,1);
     if(testmap.empty_section(0,0,4,1)==false) test_result=false;
@@ -115,7 +121,7 @@ int main() {
     1 -
     3 -
     */
-    tilemap testmap2("testing map2",mapids2,&tset);
+    tilemap testmap2("testing map2",mapids2,&tset,dest);
     if(testmap2.get_name()!="testing map2") test_result=false;
     if(testmap2.get_width()!=2 || testmap2.get_height()!=3) test_result=false;
     if(testmap2.check()==false) test_result=false;
@@ -124,15 +130,12 @@ int main() {
             if(testmap2.get_tile_id(i,j)!=null_tile_id && i==1 && j>=1) test_result=false;
         }
     }
+    testmap2.add_spawner(1,0);
     //CHECK PATH
-    for(unsigned int i=0; i<testmap.get_width(); i++)
-        for(unsigned int j=0; j<testmap.get_height(); j++)
-            if(testmap.get_path_value(i,j)!=-1) test_result=false;
-    vector< pair<unsigned int,unsigned int> > dest;
-    dest.push_back(make_pair(0,2));
-    testmap.set_destiny(dest);
+    if(testmap2.in_path(0,1)==false) test_result=false;
     if(testmap.check()==false) test_result=false;
     if(testmap.get_path_value(0,2)!=0) test_result=false;
+    if(testmap.get_path_value_of_position(5,46)!=0) test_result=false;
     for(unsigned int i=0; i<testmap.get_width(); i++) {
         if(testmap.get_path_value(i,0)!=-1) test_result=false;
     }
@@ -149,11 +152,12 @@ int main() {
     }
     pos=testmap.get_next_position(pos.first,pos.second);
     if(testmap.get_path_value(pos.first,pos.second)!=0) test_result=false;
-    if(pos!=dest[0]) test_result=false;
+    if(pos!=make_pair((unsigned int)0,(unsigned int)2)) test_result=false;
     //TODO: test map with different row (different size)
     //test background,foreground and path map
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
-    return !test_result;
+    return test_result;
 }
 
+#endif

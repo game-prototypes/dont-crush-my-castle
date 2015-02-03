@@ -1,7 +1,7 @@
 //TITLE: TOWER_ATK_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 //DESCRIPTION: stores a set of towers
 
 #include "tower_set.h"
@@ -60,17 +60,25 @@ unsigned int tower_set::get_size() const {
 bool tower_set::empty() const {
     return towers.empty();
 }
-bool tower_set::is_tower(const string &name) const{
- if(towers.find(name)!=towers.end()) return true;
+bool tower_set::is_tower(const string &name) const {
+    if(towers.find(name)!=towers.end()) return true;
     else return false;
 }
-tower tower_set::spawn_tower(const string &name,double posx,double posy) {
-    if(towers.find(name)==towers.end()) {
+set<string> tower_set::get_towers_names() const {
+    map<string,tower_attributes>::const_iterator it;
+    set<string> names;
+    for(it=towers.begin(); it!=towers.end(); it++) names.insert(names.end(),it->second.name);
+    return names;
+}
+tower tower_set::spawn_tower(const string &name,double posx,double posy) const {
+    map<string,tower_attributes>::const_iterator it;
+    it=towers.find(name);
+    if(it==towers.end()) {
         debug_log::report("spawning non existing tower",err,true,true,false);
         return tower();
     }
     else
-        return tower(towers[name],posx,posy,timer);
+        return tower(it->second,posx,posy,timer);
 }
 bool tower_set::check() const {
     bool b=true;

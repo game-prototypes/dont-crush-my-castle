@@ -1,31 +1,19 @@
 //TITLE: Anim Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.4
+//VERSION: 0.5
 /*DESCRIPTION: basic test of allegro utilities (src/utilities) for DCmC
 This test will check:
 al_anim
 */
+#ifndef AL_ANIM_TEST
+#define AL_ANIM_TEST
 
-#include "al_anim.h"
-using namespace std;
 
-int main() {
+bool test_animation() {
     cout<<"AL_ANIM TEST";
     //Final result of test, true if everything OK
     bool test_result=true;
-    //ALLEGRO display,timer and queue pointers
-    ALLEGRO_TIMER *timer;
-    ALLEGRO_EVENT_QUEUE *event_queue;
-    //allegro startup with image addon
-    al_init();
-    al_init_image_addon();
-    //Declaration and assign of display,event_queue and timer
-    event_queue = al_create_event_queue();
-    timer = al_create_timer(1.0 / 60); //60 fps timer
-    //register timer and events
-    al_register_event_source(event_queue,al_get_timer_event_source(timer));
-    al_start_timer(timer); //begin timer
     //load example bitmap
     ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
     if(bmp==NULL) {
@@ -63,11 +51,10 @@ int main() {
     if(animtest.is_active()==false || animtest.get_frame()!=animtest.size()-1) test_result=false;
     animtest.update();
     if(animtest.is_active()==false || animtest.get_frame()!=0) test_result=false;
-    al_destroy_event_queue(event_queue);
-    al_destroy_timer(timer);
     animtest.destroy();
     if(animtest.size()>0) test_result=false;
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
-    return !test_result;
+    return test_result;
 }
+#endif
