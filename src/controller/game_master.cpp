@@ -111,6 +111,7 @@ void game_master::update() {
 }
 bool game_master::check()const {
     bool b=true;
+    if(current_wave==spawner.get_total_waves() && left.empty() && objects->enemy_size()==0 && active==true) b=false;
     return b;
 }
 //Private

@@ -9,11 +9,10 @@ al_utils
 #ifndef UTILITIES_TEST
 #define UTILITIES_TEST
 
- bool test_utilities() {
+bool test_utilities() {
     cout<<"AL_UTILS TEST";
     //Final result of test, true if everything OK
     bool test_result=true;
-
     //load example bitmap
     ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
     if(bmp==NULL) {
@@ -82,7 +81,6 @@ al_utils
     p1=movement_update(p1,p2,spd2);
     if(p1!=p2) test_result=false; //now whe are here
     //draw centered not tested
-
     al_destroy_bitmap(bmp);
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";

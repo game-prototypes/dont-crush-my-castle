@@ -41,6 +41,8 @@ _CONTROLLER=game_objects.cpp player_controller.cpp game_master.cpp
 CONTROLLER_O=$(patsubst %,$(ODIR)/%,$(_CONTROLLER:.cpp=.o))
 
 TEST_O=$(AL_UTILS_O) $(MAP_O) $(ENEMY_O) $(TOWER_O) $(CONTROLLER_O) $(TESTDIR)/main_test.cpp
+_TEST_H=test_utils.h test_anim.h test_map.h test_tower.h test_enemy.h test_controller.h
+TEST_H=$(patsubst %,$(TESTDIR)/%,$(_TEST_H))
 
 .PHONY: all
 all: test
@@ -62,11 +64,11 @@ $(ODIR)/:
 	
 #compile tests binaries
 .PHONY: test
-test: $(BDIR) $(ODIR) bin/main_test
+test: $(BDIR) $(ODIR) $(TEST_H) bin/main_test
 #astyle for all code (.cpp and .h)
 .PHONY: astyle
 astyle:
-	astyle --style=attach --break-closing-brackets --align-pointer=name --delete-empty-lines --indent-col1-comments --unpad-paren -n -Q $(IDIR)/*/*.h $(SDIR)/*/*.cpp
+	astyle --style=attach --break-closing-brackets --align-pointer=name --delete-empty-lines --indent-col1-comments --unpad-paren -n -Q $(IDIR)/*/*.h $(SDIR)/*/*.cpp $(SDIR)/*/*.h
 #print variable
 .PHONY: print-%
 print-%  : ; @echo $* = $($*)

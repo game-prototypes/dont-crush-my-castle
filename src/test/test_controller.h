@@ -65,7 +65,7 @@ bool test_controller() {
     go.remove_tower(tid);
     if(go.check()==false) test_result=false;
     if(go.tower_size()!=0) test_result=false;
-    //TODO: test tower_atk in gameobjects
+    //tower atk in gameobjects not tested
     //PLAYER CONTROLLER
     ALLEGRO_BITMAP *bmp3=al_load_bitmap("spr/example_clock.png");
     tower_attributes attr3("towerTest",bmp3,attr,110);
@@ -112,6 +112,21 @@ bool test_controller() {
     pc.remove_tower(1,1);
     if(pc.spawned_towers()!=0) test_result=false;
     if(pc.check()==false) test_result=false;
+    //GAME MASTER
+    spawn_wave wave; 
+    wave.push(make_pair(5,"enemyTest"));
+    game_spawner gspawn(wave,2);
+    if(gspawn.get_delay()!=2) test_result=false;
+    if(gspawn.get_total_waves()!=1) test_result=false;
+    if(gspawn.get_wave(0)!=wave) test_result=false;
+    if(gspawn.check()==false) test_result=false;
+    enemy_set enemset("test",testenemy_attr,timer);
+    game_master gm(enemset,go,testmap,gspawn,timer);
+    if(gm.check()==false) test_result=false;
+    if(gm.is_active()==false) test_result=false;
+    if(gm.get_current_wave()!=0) test_result=false;
+    if(gm.get_total_waves()!=1) test_result=false;
+    enemset.clear();
     al_destroy_bitmap(bmp2); //this is not destryed because tileset copy original bitmap with slice
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
