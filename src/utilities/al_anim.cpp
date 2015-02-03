@@ -1,7 +1,7 @@
 //TITLE: AL_ANIM_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: defines a general animation with allegro as a set of bitmaps
 
 #include "al_anim.h"
@@ -72,6 +72,9 @@ void al_anim::set_duration(double seconds,const ALLEGRO_TIMER *timer) {
 }
 void al_anim::animation_loop(bool loop) {
     this->loop=loop;
+}
+void al_anim::resize(unsigned int w,unsigned int h) {
+    for(unsigned int i=0; i<bitmap_set.size(); i++) resize_bitmap(bitmap_set[i],w,h);
 }
 bool al_anim::is_active() const {
     return active;

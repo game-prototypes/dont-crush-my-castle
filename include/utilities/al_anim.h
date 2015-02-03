@@ -1,7 +1,7 @@
 //TITLE: AL_ANIM_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: defines a general animation with allegro as a set of bitmaps
 
 #ifndef AL_ANIM_H
@@ -46,6 +46,8 @@ public:
     void set_duration(double seconds,const ALLEGRO_TIMER *timer);
     //set loop value to true or false
     void animation_loop(bool loop);
+    //resize all bitmaps
+    void resize(unsigned int w,unsigned int h);
 
 
 
@@ -64,7 +66,6 @@ public:
     unsigned int get_width() const;
     //return height of current bitmap
     unsigned int get_height() const;
-
 
 
 
