@@ -1,7 +1,7 @@
 //TITLE: TEST_CONTROLLER
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: will test different game controllers
 /*This test will check:
 game_objects
@@ -14,7 +14,7 @@ player_controller
 bool test_controller() {
     cout<<"GAME CONTROLLERS TEST";
     bool test_result=true;
-    ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
+    ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_path);
     resize_bitmap(bmp,100,100);
     //ENEMY
     al_anim anim(bmp,50,50,2,timer);
@@ -67,10 +67,10 @@ bool test_controller() {
     if(go.tower_size()!=0) test_result=false;
     //tower atk in gameobjects not tested
     //PLAYER CONTROLLER
-    ALLEGRO_BITMAP *bmp3=al_load_bitmap("spr/example_clock.png");
+    ALLEGRO_BITMAP *bmp3=al_load_bitmap(bitmap_path);
     tower_attributes attr3("towerTest",bmp3,attr,110);
     tower_set towers("tset",attr3,timer);
-    ALLEGRO_BITMAP *bmp2=al_load_bitmap("spr/example_clock.png");
+    ALLEGRO_BITMAP *bmp2=al_load_bitmap(bitmap_path);
     vector<tile_type> types;
     types.push_back(ground);
     types.push_back(road);

@@ -1,7 +1,7 @@
 //TITLE: Tower Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 /*DESCRIPTION: test of towers and buildings
 This test will check:
 tower_atk
@@ -15,7 +15,7 @@ bool test_tower() {
     cout<<"TOWER TEST";
     bool test_result=true;
     //btimap and animation
-    ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
+    ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_path);
     resize_bitmap(bmp,100,100);
     al_anim anim(bmp,50,50,2,timer);
     //TOWER ATK

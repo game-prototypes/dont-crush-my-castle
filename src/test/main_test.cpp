@@ -1,7 +1,7 @@
 //TITLE: Main Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: full test of DCmC,calling other tests
 
 
@@ -10,6 +10,7 @@
 using namespace std;
 //ALLEGRO,timer and queue pointers
 ALLEGRO_TIMER *timer;
+const char *bitmap_path="resources/spr/example_clock.png";
 
 #include "test_utils.h"
 #include "test_anim.h"

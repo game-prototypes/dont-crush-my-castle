@@ -1,7 +1,7 @@
 //TITLE: Anim Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 /*DESCRIPTION: basic test of allegro utilities (src/utilities) for DCmC
 This test will check:
 al_anim
@@ -15,7 +15,7 @@ bool test_animation() {
     //Final result of test, true if everything OK
     bool test_result=true;
     //load example bitmap
-    ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
+    ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_path);
     if(bmp==NULL) {
         cout<<" || ERROR - bitmap not loaded";
         test_result=false;

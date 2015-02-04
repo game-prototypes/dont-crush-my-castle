@@ -1,7 +1,7 @@
 //TITLE: Map Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: test of DCmC for maps
 /*This test will check:
 tile
@@ -13,7 +13,7 @@ tilemap
 
 
 void test_func(tile &t) {
-    ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
+    ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_path);
     tile tt(road,bmp,80);
     t=tt;
 }
@@ -23,7 +23,7 @@ bool test_map() {
     //Final result of test, true if everything OK
     bool test_result=true;
     //load example bitmap
-    ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
+    ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_path);
     if(bmp==NULL) {
         cout<<" || ERROR - bitmap not loaded";
         test_result=false;
