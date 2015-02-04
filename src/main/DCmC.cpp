@@ -15,6 +15,8 @@ unsigned int screen_width=600;
 unsigned int screen_height=600;
 bool fullscreen=false;
 //end conf
+string enemy_path="resources/spr/enemy_0/";
+enemy_attributes create_enemy_0(const ALLEGRO_TIMER *timer);
 
 int main() {
     cout<<"DCmC V0.6 alpha\n";
@@ -31,7 +33,7 @@ int main() {
     al_register_event_source(event_queue, al_get_display_event_source(display));
     al_register_event_source(event_queue, al_get_timer_event_source(timer));
     al_start_timer(timer); //start timer
-    cout<<"Screen Size:"<<screen_width<<"x"<<screen_height<<endl;
+    cout<<"Screen Size:"<<screen_width<<"x"<<screen_height<<endl<<endl;
     //GENEATE TILESET
     ALLEGRO_BITMAP *tilesetbmp=al_load_bitmap("resources/spr/ground_tileset_reduced.png");
     if(!tilesetbmp) {
@@ -46,6 +48,8 @@ int main() {
     cout<<"Tileset Name:"<<tset.get_name()<<endl;
     cout<<"Tile Size:"<<tset.get_tile_size()<<endl;
     cout<<"Number of Tiles:"<<tset.size()<<endl;
+    if(tset.check()==false) cout<<"error in check\n";
+    cout<<"\n";
     al_destroy_bitmap(tilesetbmp);
     tile_type_v.clear();
     //GENERATE MAP
@@ -60,9 +64,18 @@ int main() {
     cout<<"Map Size:"<<game_map.get_width()<<"x"<<game_map.get_height()<<endl;
     tset.resize_tileset(screen_height/game_map.get_height());
     cout<<"Tileset resize to:"<<tset.get_tile_size()<<endl;
+    if(game_map.check()==false) cout<<"error in check\n";
+    cout<<"\n";
     destinations.clear();
     map_matrix.clear();
     bool redraw=true;
+    unsigned int seconds=0;
+    unsigned int tt=0;
+    enemy_set eset("Enemy_set_0",create_enemy_0(timer),timer);
+    cout<<"Enemy Set Name:"<<eset.get_name()<<endl;
+    cout<<"Enemy Set Size:"<<eset.get_size()<<endl;
+    if(eset.check()==false) cout<<"error in check\n";
+    cout<<"\n";
     while(true) {
         ALLEGRO_EVENT event;
         al_wait_for_event(event_queue, &event);
@@ -70,6 +83,11 @@ int main() {
             break;
         if(event.type == ALLEGRO_EVENT_TIMER) { //evento de timer
             redraw = true;
+            tt++;
+            if(tt==fps_conf) {
+                tt=0;
+                seconds++;
+            }
         }
         if(redraw) {
             al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -82,4 +100,34 @@ int main() {
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
     return 0;
+}
+
+enemy_attributes create_enemy_0(const ALLEGRO_TIMER *timer) {
+    ALLEGRO_BITMAP *enemy_bitmap;
+    enemy_attributes res("enemy_0",100,1,1,20);
+    enemy_bitmap=al_load_bitmap(enemy_path+"idle.png");
+    if(!enemy_bitmap) cout<<"error loading enemy bitmap\n";
+    res.insert_animation(idle_anim,al_anim(enemy_bitmap,64,64,1,timer));
+    al_destroy_bitmap(enemy_bitmap);
+    enemy_bitmap=al_load_bitmap(enemy_path+"dead.png");
+    if(!enemy_bitmap) cout<<"error loading enemy bitmap\n";
+    res.insert_animation(dead_anim,al_anim(enemy_bitmap,64,64,2,timer));
+    al_destroy_bitmap(enemy_bitmap);
+    enemy_bitmap=al_load_bitmap(enemy_path+"up.png");
+    if(!enemy_bitmap) cout<<"error loading enemy bitmap\n";
+    res.insert_animation(up_anim,al_anim(enemy_bitmap,64,64,3,timer));
+    al_destroy_bitmap(enemy_bitmap);
+    enemy_bitmap=al_load_bitmap(enemy_path+"down.png");
+    if(!enemy_bitmap) cout<<"error loading enemy bitmap\n";
+    res.insert_animation(down_anim,al_anim(enemy_bitmap,64,64,3,timer));
+    al_destroy_bitmap(enemy_bitmap);
+    enemy_bitmap=al_load_bitmap(enemy_path+"left.png");
+    if(!enemy_bitmap) cout<<"error loading enemy bitmap\n";
+    res.insert_animation(left_anim,al_anim(enemy_bitmap,64,64,3,timer));
+    al_destroy_bitmap(enemy_bitmap);
+    enemy_bitmap=al_load_bitmap(enemy_path+"right.png");
+    if(!enemy_bitmap) cout<<"error loading enemy bitmap\n";
+    res.insert_animation(right_anim,al_anim(enemy_bitmap,64,64,3,timer));
+    al_destroy_bitmap(enemy_bitmap);
+    return res;
 }

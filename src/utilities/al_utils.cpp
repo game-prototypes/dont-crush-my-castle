@@ -21,6 +21,10 @@ unsigned int get_bitmap_width(const ALLEGRO_BITMAP *bmp) {
 unsigned int get_bitmap_height(const ALLEGRO_BITMAP *bmp) {
     return (unsigned int) al_get_bitmap_height(const_cast<ALLEGRO_BITMAP *>(bmp));
 }
+//al_get_bitmap overloaded to get a bitmap from a string
+ALLEGRO_BITMAP *al_load_bitmap(const string &path) {
+    return al_load_bitmap(path.c_str());
+}
 //draw bitmap (with const cast)
 void draw_bitmap(const ALLEGRO_BITMAP *bmp,unsigned int x,unsigned int y) {
     al_draw_bitmap(const_cast<ALLEGRO_BITMAP *>(bmp),x,y,0);

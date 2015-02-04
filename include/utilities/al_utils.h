@@ -16,6 +16,8 @@
 unsigned int get_bitmap_width(const ALLEGRO_BITMAP *bmp);
 //returns height (in pixels) as an unsigned int from a const bitmap (with const cast)
 unsigned int get_bitmap_height(const ALLEGRO_BITMAP *bmp);
+//al_get_bitmap overloaded to get a bitmap from a string
+ALLEGRO_BITMAP *al_load_bitmap(const string &path);
 //draw bitmap (with const cast)
 void draw_bitmap(const ALLEGRO_BITMAP *bmp,unsigned int x,unsigned int y);
 void draw_scaled(const ALLEGRO_BITMAP *bmp,unsigned int x,unsigned int y,unsigned int width,unsigned int height);
