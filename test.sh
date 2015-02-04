@@ -1,4 +1,4 @@
-#Don't Crush my Castle Testing script v0.5
+#Don't Crush my Castle Testing script v0.6
 #by demiurgosoft
 #This script will compile,test and clean Don't Crush My Castle
 echo 'Compiling and testing (may take a while)';

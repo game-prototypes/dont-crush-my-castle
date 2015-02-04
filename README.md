@@ -38,4 +38,4 @@ This Project is Open-Source under GNU GPL v3
 example_clock.png (used for testing) is under CCLicense by [Jorge Durán Llanos] (https://github.com/Caesar95)
  <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
 
-ground_tileset_by_George.png is under CCLicense by [George_](http://opengameart.org/content/old-tiles)
+ground_tileset.png is under CCLicense by [George_](http://opengameart.org/content/old-tiles)
