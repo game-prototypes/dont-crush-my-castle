@@ -17,6 +17,7 @@ bool fullscreen=false;
 //end conf
 string enemy_path="resources/spr/enemy_0/";
 enemy_attributes create_enemy_0(const ALLEGRO_TIMER *timer);
+game_spawner create_game_spawner();
 
 int main() {
     cout<<"DCmC V0.6 alpha\n";
@@ -57,9 +58,10 @@ int main() {
     for(unsigned int i=0; i<map_matrix[0].size(); i++) {
         map_matrix[5][i]=0;
     }
-    set< pair<unsigned int,unsigned int> >  destinations;
-    destinations.insert(make_pair(5,0));
-    tilemap game_map("DCmC_map_1",map_matrix,&tset,destinations);
+    set< pair<unsigned int,unsigned int> >  destinations,spawners;
+    destinations.insert(make_pair(4,9));
+    spawners.insert(make_pair(4,0));
+    tilemap game_map("DCmC_map_1",map_matrix,&tset,destinations,spawners);
     cout<<"Map name:"<<game_map.get_name()<<endl;
     cout<<"Map Size:"<<game_map.get_width()<<"x"<<game_map.get_height()<<endl;
     tset.resize_tileset(screen_height/game_map.get_height());
@@ -76,6 +78,10 @@ int main() {
     cout<<"Enemy Set Size:"<<eset.get_size()<<endl;
     if(eset.check()==false) cout<<"error in check\n";
     cout<<"\n";
+    game_objects game_objects_0;
+    game_spawner spawner_0=create_game_spawner();
+    game_master master_0(eset,game_objects_0,game_map,spawner_0,timer);
+    cout<<"Start Game\n";
     while(true) {
         ALLEGRO_EVENT event;
         al_wait_for_event(event_queue, &event);
@@ -92,6 +98,8 @@ int main() {
         if(redraw) {
             al_clear_to_color(al_map_rgb(0, 0, 0));
             game_map.draw_tilemap();
+            // master_0.update();
+            //  game_objects_0.draw_enemies();
             al_flip_display();
         }
     }
@@ -130,4 +138,12 @@ enemy_attributes create_enemy_0(const ALLEGRO_TIMER *timer) {
     res.insert_animation(right_anim,al_anim(enemy_bitmap,64,64,3,timer));
     al_destroy_bitmap(enemy_bitmap);
     return res;
+}
+
+game_spawner create_game_spawner() {
+    spawn_wave wav;
+    wav.push(make_pair(1,"enemy_0"));
+    vector<spawn_wave> v;
+    v.push_back(wav);
+    return  game_spawner(v,10);
 }

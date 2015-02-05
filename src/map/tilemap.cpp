@@ -1,26 +1,28 @@
 //TITLE: TILEMAP_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: Generate,write,read and draw maps
 
 #include "tilemap.h"
 
 tilemap::tilemap() {
 }
-tilemap::tilemap(const string &name,const vector< vector<tile_id> > &background,const tileset *tiles,const set< pair<unsigned int,unsigned int> > &destination) {
+tilemap::tilemap(const string &name,const vector< vector<tile_id> > &background,const tileset *tiles,const set< pair<unsigned int,unsigned int> > &destination,const set< pair<unsigned int,unsigned int> > &spawners) {
     this->tiles=tiles;
     this->name=name;
     this->destination=destination;
+    this->spawners=spawners;
     set_background(background);
     if(background.size()>0) {
         generate_foreground();
         update_path_map();
     }
 }
-tilemap::tilemap(const vector< vector<tile_id> > &background,const tileset *tiles,const set< pair<unsigned int,unsigned int> > &destination) {
+tilemap::tilemap(const vector< vector<tile_id> > &background,const tileset *tiles,const set< pair<unsigned int,unsigned int> > &destination,const set< pair<unsigned int,unsigned int> > &spawners) {
     this->tiles=tiles;
     this->destination=destination;
+    this->spawners=spawners;
     set_background(background);
     if(background.size()>0) {
         generate_foreground();
@@ -261,7 +263,7 @@ bool tilemap::check() const {
         if(foreground[i].size()!=get_height()) b=false;
         if(path_map[i].size()!=get_height()) b=false;
     }
-    if(spawners_in_path()==false) b=false;
+    //if(spawners_in_path()==false) b=false;
     return b;
 }
 //Private methods
@@ -373,12 +375,6 @@ bool tilemap::spawners_in_path() const {
 
 void tilemap::update_path_map() {
     path_map=vector< vector<int> >(get_width(),vector<int>(get_height(),-1));
-    //pmap.reserve(get_width());
-    /*  vector<int> v2(get_height(),-1);
-      for(unsigned int i=0; i<get_width(); i++) {
-          pmap.push_back(v2);
-      }
-      v2.clear();*/
     stack< pair<unsigned int,unsigned int> > left_tiles; //tiles left to check surroundings
     pair<unsigned int,unsigned int> til;
     for(set< pair<unsigned int,unsigned int> >::const_iterator it=destination.begin(); it!=destination.end(); it++) {

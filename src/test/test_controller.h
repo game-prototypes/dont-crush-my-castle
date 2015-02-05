@@ -94,9 +94,10 @@ bool test_controller() {
     */
     //i=vertical
     //j=horizontal
-    set<pair<unsigned int,unsigned int> > dest;
+    set<pair<unsigned int,unsigned int> > dest,spaw;
     dest.insert(make_pair(0,2));
-    tilemap testmap("testing map",mapids,&tiles,dest);
+    spaw.insert(make_pair(1,2));
+    tilemap testmap("testing map",mapids,&tiles,dest,spaw);
     player_controller pc(towers,go,testmap);
     if(pc.check()==false) test_result=false;
     if(pc.get_towers_size()!=towers.get_size()) test_result=false;

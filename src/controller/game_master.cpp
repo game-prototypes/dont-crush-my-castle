@@ -93,20 +93,22 @@ void game_master::set_active(bool active) {
 //updates all info
 void game_master::update() {
     if(active) {
-        tower_atk_counter--;
-        if(spawn_delay_counter==0) spawn();
         if(wave_delay_counter==0) {
             if(current_wave<spawner.get_total_waves()) {
                 spawn(spawner.get_wave(current_wave));
                 current_wave++;
             }
         }
+        if(spawn_delay_counter==0) spawn();
         vector<tower_id> tids=objects->update_towers();
         if(tower_atk_counter==0) update_tower_attacks(tids);
         objects->update_attacks();
         vector<list<enemy>::iterator> enemy_list=objects->update_enemies();
         update_enemy_position(enemy_list);
         if(current_wave==spawner.get_total_waves() && left.empty() && objects->enemy_size()==0) game_over();
+        tower_atk_counter--;
+        wave_delay_counter--;
+        spawn_delay_counter--;
     }
 }
 bool game_master::check()const {
@@ -173,8 +175,8 @@ void game_master::spawn() {
         else left.top().first--;
         if(enemies->is_enemy(enemy_name)) {
             vector< pair<unsigned int,unsigned int> > spawner_vector=game_map->spawners_position();
-            unsigned int rand_spaw = rand() % spawner_vector.size();
-            objects->add_enemy(enemies->spawn_enemy(enemy_name,current_wave,spawner_vector[rand_spaw].first,spawner_vector[rand_spaw].second));
+            unsigned int rand_spawn = rand() % spawner_vector.size();
+            objects->add_enemy(enemies->spawn_enemy(enemy_name,current_wave,spawner_vector[rand_spawn].first,spawner_vector[rand_spawn].second));
         }
         else debug_log::report("enemy name not in set",err,true,true,false);
         spawn_delay_counter=spawn_delay; //resets counter
@@ -186,5 +188,6 @@ void game_master::set_delays(const ALLEGRO_TIMER *timer) {
 }
 void game_master::game_over() {
     active=false;
+    cout<<"Game Over\n";
     //stuff if game over
 }

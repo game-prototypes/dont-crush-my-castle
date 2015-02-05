@@ -1,7 +1,7 @@
 //TITLE: TILEMAP_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: Generate,write,read and draw maps
 #ifndef TILEMAP_H
 #define TILEMAP_H
@@ -23,9 +23,9 @@ public:
     //default coonstructor
     tilemap();
     //full constructor with name
-    tilemap(const string &name,const vector< vector<tile_id> > &background,const tileset *tiles,const set< pair<unsigned int,unsigned int> > &destination);
+    tilemap(const string &name,const vector< vector<tile_id> > &background,const tileset *tiles,const set< pair<unsigned int,unsigned int> > &destination,const set< pair<unsigned int,unsigned int> > &spawners);
     //full constructor without name
-    tilemap(const vector< vector<tile_id> > &background,const tileset *tiles,const set< pair<unsigned int,unsigned int> > &destination);
+    tilemap(const vector< vector<tile_id> > &background,const tileset *tiles,const set< pair<unsigned int,unsigned int> > &destination,const set< pair<unsigned int,unsigned int> > &spawners);
     //Loads from tmx file
     // void loadtmx(string filename);
     ~tilemap();
