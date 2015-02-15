@@ -67,10 +67,10 @@ $(ODIR)/:
 	
 	
 .PHONY: main
-main: $(BDIR) $(ODIR) bin/DCmC
+main: $(BDIR)/ $(ODIR)/ bin/DCmC
 #compile tests binaries
 .PHONY: test
-test: $(BDIR) $(ODIR) $(TEST_H) bin/main_test
+test: $(BDIR)/ $(ODIR)/ $(TEST_H) bin/main_test
 #astyle for all code (.cpp and .h)
 .PHONY: astyle
 astyle:
