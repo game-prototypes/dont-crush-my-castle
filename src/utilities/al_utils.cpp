@@ -41,6 +41,7 @@ void resize_bitmap(ALLEGRO_BITMAP *&bitmap,unsigned int x,unsigned int y) {
         int origy=al_get_bitmap_height(bitmap);
         temp=al_create_bitmap(x,y); //the new bitmap with the given size
         al_set_target_bitmap(temp);
+        al_clear_to_color(al_map_rgba(0, 0, 0, 0));
         al_draw_scaled_bitmap(bitmap,0,0, origx, origy,0,0, x,y,0);//draw the original bitmap to the new one (resized)
         al_set_target_bitmap(disp); //returns the target to the display
         al_destroy_bitmap(bitmap); //destroys the old bitmap
@@ -55,6 +56,7 @@ ALLEGRO_BITMAP *copy_bitmap(const ALLEGRO_BITMAP *bitmap) {
         unsigned int origy=get_bitmap_height(bitmap);
         res=al_create_bitmap(origx,origy); //the new bitmap with the given size
         al_set_target_bitmap(res);
+        al_clear_to_color(al_map_rgba(0, 0, 0, 0));
         draw_bitmap(bitmap,0,0); //draw the original bitmap to the new one
         al_set_target_bitmap(disp); //returns the target to the display
     }
@@ -66,6 +68,7 @@ ALLEGRO_BITMAP *copy_bitmap(const ALLEGRO_BITMAP *bitmap,unsigned int width,unsi
         ALLEGRO_BITMAP *disp=al_get_target_bitmap(); //current display
         res=al_create_bitmap(width,height); //the new bitmap with the given size
         al_set_target_bitmap(res);
+        al_clear_to_color(al_map_rgba(0, 0, 0, 0));
         draw_scaled(bitmap,0,0,width,height);
         al_set_target_bitmap(disp); //returns the target to the display
     }
@@ -93,6 +96,7 @@ vector<ALLEGRO_BITMAP *> slice_bitmap(const ALLEGRO_BITMAP *bitmap,int width,int
                         ALLEGRO_BITMAP *temp;
                         temp=al_create_bitmap(width,height);
                         al_set_target_bitmap(temp); //sets new bitmap as target
+                        al_clear_to_color(al_map_rgba(0, 0, 0, 0));
                         al_draw_bitmap_region(const_cast<ALLEGRO_BITMAP *>(bitmap),x,y,width,height,0,0,0); //draw the region into the bitmap
                         v.push_back(temp); //adds bitmap to vector
                         x+=width;

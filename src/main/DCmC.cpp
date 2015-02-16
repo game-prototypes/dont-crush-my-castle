@@ -81,6 +81,13 @@ int main() {
     game_objects game_objects_0;
     game_spawner spawner_0=create_game_spawner();
     game_master master_0(eset,game_objects_0,game_map,spawner_0,timer);
+    enemy_attributes attr_0=create_enemy_0(timer);
+    enemy enemy_0(attr_0,1,120,120,timer);
+    enemy_0.move_to(420,120);
+    ALLEGRO_BITMAP *flamebmp=al_load_bitmap("resources/spr/flames_0.png");
+    al_anim flame_0(flamebmp,16,24,2,timer);
+    flame_0.start();
+    al_destroy_bitmap(flamebmp);
     cout<<"Start Game\n";
     while(true) {
         ALLEGRO_EVENT event;
@@ -98,12 +105,18 @@ int main() {
         if(redraw) {
             al_clear_to_color(al_map_rgb(0, 0, 0));
             game_map.draw_tilemap();
+            enemy_0.update();
+            enemy_0.draw();
+            flame_0.update();
+            flame_0.draw(80,80);
             // master_0.update();
-            //  game_objects_0.draw_enemies();
+            // game_objects_0.draw_enemies();
             al_flip_display();
         }
     }
     //destroy display,queue and timer
+    flame_0.destroy();
+    attr_0.destroy();
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
@@ -112,7 +125,7 @@ int main() {
 
 enemy_attributes create_enemy_0(const ALLEGRO_TIMER *timer) {
     ALLEGRO_BITMAP *enemy_bitmap;
-    enemy_attributes res("enemy_0",100,1,1,20);
+    enemy_attributes res("enemy_0",100,1,50,20);
     enemy_bitmap=al_load_bitmap(enemy_path+"idle.png");
     if(!enemy_bitmap) cout<<"error loading enemy bitmap\n";
     res.insert_animation(idle_anim,al_anim(enemy_bitmap,64,64,1,timer));

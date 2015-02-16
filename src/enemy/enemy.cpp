@@ -80,9 +80,6 @@ bool enemy_attributes::check() const {
     return b;
 }
 
-
-
-
 //############################CLASS ENEMY#############################
 
 //CONSTRUCTORS
@@ -106,7 +103,7 @@ enemy::~enemy() {
 }
 //MODIFICATION
 void enemy::spawn(double posx,double posy) {
-    if(posx<0 ||posy<0) debug_log::report("enemy position negative",err,true,true,false);
+    if(posx<0 || posy<0) debug_log::report("enemy position negative",err,true,true,false);
     else {
         destiny=position=make_pair(posx,posy);
         active=true;
@@ -163,6 +160,7 @@ void enemy::move_to(double x,double y) {
     else {
         destiny.first=x;
         destiny.second=y;
+        set_movement_animation();
         attributes.animation[idle_anim].stop();
     }
 }
@@ -190,16 +188,6 @@ void enemy::update() {
     if(spawned()) {
         if(alive()) {
             if(!idle()) { //not idle option
-                double x=destiny.first-position.first;
-                double y=destiny.second-position.second;
-                if(abs(x)>=abs(y)) { //horizontal animation
-                    if(x>0) change_movement_animation(right_anim);
-                    else change_movement_animation(left_anim); //position 0,0 is top-left
-                }
-                else { //vertical animation
-                    if(y>0) change_movement_animation(down_anim);
-                    else change_movement_animation(up_anim);
-                }
                 position=movement_update(position,destiny,speed);
                 if(idle()) set_to_idle(); //if reach destiny
             }
@@ -228,6 +216,7 @@ bool enemy::check() const {
         b=false;
         debug_log::report("speed<=0",err,true,true,false);
     }
+    if(position.first<0.0 || position.second<0.0 || destiny.first<0.0 || destiny.second<0.0) b=false;
     return b;
 }
 
@@ -262,4 +251,16 @@ void enemy::set_speed(double spd,const ALLEGRO_TIMER *timer) {
 void enemy::set_level(unsigned int level) {
     this->level=level;
     attributes.increase_level(level);
+}
+void enemy::set_movement_animation() {
+    double x=destiny.first-position.first;
+    double y=destiny.second-position.second;
+    if(abs(x)>=abs(y)) { //horizontal animation
+        if(x>0) change_movement_animation(right_anim);
+        else change_movement_animation(left_anim); //position 0,0 is top-left
+    }
+    else { //vertical animation
+        if(y>0) change_movement_animation(down_anim);
+        else change_movement_animation(up_anim);
+    }
 }

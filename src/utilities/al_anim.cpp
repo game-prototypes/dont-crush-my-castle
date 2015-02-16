@@ -16,6 +16,7 @@ al_anim::al_anim() {
 al_anim::al_anim(const vector<ALLEGRO_BITMAP *> bitmap_sheet,double duration,const ALLEGRO_TIMER *timer) {
     if(bitmap_sheet.empty()) debug_log::report("animation with no bitmaps",err,true,true,false);
     else {
+        this->bitmap_set=bitmap_sheet;
         count=0;
         active=false;
         loop=true;
