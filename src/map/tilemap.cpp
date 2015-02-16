@@ -235,12 +235,12 @@ void tilemap::draw_tilemap() const {
     int tilew=tiles->get_tile_width();
     int tileh=tiles->get_tile_height();
     for(int i=0; i<width; i++) {
-        x=0;
+        y=0;
         for(int j=0; j<height; j++) {
             tiles->draw_tile(background[i][j],x,y);
-            x+=tilew;
+            y+=tileh;
         }
-        y+=tileh;
+        x+=tilew;
     }
 }
 bool tilemap::check() const {

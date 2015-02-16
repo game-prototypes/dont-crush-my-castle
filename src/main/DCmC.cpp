@@ -60,10 +60,14 @@ int main() {
     }
     set< pair<unsigned int,unsigned int> >  destinations,spawners;
     destinations.insert(make_pair(4,9));
-    spawners.insert(make_pair(4,0));
+    spawners.insert(make_pair(5,0));
     tilemap game_map("DCmC_map_1",map_matrix,&tset,destinations,spawners);
     cout<<"Map name:"<<game_map.get_name()<<endl;
     cout<<"Map Size:"<<game_map.get_width()<<"x"<<game_map.get_height()<<endl;
+    cout<<"Spawners:";
+    vector< pair<unsigned int,unsigned int> > spawners_in_map=game_map.spawners_position();
+    for(unsigned int i=0; i<spawners_in_map.size(); i++) cout<<"["<<spawners_in_map[i].first<<","<<spawners_in_map[i].second<<"] ";
+    cout<<endl;
     tset.resize_tileset(screen_height/game_map.get_height());
     cout<<"Tileset resize to:"<<tset.get_tile_size()<<endl;
     if(game_map.check()==false) cout<<"error in check\n";
@@ -81,9 +85,6 @@ int main() {
     game_objects game_objects_0;
     game_spawner spawner_0=create_game_spawner();
     game_master master_0(eset,game_objects_0,game_map,spawner_0,timer);
-    enemy_attributes attr_0=create_enemy_0(timer);
-    enemy enemy_0(attr_0,1,120,120,timer);
-    enemy_0.move_to(420,120);
     ALLEGRO_BITMAP *flamebmp=al_load_bitmap("resources/spr/flames_0.png");
     al_anim flame_0(flamebmp,16,24,2,timer);
     flame_0.start();
@@ -105,18 +106,15 @@ int main() {
         if(redraw) {
             al_clear_to_color(al_map_rgb(0, 0, 0));
             game_map.draw_tilemap();
-            enemy_0.update();
-            enemy_0.draw();
             flame_0.update();
             flame_0.draw(80,80);
-            // master_0.update();
-            // game_objects_0.draw_enemies();
+            master_0.update();
+            game_objects_0.draw_enemies();
             al_flip_display();
         }
     }
     //destroy display,queue and timer
     flame_0.destroy();
-    attr_0.destroy();
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
