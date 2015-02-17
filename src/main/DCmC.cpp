@@ -85,23 +85,18 @@ int main() {
     cout<<"Enemy Set Name:"<<eset.get_name()<<endl;
     cout<<"Enemy Set Size:"<<eset.get_size()<<endl;
     if(eset.check()==false) cout<<"error in check\n";
-    cout<<"\n";
     game_objects game_objects_0;
     game_spawner spawner_0=create_game_spawner();
     game_master master_0(eset,game_objects_0,game_map,spawner_0,timer);
     cout<<"Number of waves:"<<master_0.get_total_waves()<<endl;
-    ALLEGRO_BITMAP *flamebmp=al_load_bitmap("resources/spr/flames_0.png");
-    al_anim flame_0(flamebmp,16,24,2,timer);
-    flame_0.start();
-    al_destroy_bitmap(flamebmp);
-    cout<<"Start Game\n";
+    cout<<endl<<"Start Game\n";
     while(true) {
         ALLEGRO_EVENT event;
         al_wait_for_event(event_queue, &event);
-        if(event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)   //evento si se cierra pantalla
+        if(event.type==ALLEGRO_EVENT_DISPLAY_CLOSE)   //evento si se cierra pantalla
             break;
-        if(event.type == ALLEGRO_EVENT_TIMER) { //evento de timer
-            redraw = true;
+        if(event.type==ALLEGRO_EVENT_TIMER) { //evento de timer
+            redraw=true;
             tt++;
             if(tt==fps_conf) {
                 tt=0;
@@ -111,15 +106,12 @@ int main() {
         if(redraw) {
             al_clear_to_color(al_map_rgb(0, 0, 0));
             game_map.draw_tilemap();
-            flame_0.update();
-            flame_0.draw(80,80);
             master_0.update();
             game_objects_0.draw_enemies();
             al_flip_display();
         }
     }
     //destroy display,queue and timer
-    flame_0.destroy();
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
