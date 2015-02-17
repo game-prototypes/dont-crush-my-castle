@@ -1,7 +1,7 @@
 //TITLE: ENEMY_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: defines each single enemy
 
 #include "enemy.h"
@@ -158,10 +158,13 @@ void enemy::stop() {
 void enemy::move_to(double x,double y) {
     if(x<0 || y<0) debug_log::report("destiny negative",err,true,true,false);
     else {
-        destiny.first=x;
-        destiny.second=y;
-        set_movement_animation();
-        attributes.animation[idle_anim].stop();
+        if(x==position.first && y==position.second) set_to_idle();
+        else {
+            destiny.first=x;
+            destiny.second=y;
+            set_movement_animation();
+            attributes.animation[idle_anim].stop();
+        }
     }
 }
 void enemy::decrease_life(unsigned int dam) {
@@ -189,8 +192,8 @@ void enemy::update() {
         if(alive()) {
             if(!idle()) { //not idle option
                 position=movement_update(position,destiny,speed);
-                if(idle()) set_to_idle(); //if reach destiny
             }
+            else set_to_idle(); //if reach destiny
         }
         else if(current_animation!=dead_anim) kill(); //killed
         attributes.animation[current_animation].update(); //animation update
@@ -202,7 +205,7 @@ void enemy::draw() const {
         map<enemy_animation,al_anim>::const_iterator it;
         it=attributes.animation.find(current_animation);
         unsigned int hoffset=it->second.get_height()/2;
-        it->second.draw(position.first,position.second+hoffset);
+        it->second.draw(position.first,position.second-hoffset);
     }
 }
 bool enemy::check() const {
@@ -233,6 +236,7 @@ void enemy::change_movement_animation(enemy_animation anim) {
 }
 void enemy::set_to_idle() {
     stop_movement_anim();
+    destiny=position;
     attributes.animation[current_animation].stop(); //stop current anim (if it is not movememnt anim)
     current_animation=idle_anim;
     attributes.animation[current_animation].animation_loop(true);

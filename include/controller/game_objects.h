@@ -1,7 +1,7 @@
 //TITLE: GAME_OBJECTS_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: stores all instantiated ofjects in the scene
 
 #ifndef GAME_OBJECTS

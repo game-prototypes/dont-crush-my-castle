@@ -58,8 +58,12 @@ int main() {
     for(unsigned int i=0; i<map_matrix[0].size(); i++) {
         map_matrix[5][i]=0;
     }
+    map_matrix[5][5]=1;
+    map_matrix[4][4]=0;
+    map_matrix[4][5]=0;
+    map_matrix[4][6]=0;
     set< pair<unsigned int,unsigned int> >  destinations,spawners;
-    destinations.insert(make_pair(4,9));
+    destinations.insert(make_pair(5,9));
     spawners.insert(make_pair(5,0));
     tilemap game_map("DCmC_map_1",map_matrix,&tset,destinations,spawners);
     cout<<"Map name:"<<game_map.get_name()<<endl;
@@ -85,6 +89,7 @@ int main() {
     game_objects game_objects_0;
     game_spawner spawner_0=create_game_spawner();
     game_master master_0(eset,game_objects_0,game_map,spawner_0,timer);
+    cout<<"Number of waves:"<<master_0.get_total_waves()<<endl;
     ALLEGRO_BITMAP *flamebmp=al_load_bitmap("resources/spr/flames_0.png");
     al_anim flame_0(flamebmp,16,24,2,timer);
     flame_0.start();

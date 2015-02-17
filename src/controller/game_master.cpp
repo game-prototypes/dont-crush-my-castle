@@ -1,7 +1,7 @@
 //TITLE:GAME_MASTER_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: control the IA and in-game stuff (spawning,movement etc..)
 #include "game_master.h"
 
@@ -16,15 +16,14 @@ game_spawner::game_spawner(const vector<spawn_wave> &waves,unsigned int delay) {
     this->delay=delay;
 }
 game_spawner::game_spawner(const spawn_wave &wave,unsigned int delay) {
-    this->waves.push_back(wave);
+    add_wave(wave);
     this->delay=delay;
 }
 game_spawner::~game_spawner() {
     clear();
 }
-
 void game_spawner::add_wave(const spawn_wave &wave) {
-    waves.push_back(wave);
+    if(!wave.empty()) waves.push_back(wave);
 }
 void game_spawner::clear() {
     waves.clear();
@@ -161,7 +160,7 @@ void game_master::spawn(const spawn_wave &wave) {
             left.pop();
         }
         left=wave;
-        while(aux.empty()) {
+        while(aux.empty()==false) {
             left.push(aux.top());
             aux.top();
         }
@@ -171,12 +170,13 @@ void game_master::spawn(const spawn_wave &wave) {
 void game_master::spawn() {
     if(left.empty()==false) {
         string enemy_name=left.top().second;
-        if(left.top().first==1) left.pop();
+        if(left.top().first<=1) left.pop();
         else left.top().first--;
         if(enemies->is_enemy(enemy_name)) {
             vector< pair<unsigned int,unsigned int> > spawner_vector=game_map->spawners_position();
             unsigned int rand_spawn = rand() % spawner_vector.size();
-            objects->add_enemy(enemies->spawn_enemy(enemy_name,current_wave,spawner_vector[rand_spawn].first,spawner_vector[rand_spawn].second));
+            pair<double,double> spawn_position=game_map->translate_position(spawner_vector[rand_spawn].first,spawner_vector[rand_spawn].second);
+            objects->add_enemy(enemies->spawn_enemy(enemy_name,current_wave,spawn_position.first,spawn_position.second));
         }
         else debug_log::report("enemy name not in set",err,true,true,false);
         spawn_delay_counter=spawn_delay; //resets counter

@@ -1,7 +1,7 @@
 //TITLE: GAME_MASTER_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: control the IA and in-game stuff (spawning,movement etc..)
 
 #ifndef GAME_MASTER
