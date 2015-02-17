@@ -100,7 +100,7 @@ void game_master::update() {
         }
         if(spawn_delay_counter==0) spawn();
         vector<tower_id> tids=objects->update_towers();
-        if(tower_atk_counter==0) update_tower_attacks(tids);
+        //if(tower_atk_counter==0) update_tower_attacks(tids);
         objects->update_attacks();
         vector<list<enemy>::iterator> enemy_list=objects->update_enemies();
         update_enemy_position(enemy_list);

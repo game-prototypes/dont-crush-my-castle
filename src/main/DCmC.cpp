@@ -17,6 +17,7 @@ bool fullscreen=false;
 //end conf
 string enemy_path="resources/spr/enemy_0/";
 enemy_attributes create_enemy_0(const ALLEGRO_TIMER *timer);
+tower_attributes create_tower_0(const ALLEGRO_TIMER *timer);
 game_spawner create_game_spawner();
 
 int main() {
@@ -85,10 +86,20 @@ int main() {
     cout<<"Enemy Set Name:"<<eset.get_name()<<endl;
     cout<<"Enemy Set Size:"<<eset.get_size()<<endl;
     if(eset.check()==false) cout<<"error in check\n";
+    cout<<endl;
+    tower_set towerset("Tower_set_0",create_tower_0(timer),timer);
+    cout<<"Tower Set Name:"<<towerset.get_name()<<endl;
+    cout<<"Tower Set Size:"<<towerset.get_size()<<endl;
+    if(towerset.check()==false) cout<<"error in check\n";
+    cout<<endl;
     game_objects game_objects_0;
     game_spawner spawner_0=create_game_spawner();
     game_master master_0(eset,game_objects_0,game_map,spawner_0,timer);
     cout<<"Number of waves:"<<master_0.get_total_waves()<<endl;
+    player_controller pc(towerset,game_objects_0,game_map);
+    cout<<"player_controller can_build [330,330]:"<<pc.can_build(300.0,300.0)<<endl;
+    pc.build_tower("tower_0",300,300);
+    cout<<"player_controller can_build [330,330] (after build):"<<pc.can_build(300.0,300.0)<<endl;
     cout<<endl<<"Start Game\n";
     while(true) {
         ALLEGRO_EVENT event;
@@ -108,6 +119,7 @@ int main() {
             game_map.draw_tilemap();
             master_0.update();
             game_objects_0.draw_enemies();
+            game_objects_0.draw_towers();
             al_flip_display();
         }
     }
@@ -147,7 +159,22 @@ enemy_attributes create_enemy_0(const ALLEGRO_TIMER *timer) {
     al_destroy_bitmap(enemy_bitmap);
     return res;
 }
-
+tower_attributes create_tower_0(const ALLEGRO_TIMER *timer) {
+    ALLEGRO_BITMAP *atk_bitmap;
+    ALLEGRO_BITMAP *exp_bitmap;
+    ALLEGRO_BITMAP *tower_bitmap;
+    atk_bitmap=al_load_bitmap("resources/spr/cannonball.png");
+    if(!atk_bitmap) cout<<"error loading tower_atk bitmap\n";
+    resize_bitmap(atk_bitmap,30,30);
+    exp_bitmap=al_load_bitmap("resources/spr/explosion.png");
+    if(!atk_bitmap) cout<<"error loading explosion bitmap\n";
+    tower_bitmap=al_load_bitmap("resources/spr/tower_cartoon.png");
+    if(!tower_bitmap) cout<<"error loading tower bitmap\n";
+    al_anim explosion_anim(exp_bitmap,64,64,0.5,timer);
+    al_destroy_bitmap(exp_bitmap);
+    atk_attributes atk_0(atk_bitmap,explosion_anim,20,90,1,90,shoot_atk);
+    return tower_attributes("tower_0",tower_bitmap,atk_0,100);
+}
 game_spawner create_game_spawner() {
     spawn_wave wav;
     wav.push(make_pair(1,"enemy_0"));

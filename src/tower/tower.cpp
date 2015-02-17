@@ -95,7 +95,8 @@ void tower::update() {
     }
 }
 void tower::draw() const {
-    draw_centered(attributes.bitmap,position.first,position.second);
+    unsigned int hoffset=get_bitmap_height(attributes.bitmap)/2;
+    draw_centered(attributes.bitmap,position.first,position.second-hoffset);
 }
 
 tower_atk tower::attack(const pair<double,double> target) {

@@ -1,7 +1,7 @@
 //TITLE: PLAYER_CONTROLLER_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: controls the actions of the player
 
 #ifndef PLAYER_CONTROLLER
