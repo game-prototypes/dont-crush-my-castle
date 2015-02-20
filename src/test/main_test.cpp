@@ -24,6 +24,7 @@ const char *bitmap_path="resources/spr/example_clock.png";
 int main() {
     cout<<"DCmC Test\n";
     cout<<"0.6\n";
+    cout<<"=========\n";
     bool test_result=true;
     al_init();
     al_init_image_addon();

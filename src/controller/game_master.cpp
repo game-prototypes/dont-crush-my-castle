@@ -5,7 +5,6 @@
 //DESCRIPTION: control the IA and in-game stuff (spawning,movement etc..)
 #include "game_master.h"
 
-
 //GAME SPAWNER
 
 game_spawner::game_spawner() {
@@ -100,7 +99,7 @@ void game_master::update() {
         }
         if(spawn_delay_counter==0) spawn();
         vector<tower_id> tids=objects->update_towers();
-        //if(tower_atk_counter==0) update_tower_attacks(tids);
+        if(tower_atk_counter==0) update_tower_attacks(tids);
         objects->update_attacks();
         vector<list<enemy>::iterator> enemy_list=objects->update_enemies();
         update_enemy_position(enemy_list);
@@ -126,8 +125,8 @@ void game_master::update_tower_attacks(vector<tower_id> &towers) {
         bool target_found=false;
         int path_value=-1;
         for(current_enemy=first; current_enemy!=last; current_enemy++) {
-            if(current_tower->in_range(current_enemy->get_position())) { //if enemy in range
-                int new_path_value=game_map->get_path_value_of_position(target->get_position().first,target->get_position().second);
+            if(current_tower->in_range(current_enemy->get_position()) && current_enemy->alive()) { //if enemy in range
+                int new_path_value=game_map->get_path_value_of_position(current_enemy->get_position().first,current_enemy->get_position().second);
                 if(!target_found || (target_found && new_path_value<path_value && new_path_value!=-1)) {
                     target_found=true;
                     target=current_enemy;

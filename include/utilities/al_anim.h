@@ -49,8 +49,6 @@ public:
     //resize all bitmaps
     void resize(unsigned int w,unsigned int h);
 
-
-
     //ACCESS
     //return true if animation is active
     bool is_active() const;
@@ -66,8 +64,6 @@ public:
     unsigned int get_width() const;
     //return height of current bitmap
     unsigned int get_height() const;
-
-
 
     //updates current_delay if bitmap is active, if necessary, updates count
     //this method should be called once in each timer event (of the same timer given in set_animation_speed)

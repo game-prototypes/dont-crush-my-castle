@@ -120,8 +120,10 @@ int main() {
             master_0.update();
             game_objects_0.draw_enemies();
             game_objects_0.draw_towers();
+            game_objects_0.draw_attacks();
             al_flip_display();
         }
+        if(master_0.is_active()==false) break;
     }
     //destroy display,queue and timer
     al_destroy_display(display);
@@ -172,7 +174,7 @@ tower_attributes create_tower_0(const ALLEGRO_TIMER *timer) {
     if(!tower_bitmap) cout<<"error loading tower bitmap\n";
     al_anim explosion_anim(exp_bitmap,64,64,0.5,timer);
     al_destroy_bitmap(exp_bitmap);
-    atk_attributes atk_0(atk_bitmap,explosion_anim,20,90,1,90,shoot_atk);
+    atk_attributes atk_0(atk_bitmap,explosion_anim,60,90,2,5,shoot_atk);
     return tower_attributes("tower_0",tower_bitmap,atk_0,100);
 }
 game_spawner create_game_spawner() {

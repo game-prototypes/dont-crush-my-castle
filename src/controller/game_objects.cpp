@@ -47,6 +47,12 @@ unsigned int game_objects::enemy_size() const {
 unsigned int game_objects::tower_size() const {
     return spawned_towers.size();
 }
+unsigned int game_objects::attack_size() const {
+    return spawned_attacks.size();
+}
+bool game_objects::empty() const {
+    return (spawned_enemies.empty() && spawned_attacks.empty() && spawned_towers.empty());
+}
 unsigned int game_objects::killed_enemies() const {
     return killed;
 }
@@ -123,6 +129,17 @@ void game_objects::draw_enemies() const {
     for(list<enemy>::const_iterator it=spawned_enemies.begin(); it!=spawned_enemies.end(); it++)
         it->draw();
 }
+void game_objects::draw_attacks() const {
+    list<pair<list<enemy>::iterator,tower_atk> >::const_iterator atks;
+    for(atks=spawned_attacks.begin(); atks!=spawned_attacks.end(); atks++) {
+        atks->second.draw();
+    }
+}
+bool game_objects::check() {
+    bool b=true;
+    return b;
+}
+//PRIVATE
 void game_objects::invalidate_attacks(vector<list<enemy>::iterator> to_invalidate) {
     list<pair<list<enemy>::iterator,tower_atk> >::iterator it;
     for(it=spawned_attacks.begin(); it!=spawned_attacks.end(); it++) {
@@ -130,8 +147,4 @@ void game_objects::invalidate_attacks(vector<list<enemy>::iterator> to_invalidat
             if(it->first==to_invalidate[i]) it->second.invalidate();
         }
     }
-}
-bool game_objects::check() {
-    bool b=true;
-    return b;
 }
