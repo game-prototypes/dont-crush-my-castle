@@ -1,7 +1,7 @@
 //TITLE: Map Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: test of DCmC for maps
 /*This test will check:
 tile
@@ -13,7 +13,7 @@ tilemap
 
 
 void test_func(tile &t) {
-    ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
+    ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_path);
     tile tt(road,bmp,80);
     t=tt;
 }
@@ -23,7 +23,7 @@ bool test_map() {
     //Final result of test, true if everything OK
     bool test_result=true;
     //load example bitmap
-    ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
+    ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_path);
     if(bmp==NULL) {
         cout<<" || ERROR - bitmap not loaded";
         test_result=false;
@@ -87,12 +87,14 @@ bool test_map() {
     */
     //i=vertical
     //j=horizontal
-    set<pair<unsigned int,unsigned int> > dest;
+    set<pair<unsigned int,unsigned int> > dest,spaw;
     dest.insert(make_pair(0,2));
-    tilemap testmap("testing map",mapids,&tset,dest);
+    spaw.insert(make_pair(1,0));
+    tilemap testmap("testing map",mapids,&tset,dest,spaw);
     if(testmap.get_name()!="testing map") test_result=false;
     if(testmap.get_width()!=4 || testmap.get_height()!=3) test_result=false;
     if(testmap.get_tile_size()!=20) test_result=false;
+    if(testmap.spawners_position().size()!=1) test_result=false;
     if(testmap.translate_position(0.0,0.0)!=make_pair((unsigned int)0,(unsigned int)0)) test_result=false;
     if(testmap.translate_position(-10.0,-5.0)!=make_pair((unsigned int)0,(unsigned int)0)) test_result=false;
     if(testmap.translate_position(1000.0,1000.0)!=make_pair((unsigned int)4,(unsigned int)3)) test_result=false;
@@ -121,7 +123,7 @@ bool test_map() {
     1 -
     3 -
     */
-    tilemap testmap2("testing map2",mapids2,&tset,dest);
+    tilemap testmap2("testing map2",mapids2,&tset,dest,spaw);
     if(testmap2.get_name()!="testing map2") test_result=false;
     if(testmap2.get_width()!=2 || testmap2.get_height()!=3) test_result=false;
     if(testmap2.check()==false) test_result=false;
@@ -130,7 +132,6 @@ bool test_map() {
             if(testmap2.get_tile_id(i,j)!=null_tile_id && i==1 && j>=1) test_result=false;
         }
     }
-    testmap2.add_spawner(1,0);
     //CHECK PATH
     if(testmap2.in_path(0,1)==false) test_result=false;
     if(testmap.check()==false) test_result=false;

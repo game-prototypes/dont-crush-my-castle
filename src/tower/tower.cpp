@@ -95,14 +95,18 @@ void tower::update() {
     }
 }
 void tower::draw() const {
-    draw_centered(attributes.bitmap,position.first,position.second);
+    unsigned int hoffset=get_bitmap_height(attributes.bitmap)/2;
+    draw_centered(attributes.bitmap,position.first,position.second-hoffset);
 }
 
 tower_atk tower::attack(const pair<double,double> target) {
     if(atk_counter>0) debug_log::report("tower attack before counter reach 0",warning,true,false,false);
     if(in_range(target)==false) debug_log::report("tower attack out of range",warning,true,false,false);
     reset_counter();
-    return tower_atk(attributes.atk,position,target,timer);
+    unsigned int hoffset=get_bitmap_height(attributes.bitmap)/3;
+    pair<double,double> pos=position;
+    pos.second-=hoffset*2;
+    return tower_atk(attributes.atk,pos,target,timer);
 }
 bool tower::check() const {
     bool b=true;

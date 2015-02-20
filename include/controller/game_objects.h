@@ -1,7 +1,7 @@
 //TITLE: GAME_OBJECTS_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: stores all instantiated ofjects in the scene
 
 #ifndef GAME_OBJECTS
@@ -14,10 +14,6 @@
 typedef unsigned int tower_id; //defines a id for a tile in the tileset
 //will be always >=1, 0 reserved for null id
 
-/*
-ordenar enemigos por posicion (map)
-reiniciar tower_id si llega muy alto
-*/
 class game_objects {
 private:
     list<enemy> spawned_enemies;
@@ -40,6 +36,9 @@ public:
     //CONSULT
     unsigned int enemy_size() const;
     unsigned int tower_size() const;
+    unsigned int attack_size() const;
+    //return true if every list is empty
+    bool empty() const;
     unsigned int killed_enemies() const;
     list<enemy>::iterator get_first_enemy();
     list<enemy>::const_iterator get_first_enemy() const;
@@ -56,6 +55,7 @@ public:
     void update_attacks();
     void draw_towers() const;
     void draw_enemies() const;
+    void draw_attacks() const;
     bool check();
 
 private:

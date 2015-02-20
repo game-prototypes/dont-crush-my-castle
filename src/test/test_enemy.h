@@ -1,7 +1,7 @@
 //TITLE: Enemy Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: test of enemies
 /*This test will check:
 enemy
@@ -17,7 +17,7 @@ bool test_enemy() {
     //ENEMY ATTRIBUTES
     enemy_attributes testenemy_attr("minion test",100,10,2,5);
     map<enemy_animation,al_anim> vanim;
-    ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
+    ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_path);
     resize_bitmap(bmp,100,100);
     al_anim anim(bmp,50,50,2,timer);
     al_destroy_bitmap(bmp);

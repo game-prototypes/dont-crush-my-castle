@@ -1,15 +1,16 @@
 //TITLE: Main Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: full test of DCmC,calling other tests
 
-
+#include "input_handler.h"
 #include "player_controller.h"
 #include "game_master.h"
 using namespace std;
 //ALLEGRO,timer and queue pointers
 ALLEGRO_TIMER *timer;
+const char *bitmap_path="resources/spr/example_clock.png";
 
 #include "test_utils.h"
 #include "test_anim.h"
@@ -22,6 +23,8 @@ ALLEGRO_TIMER *timer;
 
 int main() {
     cout<<"DCmC Test\n";
+    cout<<"0.6\n";
+    cout<<"=========\n";
     bool test_result=true;
     al_init();
     al_init_image_addon();

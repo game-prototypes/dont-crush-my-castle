@@ -1,20 +1,28 @@
 //TITLE: Al_utils Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 /*DESCRIPTION: basic test of allegro utilities (src/utilities) for DCmC
 This test will check:
 al_utils
 */
 #ifndef UTILITIES_TEST
 #define UTILITIES_TEST
-
+void click_event_test(int button,unsigned int x,unsigned int y) {
+    cout<<"button pressed:"<<button<<" position:"<<x<<"x"<<y<<endl;
+}
+void mouse_wheel_test(int dz) {
+    cout<<"mouse wheel moved:"<<dz<<endl;
+}
+void key_pressed_test(int keycode) {
+    cout<<"key_pressed:"<<keycode<<endl;
+}
 bool test_utilities() {
     cout<<"AL_UTILS TEST";
     //Final result of test, true if everything OK
     bool test_result=true;
     //load example bitmap
-    ALLEGRO_BITMAP *bmp=al_load_bitmap("spr/example_clock.png");
+    ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_path);
     if(bmp==NULL) {
         cout<<" || ERROR - bitmap not loaded\n";
         test_result=false;
@@ -82,9 +90,15 @@ bool test_utilities() {
     if(p1!=p2) test_result=false; //now whe are here
     //draw centered not tested
     al_destroy_bitmap(bmp);
+    //Testing handler
+    ALLEGRO_EVENT_QUEUE *event_queue;
+    event_queue = al_create_event_queue();
+    input_handler handler_test(event_queue,click_event_test,key_pressed_test,mouse_wheel_test);
+    if(handler_test.check()==false) test_result=false;
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
     return test_result;
 }
+
 
 #endif

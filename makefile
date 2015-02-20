@@ -1,4 +1,4 @@
-#Don't Crush my Castle Makefile v0.5
+#Don't Crush my Castle Makefile v0.6
 #by demiurgosoft
 #Just type make to compile project (currently compiling tests)
 #make test: compile tests
@@ -9,7 +9,7 @@
 
 #FLAGS
 CXX = g++
-CPPFLAGS= -Wall -O1 #-g
+CPPFLAGS= -Wall -O1 -std=c++11 #-g
 ALLEGROFLAGS=-lallegro -lallegro_image -lallegro_main
 #ALLEGROFLAGS2=-lallegro -lallegro_primitives -lallegro_font -lallegro_ttf -lallegro_image -lallegro_main -lallegro_acodec -lallegro_audio -lallegro_color -lallegro_dialog -lallegro_memfile -lallegro_physfs
 #DIR
@@ -24,12 +24,13 @@ ENEMYDIR=$(IDIR)/enemy
 TOWERDIR=$(IDIR)/tower
 CONTROLLERDIR=$(IDIR)/controller
 TESTDIR=$(SDIR)/test
+MAINDIR=$(SDIR)/main
 
 _INC=$(UTILSDIR) $(MAPDIR) $(ENEMYDIR) $(TOWERDIR) $(CONTROLLERDIR)
 #INC=$(patsubst %,$(IDIR)/%,$(_INC))
 I_INC=$(patsubst %,-I %,$(_INC))
 
-_AL_UTILS=al_anim.cpp al_utils.cpp debug_log.cpp
+_AL_UTILS=al_anim.cpp al_utils.cpp debug_log.cpp input_handler.cpp
 AL_UTILS_O=$(patsubst %,$(ODIR)/%,$(_AL_UTILS:.cpp=.o))
 _MAP=tile.cpp tileset.cpp tilemap.cpp
 MAP_O=$(patsubst %,$(ODIR)/%,$(_MAP:.cpp=.o))
@@ -40,20 +41,24 @@ TOWER_O=$(patsubst %,$(ODIR)/%,$(_TOWER:.cpp=.o))
 _CONTROLLER=game_objects.cpp player_controller.cpp game_master.cpp
 CONTROLLER_O=$(patsubst %,$(ODIR)/%,$(_CONTROLLER:.cpp=.o))
 
-TEST_O=$(AL_UTILS_O) $(MAP_O) $(ENEMY_O) $(TOWER_O) $(CONTROLLER_O) $(TESTDIR)/main_test.cpp
+TEST_O=$(AL_UTILS_O) $(MAP_O) $(ENEMY_O) $(TOWER_O) $(CONTROLLER_O)
 _TEST_H=test_utils.h test_anim.h test_map.h test_tower.h test_enemy.h test_controller.h
 TEST_H=$(patsubst %,$(TESTDIR)/%,$(_TEST_H))
 
+MAIN_O=$(AL_UTILS_O) $(MAP_O) $(ENEMY_O) $(TOWER_O) $(CONTROLLER_O) $(ODIR)/DCmC.o
 .PHONY: all
-all: test
+all: main
 
+bin/DCmC: $(MAIN_O)
+	$(CXX) -o $@ $^ $(CPPFLAGS) $(I_INC) -I $(TESTDIR) $(ALLEGROFLAGS)
 #Compile tests
-bin/main_test: $(TEST_O)
+bin/main_test: $(TEST_O)  $(TESTDIR)/main_test.cpp
 	$(CXX) -o $@ $^ $(CPPFLAGS) $(I_INC) -I $(TESTDIR) $(ALLEGROFLAGS)
 #compile a generic .o
+obj/%.o: $(SDIR)/*/%.cpp $(IDIR)/*/%.h
+	$(CXX) -c -o $@ $< $(I_INC) $(CPPFLAGS)
 obj/%.o: $(SDIR)/*/%.cpp
 	$(CXX) -c -o $@ $< $(I_INC) $(CPPFLAGS)
-
 #Creates directories if dont exists
 $(BDIR)/:
 	mkdir $(BDIR)
@@ -61,10 +66,11 @@ $(ODIR)/:
 	mkdir $(ODIR)
 	
 	
-	
+.PHONY: main
+main: $(BDIR)/ $(ODIR)/ bin/DCmC
 #compile tests binaries
 .PHONY: test
-test: $(BDIR) $(ODIR) $(TEST_H) bin/main_test
+test: $(BDIR)/ $(ODIR)/ $(TEST_H) bin/main_test
 #astyle for all code (.cpp and .h)
 .PHONY: astyle
 astyle:

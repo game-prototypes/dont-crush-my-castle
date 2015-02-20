@@ -70,6 +70,7 @@ enemy enemy_set::spawn_enemy(const string &name,unsigned int level,double posx,d
     }
     else
         return enemy(enemies[name],level,posx,posy,timer);
+    return enemy();
 }
 bool enemy_set::check() const {
     bool b=true;

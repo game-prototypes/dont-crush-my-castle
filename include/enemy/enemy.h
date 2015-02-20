@@ -1,7 +1,7 @@
 //TITLE: ENEMY_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: defines each single enemy
 
 #ifndef ENEMY_H
@@ -120,6 +120,8 @@ private:
     void set_speed(double spd,const ALLEGRO_TIMER *timer);
     //set enemy level
     void set_level(unsigned int level);
+    //sets movement animation
+    void set_movement_animation();
 };
 
 

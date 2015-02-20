@@ -1,7 +1,7 @@
 //TITLE: ENEMY_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: defines each single enemy
 
 #include "enemy.h"
@@ -80,9 +80,6 @@ bool enemy_attributes::check() const {
     return b;
 }
 
-
-
-
 //############################CLASS ENEMY#############################
 
 //CONSTRUCTORS
@@ -106,7 +103,7 @@ enemy::~enemy() {
 }
 //MODIFICATION
 void enemy::spawn(double posx,double posy) {
-    if(posx<0 ||posy<0) debug_log::report("enemy position negative",err,true,true,false);
+    if(posx<0 || posy<0) debug_log::report("enemy position negative",err,true,true,false);
     else {
         destiny=position=make_pair(posx,posy);
         active=true;
@@ -161,9 +158,13 @@ void enemy::stop() {
 void enemy::move_to(double x,double y) {
     if(x<0 || y<0) debug_log::report("destiny negative",err,true,true,false);
     else {
-        destiny.first=x;
-        destiny.second=y;
-        attributes.animation[idle_anim].stop();
+        if(x==position.first && y==position.second) set_to_idle();
+        else {
+            destiny.first=x;
+            destiny.second=y;
+            set_movement_animation();
+            attributes.animation[idle_anim].stop();
+        }
     }
 }
 void enemy::decrease_life(unsigned int dam) {
@@ -190,19 +191,9 @@ void enemy::update() {
     if(spawned()) {
         if(alive()) {
             if(!idle()) { //not idle option
-                double x=destiny.first-position.first;
-                double y=destiny.second-position.second;
-                if(abs(x)>=abs(y)) { //horizontal animation
-                    if(x>0) change_movement_animation(right_anim);
-                    else change_movement_animation(left_anim); //position 0,0 is top-left
-                }
-                else { //vertical animation
-                    if(y>0) change_movement_animation(down_anim);
-                    else change_movement_animation(up_anim);
-                }
                 position=movement_update(position,destiny,speed);
-                if(idle()) set_to_idle(); //if reach destiny
             }
+            else set_to_idle(); //if reach destiny
         }
         else if(current_animation!=dead_anim) kill(); //killed
         attributes.animation[current_animation].update(); //animation update
@@ -214,7 +205,7 @@ void enemy::draw() const {
         map<enemy_animation,al_anim>::const_iterator it;
         it=attributes.animation.find(current_animation);
         unsigned int hoffset=it->second.get_height()/2;
-        it->second.draw(position.first,position.second+hoffset);
+        it->second.draw(position.first,position.second-hoffset);
     }
 }
 bool enemy::check() const {
@@ -228,6 +219,7 @@ bool enemy::check() const {
         b=false;
         debug_log::report("speed<=0",err,true,true,false);
     }
+    if(position.first<0.0 || position.second<0.0 || destiny.first<0.0 || destiny.second<0.0) b=false;
     return b;
 }
 
@@ -244,6 +236,7 @@ void enemy::change_movement_animation(enemy_animation anim) {
 }
 void enemy::set_to_idle() {
     stop_movement_anim();
+    destiny=position;
     attributes.animation[current_animation].stop(); //stop current anim (if it is not movememnt anim)
     current_animation=idle_anim;
     attributes.animation[current_animation].animation_loop(true);
@@ -262,4 +255,16 @@ void enemy::set_speed(double spd,const ALLEGRO_TIMER *timer) {
 void enemy::set_level(unsigned int level) {
     this->level=level;
     attributes.increase_level(level);
+}
+void enemy::set_movement_animation() {
+    double x=destiny.first-position.first;
+    double y=destiny.second-position.second;
+    if(abs(x)>=abs(y)) { //horizontal animation
+        if(x>0) change_movement_animation(right_anim);
+        else change_movement_animation(left_anim); //position 0,0 is top-left
+    }
+    else { //vertical animation
+        if(y>0) change_movement_animation(down_anim);
+        else change_movement_animation(up_anim);
+    }
 }
