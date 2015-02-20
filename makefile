@@ -41,24 +41,24 @@ TOWER_O=$(patsubst %,$(ODIR)/%,$(_TOWER:.cpp=.o))
 _CONTROLLER=game_objects.cpp player_controller.cpp game_master.cpp
 CONTROLLER_O=$(patsubst %,$(ODIR)/%,$(_CONTROLLER:.cpp=.o))
 
-TEST_O=$(AL_UTILS_O) $(MAP_O) $(ENEMY_O) $(TOWER_O) $(CONTROLLER_O) $(TESTDIR)/main_test.cpp
+TEST_O=$(AL_UTILS_O) $(MAP_O) $(ENEMY_O) $(TOWER_O) $(CONTROLLER_O)
 _TEST_H=test_utils.h test_anim.h test_map.h test_tower.h test_enemy.h test_controller.h
 TEST_H=$(patsubst %,$(TESTDIR)/%,$(_TEST_H))
 
 MAIN_O=$(AL_UTILS_O) $(MAP_O) $(ENEMY_O) $(TOWER_O) $(CONTROLLER_O) $(ODIR)/DCmC.o
-
 .PHONY: all
 all: main
 
 bin/DCmC: $(MAIN_O)
 	$(CXX) -o $@ $^ $(CPPFLAGS) $(I_INC) -I $(TESTDIR) $(ALLEGROFLAGS)
 #Compile tests
-bin/main_test: $(TEST_O)
+bin/main_test: $(TEST_O)  $(TESTDIR)/main_test.cpp
 	$(CXX) -o $@ $^ $(CPPFLAGS) $(I_INC) -I $(TESTDIR) $(ALLEGROFLAGS)
 #compile a generic .o
+obj/%.o: $(SDIR)/*/%.cpp $(IDIR)/*/%.h
+	$(CXX) -c -o $@ $< $(I_INC) $(CPPFLAGS)
 obj/%.o: $(SDIR)/*/%.cpp
 	$(CXX) -c -o $@ $< $(I_INC) $(CPPFLAGS)
-
 #Creates directories if dont exists
 $(BDIR)/:
 	mkdir $(BDIR)

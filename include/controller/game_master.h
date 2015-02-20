@@ -16,7 +16,7 @@
 
 typedef std::stack<std::pair<unsigned int,string> > spawn_wave;
 const double enemies_spawn_delay=0.1; //speed between spawning (seconds)
-const unsigned int check_towers_atk_delay=5; //delay (in frames) between checks of tower attacks (costly operation to do each frame)
+const unsigned int check_towers_atk_delay=1; //delay (in frames) between checks of tower attacks (costly operation to do each frame)
 
 //information about spawning enemies
 class game_spawner {
