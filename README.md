@@ -18,9 +18,9 @@ Highly customizable tower defense style game
  * master [![Build Status](https://travis-ci.org/demiurgosoft/dont-crush-my-castle.svg?branch=master)](https://travis-ci.org/demiurgosoft/dont-crush-my-castle)
  * development [![Build Status](https://travis-ci.org/demiurgosoft/dont-crush-my-castle.svg?branch=development)](https://travis-ci.org/demiurgosoft/dont-crush-my-castle)
 
-***To compile DCmC following liballegro5-dev should be installed with all liballegro5 addons***
+**To compile DCmC,liballegro5-dev should be installed with all liballegro5 addons**
 To install all allegro dependencies,run sudo apt-get install liballegro5-dev or go to https://wiki.allegro.cc/index.php?title=Getting_Started#Installing_Allegro
-
+**C++11 required to compile DCmC**
 This project participates in the following contests:
 
 CUSL - http://www.concursosoftwarelibre.org/1415/?q=proyectos 

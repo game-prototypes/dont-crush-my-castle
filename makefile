@@ -9,7 +9,7 @@
 
 #FLAGS
 CXX = g++
-CPPFLAGS= -Wall -O1 #-g
+CPPFLAGS= -Wall -O1 -std=c++11 #-g
 ALLEGROFLAGS=-lallegro -lallegro_image -lallegro_main
 #ALLEGROFLAGS2=-lallegro -lallegro_primitives -lallegro_font -lallegro_ttf -lallegro_image -lallegro_main -lallegro_acodec -lallegro_audio -lallegro_color -lallegro_dialog -lallegro_memfile -lallegro_physfs
 #DIR
@@ -30,7 +30,7 @@ _INC=$(UTILSDIR) $(MAPDIR) $(ENEMYDIR) $(TOWERDIR) $(CONTROLLERDIR)
 #INC=$(patsubst %,$(IDIR)/%,$(_INC))
 I_INC=$(patsubst %,-I %,$(_INC))
 
-_AL_UTILS=al_anim.cpp al_utils.cpp debug_log.cpp
+_AL_UTILS=al_anim.cpp al_utils.cpp debug_log.cpp input_handler.cpp
 AL_UTILS_O=$(patsubst %,$(ODIR)/%,$(_AL_UTILS:.cpp=.o))
 _MAP=tile.cpp tileset.cpp tilemap.cpp
 MAP_O=$(patsubst %,$(ODIR)/%,$(_MAP:.cpp=.o))

@@ -4,7 +4,7 @@
 //VERSION: 0.6
 //DESCRIPTION: Main program of DCmC
 
-
+#include "input_handler.h"
 #include "player_controller.h"
 #include "game_master.h"
 using namespace std;
