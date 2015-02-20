@@ -1,7 +1,6 @@
 language: cpp
 compiler:
   - g++
-  - clang
   
 branches:
   only:
