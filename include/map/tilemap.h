@@ -44,8 +44,6 @@ public:
     void add_destiny(unsigned int x,unsigned int y);
     //adds new spawner
     void add_spawner(unsigned int x,unsigned int y);
-    //sets tile in position[x,y] with given tile id
-    void set_tile(unsigned int x,unsigned int y,tile_id tid);
     //ACCESS
     //return true if given positon is in matrix
     bool in_matrix(unsigned int x,unsigned int y) const;
