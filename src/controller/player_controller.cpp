@@ -58,6 +58,11 @@ void player_controller::remove_tower(double x,double y) {
         game_map->free_tile(p.first,p.second);
     }
 }
+bool player_controller::is_tower(double x,double y) const {
+    pair<unsigned int,unsigned int> p=translate_position(x,y);
+    if(built_towers.find(p)==built_towers.end()) return false;
+    else return true;
+}
 tower *player_controller::get_tower(double x,double y) {
     return objects->get_tower(get_tower_id(x,y));
 }

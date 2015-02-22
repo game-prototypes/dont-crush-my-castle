@@ -36,6 +36,8 @@ public:
     bool build_tower(const string &name,double x,double y);
     //remove tower of given position
     void remove_tower(double x,double y);
+    //return true if there is a tower in given position
+    bool is_tower(double x,double y) const;
     //get pointer to tower in given position
     tower *get_tower(double x,double y);
     const tower *get_tower(double x,double y) const;
