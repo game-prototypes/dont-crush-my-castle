@@ -1,7 +1,7 @@
 //TITLE: TOWER_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: defines each player tower
 
 #ifndef TOWER_H

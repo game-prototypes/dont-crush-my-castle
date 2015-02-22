@@ -19,6 +19,16 @@ string enemy_path="resources/spr/enemy_0/";
 enemy_attributes create_enemy_0(const ALLEGRO_TIMER *timer);
 tower_attributes create_tower_0(const ALLEGRO_TIMER *timer);
 game_spawner create_game_spawner();
+//input functions
+void click_mouse(int button_number,unsigned int x,unsigned int y);
+void key_pressed(int keycode);
+
+//Global pointers
+string tower_selected="tower_0";
+tilemap *tm_pointer;
+game_objects *go_pointer;
+game_master *gm_pointer;
+player_controller *pc_pointer;
 
 int main() {
     cout<<"DCmC V0.6 alpha\n";
@@ -67,6 +77,7 @@ int main() {
     destinations.insert(make_pair(5,9));
     spawners.insert(make_pair(5,0));
     tilemap game_map("DCmC_map_1",map_matrix,&tset,destinations,spawners);
+    tm_pointer=&game_map;
     cout<<"Map name:"<<game_map.get_name()<<endl;
     cout<<"Map Size:"<<game_map.get_width()<<"x"<<game_map.get_height()<<endl;
     cout<<"Spawners:";
@@ -93,19 +104,21 @@ int main() {
     if(towerset.check()==false) cout<<"error in check\n";
     cout<<endl;
     game_objects game_objects_0;
+    go_pointer=&game_objects_0;
     game_spawner spawner_0=create_game_spawner();
     game_master master_0(eset,game_objects_0,game_map,spawner_0,timer);
+    gm_pointer=&master_0;
     cout<<"Number of waves:"<<master_0.get_total_waves()<<endl;
-    player_controller pc(towerset,game_objects_0,game_map);
-    cout<<"player_controller can_build [330,330]:"<<pc.can_build(300.0,300.0)<<endl;
-    pc.build_tower("tower_0",300,300);
-    cout<<"player_controller can_build [330,330] (after build):"<<pc.can_build(300.0,300.0)<<endl;
+    player_controller player_constroller_0(towerset,game_objects_0,game_map);
+    pc_pointer=&player_constroller_0;
+    // cout<<"player_controller can_build [330,330]:"<<pc.can_build(300.0,300.0)<<endl;
+    // player_constroller_0.build_tower("tower_0",300,300);
+    // cout<<"player_controller can_build [330,330] (after build):"<<pc.can_build(300.0,300.0)<<endl;
+    input_handler input_handler_0(event_queue,click_mouse,key_pressed);
     cout<<endl<<"Start Game\n";
     while(true) {
         ALLEGRO_EVENT event;
         al_wait_for_event(event_queue, &event);
-        if(event.type==ALLEGRO_EVENT_DISPLAY_CLOSE)   //evento si se cierra pantalla
-            break;
         if(event.type==ALLEGRO_EVENT_TIMER) { //evento de timer
             redraw=true;
             tt++;
@@ -114,7 +127,10 @@ int main() {
                 seconds++;
             }
         }
-        if(redraw) {
+        else if(event.type==ALLEGRO_EVENT_DISPLAY_CLOSE)   //evento si se cierra pantalla
+            break;
+        else input_handler_0.update(event);
+        if(redraw  && al_is_event_queue_empty(event_queue)) {
             al_clear_to_color(al_map_rgb(0, 0, 0));
             game_map.draw_tilemap();
             master_0.update();
@@ -122,6 +138,7 @@ int main() {
             game_objects_0.draw_towers();
             game_objects_0.draw_attacks();
             al_flip_display();
+            redraw=false;
         }
         if(master_0.is_active()==false) break;
     }
@@ -179,8 +196,24 @@ tower_attributes create_tower_0(const ALLEGRO_TIMER *timer) {
 }
 game_spawner create_game_spawner() {
     spawn_wave wav;
-    wav.push(make_pair(1,"enemy_0"));
+    wav.push(make_pair(10,"enemy_0"));
     vector<spawn_wave> v;
     v.push_back(wav);
     return  game_spawner(v,10);
+}
+
+
+void click_mouse(int button_number,unsigned int x,unsigned int y) {
+    // cout<<"mouse button "<<button_number<<"clicked at ["<<x<<","<<y<<"]\n";
+    if(pc_pointer->is_tower(x,y)) {
+        /// cout<<"remove tower clicked\n";
+        pc_pointer->remove_tower(x,y);
+    }
+    else {
+        pc_pointer->build_tower(tower_selected,x,y);// cout<<"tower built\n";
+        //else cout<<"impossible to build tower\n";
+    }
+}
+void key_pressed(int keycode) {
+    cout<<"pressed key:"<<keycode<<"   "<<al_keycode_to_name(keycode)<<endl;
 }

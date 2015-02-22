@@ -1,7 +1,7 @@
 //TITLE: tower_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: defines an user tower
 
 #include "tower.h"

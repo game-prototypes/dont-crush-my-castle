@@ -20,7 +20,7 @@ private:
     function<void(int)> key_pressed; //function to handle key events
     function<void(int)> mouse_wheel; //function to handle mouse wheel events (being the argument the change of wheel)
 public:
-    input_handler(ALLEGRO_EVENT_QUEUE *event_queue,function<void(int,unsigned int,unsigned int)> click_mouse,function<void(int)> key_pressed,function<void(int)> mouse_wheel);
+    input_handler(ALLEGRO_EVENT_QUEUE *event_queue,function<void(int,unsigned int,unsigned int)> click_mouse,function<void(int)> key_pressed);
     ~input_handler();
     pair<unsigned int,unsigned int> get_mouse_position() const;
     bool is_pressed(int keycode) const;

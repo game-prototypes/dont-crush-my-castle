@@ -1,7 +1,7 @@
 //TITLE: TILESET_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.5
+//VERSION: 0.6
 //DESCRIPTION: Information about a set of tiles to be used on maps
 #ifndef TILESET_H
 #define TILESET_H
