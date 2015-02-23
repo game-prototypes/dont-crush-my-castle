@@ -4,11 +4,6 @@ _Version 0.6 (alpha)_
 
 Highly customizable tower defense style game
 
-**Planned Features:**
- * Custom Campaign mode
- * Random Maps
- * Custom Enemies/Buildings
-
 **HOW TO:**
  * Compile: run make
  * Test: execute test.sh    
