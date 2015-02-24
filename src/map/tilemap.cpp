@@ -96,8 +96,9 @@ void tilemap::add_destiny(unsigned int x,unsigned int y) {
     }
 }
 void tilemap::add_spawner(unsigned int x,unsigned int y) {
-    if(in_matrix(x,y))
+    if(in_matrix(x,y) && get_path_value(x,y)>0)
         spawners.insert(make_pair(x,y));
+    else cout<<"spawner could not be added to map\n";
 }
 bool tilemap::in_matrix(unsigned int x,unsigned int y)const {
     if(x<get_width() && y<get_height()) return true;
