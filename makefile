@@ -1,4 +1,4 @@
-#Don't Crush my Castle Makefile v0.6
+#Don't Crush my Castle Makefile v0.7
 #by demiurgosoft
 #Just type make to compile project (currently compiling tests)
 #make test: compile tests
@@ -30,7 +30,7 @@ _INC=$(UTILSDIR) $(MAPDIR) $(ENEMYDIR) $(TOWERDIR) $(CONTROLLERDIR)
 #INC=$(patsubst %,$(IDIR)/%,$(_INC))
 I_INC=$(patsubst %,-I %,$(_INC))
 
-_AL_UTILS=al_anim.cpp al_utils.cpp debug_log.cpp input_handler.cpp
+_AL_UTILS=al_anim.cpp al_utils.cpp debug_log.cpp input_handler.cpp game_object.cpp
 AL_UTILS_O=$(patsubst %,$(ODIR)/%,$(_AL_UTILS:.cpp=.o))
 _MAP=tile.cpp tileset.cpp tilemap.cpp
 MAP_O=$(patsubst %,$(ODIR)/%,$(_MAP:.cpp=.o))

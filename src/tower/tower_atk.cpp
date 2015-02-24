@@ -1,7 +1,7 @@
 //TITLE: TOWER_ATK_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: defines the attack of buildings
 
 #include "tower_atk.h"
@@ -84,14 +84,8 @@ double tower_atk::get_speed() const {
 unsigned int tower_atk::get_range() const {
     return attributes.range;
 }
-pair<double,double> tower_atk::get_position() const {
-    return position;
-}
 atk_type tower_atk::get_type() const {
     return attributes.type;
-}
-bool tower_atk::is_active() const {
-    return active;
 }
 bool tower_atk::is_valid() const {
     return valid;

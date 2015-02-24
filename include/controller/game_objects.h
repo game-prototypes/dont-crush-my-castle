@@ -53,6 +53,8 @@ public:
     vector<list<enemy>::iterator> update_enemies();
     //updates all attacks, damaging all enemies when collided
     void update_attacks();
+    // pair<vector<tower_id>,vector<list<gameobject::iterator>> update_gameobjets() const;
+    //void draw() const;
     void draw_towers() const;
     void draw_enemies() const;
     void draw_attacks() const;

@@ -1,7 +1,7 @@
 //TITLE: tower_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: defines an user tower
 
 #include "tower.h"
@@ -56,17 +56,8 @@ tower::tower(const tower_attributes &attributes,double posx,double posy,const AL
 }
 tower::~tower() {
 }
-void tower::deactivate() {
-    active=false;
-}
-bool tower::is_active() const {
-    return active;
-}
 string tower::get_name() const {
     return attributes.name;
-}
-pair<double,double> tower::get_position()const {
-    return position;
 }
 unsigned int tower::get_range()const {
     return attributes.atk.range;

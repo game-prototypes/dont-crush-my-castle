@@ -92,6 +92,11 @@ bool test_utilities() {
     event_queue = al_create_event_queue();
     input_handler handler_test(event_queue,click_event_test,key_pressed_test);
     if(handler_test.check()==false) test_result=false;
+    //testing gameobject
+    game_object gameobj;
+    if(gameobj.check()==false) test_result=false;
+    if(gameobj.get_position()!=make_pair(-1.0,-1.0)) test_result=false;
+    if(gameobj.is_active()==true) test_result=false;
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
     return test_result;

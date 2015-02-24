@@ -1,7 +1,7 @@
 //TITLE: DCmC Main
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: Main program of DCmC
 
 #include "input_handler.h"
@@ -215,5 +215,5 @@ void click_mouse(int button_number,unsigned int x,unsigned int y) {
     }
 }
 void key_pressed(int keycode) {
-    cout<<"pressed key:"<<keycode<<"   "<<al_keycode_to_name(keycode)<<endl;
+    //cout<<"pressed key:"<<keycode<<"   "<<al_keycode_to_name(keycode)<<endl;
 }
