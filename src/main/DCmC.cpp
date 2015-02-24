@@ -52,10 +52,10 @@ int main() {
         cout<<"error loading bitmap\n";
         exit(1);
     }
-    vector<tile_type> tile_type_v;
-    tile_type_v.push_back(road);
-    tile_type_v.push_back(ground);
-    tile_type_v.push_back(blocked);
+    vector<tile::tile_type> tile_type_v;
+    tile_type_v.push_back(tile::road);
+    tile_type_v.push_back(tile::ground);
+    tile_type_v.push_back(tile::blocked);
     tileset tset("Ground tileset",tilesetbmp,tile_type_v,32);
     cout<<"Tileset Name:"<<tset.get_name()<<endl;
     cout<<"Tile Size:"<<tset.get_tile_size()<<endl;

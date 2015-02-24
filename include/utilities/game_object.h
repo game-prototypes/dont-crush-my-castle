@@ -42,7 +42,5 @@ public:
     void virtual update();
     //check game object, return true if everyting is fine
     bool check() const;
-    //operator
-    bool operator<(const game_object &other) const;
 };
 #endif

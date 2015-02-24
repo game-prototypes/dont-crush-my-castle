@@ -71,11 +71,11 @@ bool test_controller() {
     tower_attributes attr3("towerTest",bmp3,attr,110);
     tower_set towers("tset",attr3,timer);
     ALLEGRO_BITMAP *bmp2=al_load_bitmap(bitmap_path);
-    vector<tile_type> types;
-    types.push_back(ground);
-    types.push_back(road);
-    types.push_back(road);
-    types.push_back(road);
+    vector<tile::tile_type> types;
+    types.push_back(tile::ground);
+    types.push_back(tile::road);
+    types.push_back(tile::road);
+    types.push_back(tile::road);
     //tile set test with 4 tiles of 20x20
     tileset tiles("test",bmp2,types,20,4);
     vector<tile_id> row;

@@ -14,7 +14,7 @@ tilemap
 
 void test_func(tile &t) {
     ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_path);
-    tile tt(road,bmp,80);
+    tile tt(tile::road,bmp,80);
     t=tt;
 }
 
@@ -30,22 +30,22 @@ bool test_map() {
     }
     //TESTING TILE
     //road tile with given bmp,512x512
-    tile testtile(road,bmp,512);
+    tile testtile(tile::road,bmp,512);
     if(testtile.check()==false) test_result=false;
     if(testtile.get_size()!=512) test_result=false;
-    if(testtile.type!=road) test_result=false;
-    tile *testtile2=new tile(ground,bmp,256);
+    if(testtile.type!=tile::road) test_result=false;
+    tile *testtile2=new tile(tile::ground,bmp,256);
     testtile=*testtile2;
     delete testtile2;
-    if(testtile.get_size()!=256 || testtile.type!=ground) test_result=false;
+    if(testtile.get_size()!=256 || testtile.type!=tile::ground) test_result=false;
     test_func(testtile);
     if(testtile.get_size()!=80) test_result=false;
     //TESTING TILESET
-    vector<tile_type> types;
-    types.push_back(ground);
-    types.push_back(road);
-    types.push_back(road);
-    types.push_back(road);
+    vector<tile::tile_type> types;
+    types.push_back(tile::ground);
+    types.push_back(tile::road);
+    types.push_back(tile::road);
+    types.push_back(tile::road);
     //tile set test with 4 tiles of 20x20
     tileset tset("test",bmp,types,20,4);
     if(tset.size()!=4) test_result=false;
@@ -56,7 +56,7 @@ bool test_map() {
     if(tset.size()!=5) test_result=false;
     tset.remove_tile(2);
     if(tset.size()!=4) test_result=false;
-    if(tset.add_tile(ground,bmp)!=2) test_result=false;
+    if(tset.add_tile(tile::ground,bmp)!=2) test_result=false;
     if(tset.size()!=5) test_result=false;
     vector<tile_id> v2=tset.load_from_bitmap(bmp,types,25,4);
     if(tset.size()!=9) test_result=false;
@@ -107,8 +107,8 @@ bool test_map() {
     for(unsigned int i=0; i<testmap.get_width(); i++) {
         for(unsigned int j=0; j<testmap.get_height(); j++) {
             if(testmap.get_tile_id(i,j)!=mapids[i][j]) test_result=false;
-            if(testmap.get_tile_type(i,j)==road && j==0) test_result=false;
-            if(testmap.get_tile_type(i,j)==ground && j!=0) test_result=false;
+            if(testmap.get_tile_type(i,j)==tile::road && j==0) test_result=false;
+            if(testmap.get_tile_type(i,j)==tile::ground && j!=0) test_result=false;
             if(testmap.empty_tile(i,j)==true && j!=0 && (i!=1 && j!=1)) test_result=false;
             if(testmap.empty_tile(i,j)==false && j==0) test_result=false;
         }

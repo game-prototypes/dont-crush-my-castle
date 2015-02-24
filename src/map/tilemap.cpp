@@ -62,7 +62,7 @@ void tilemap::clear() {
 void tilemap::occupy_tile(unsigned int x,unsigned int y) {
     if(in_matrix(x,y)==true) {
         foreground[x][y]=1;
-        if(get_tile_type(x,y)==open_ground) update_path_map();
+        if(get_tile_type(x,y)==tile::open_ground) update_path_map();
     }
 }
 void tilemap::occupy_section(unsigned int x,unsigned int y,unsigned int width,unsigned int height) {
@@ -72,12 +72,12 @@ void tilemap::occupy_section(unsigned int x,unsigned int y,unsigned int width,un
         for(unsigned int j=0; j<height; j++)
             foreground[x+i][y+j]=1;
     }
-    if(get_tile_type(x,y)==open_ground)   update_path_map();
+    if(get_tile_type(x,y)==tile::open_ground)   update_path_map();
 }
 void tilemap::free_tile(unsigned int x,unsigned int y) {
     if(in_matrix(x,y)==true) {
         foreground[x][y]=0;
-        if(get_tile_type(x,y)==open_ground)   update_path_map();
+        if(get_tile_type(x,y)==tile::open_ground)   update_path_map();
     }
 }
 void tilemap::free_section(unsigned int x,unsigned int y,unsigned int width,unsigned int height) {
@@ -87,7 +87,7 @@ void tilemap::free_section(unsigned int x,unsigned int y,unsigned int width,unsi
         for(unsigned int j=0; j<height; j++)
             foreground[x+i][y+j]=0;
     }
-    if(get_tile_type(x,y)==open_ground)    update_path_map();
+    if(get_tile_type(x,y)==tile::open_ground)    update_path_map();
 }
 void tilemap::add_destiny(unsigned int x,unsigned int y) {
     if(in_matrix(x,y)) {
@@ -156,14 +156,14 @@ tile_id tilemap::get_tile_id(unsigned int x,unsigned int y) const {
         return background[x][y];
     else return null_tile_id;
 }
-tile_type tilemap::get_tile_type(unsigned int x,unsigned int y) const {
+tile::tile_type tilemap::get_tile_type(unsigned int x,unsigned int y) const {
     if(in_matrix(x,y)) {
         tile_id id=background[x][y];
         return (tiles->get_tile_type(id));
     }
     else {
         debug_log::report("get_tyle_type out of bounds",err,true,true,false);
-        return null_tile;
+        return tile::null_tile;
     }
 }
 int tilemap::get_path_value(unsigned int x,unsigned int y)const {
@@ -218,7 +218,7 @@ bool tilemap::can_build(unsigned int x,unsigned int y) const {
 }
 bool tilemap::check_path_if_build(unsigned int x,unsigned int y) {
     bool b=true;
-    if(can_build(x,y)==true || get_tile_type(x,y)!=open_ground) b=true;
+    if(can_build(x,y)==true || get_tile_type(x,y)!=tile::open_ground) b=true;
     else {
         occupy_tile(x,y);
         update_path_map();
@@ -319,20 +319,20 @@ void tilemap::generate_foreground() {
         for(unsigned int j=0; j<height; j++) {
             bool b=false;
             switch(get_tile_type(i,j)) {
-            case blocked:
+            case tile::blocked:
                 b=true;
                 break;
-            case road:
+            case tile::road:
                 b=true;
                 break;
-            case ground:
+            case tile::ground:
                 b=false;
                 break;
-            case special:
+            case tile::special:
                 b=true; //special are occupied
-            case null_tile:
+            case tile::null_tile:
                 b=true;
-            case open_ground:
+            case tile::open_ground:
                 b=false;
                 break;
             }
@@ -392,7 +392,7 @@ void tilemap::update_path_map() {
                     int y=til.second+j;
                     if(x>=0 && y>=0) {
                         if(in_matrix(x,y)) {
-                            if(get_tile_type(x,y)==road || (get_tile_type(x,y)==open_ground && empty_tile(x,y)==0)) {
+                            if(get_tile_type(x,y)==tile::road || (get_tile_type(x,y)==tile::open_ground && empty_tile(x,y)==0)) {
                                 int val=path_map[til.first][til.second]+1;
                                 if(path_map[x][y]==-1 || path_map[x][y]>val) {
                                     left_tiles.push(make_pair(x,y)); //push tile if havent been updated yet

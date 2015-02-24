@@ -20,13 +20,13 @@ tileset::tileset() {
            add_tileset(ts);
        }*/
 
-tileset::tileset(const string &name,const ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles) {
+tileset::tileset(const string &name,const ALLEGRO_BITMAP *bitmap,const vector<tile::tile_type> &types,unsigned int tile_size,int ntiles) {
     set_name(name);
     lowest_free=0;
     this->tile_size=tile_size;
     load_from_bitmap(bitmap,types,tile_size,ntiles);
 }
-tileset::tileset(const ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles) {
+tileset::tileset(const ALLEGRO_BITMAP *bitmap,const vector<tile::tile_type> &types,unsigned int tile_size,int ntiles) {
     set_name("");
     lowest_free=0;
     this->tile_size=tile_size;
@@ -54,7 +54,7 @@ tileset::~tileset() {
     name.clear();
     tile_list.clear();
 }
-tile_id tileset::add_tile(tile_type type,const ALLEGRO_BITMAP *bitmap) {
+tile_id tileset::add_tile(tile::tile_type type,const ALLEGRO_BITMAP *bitmap) {
     tile_list.insert(make_pair(lowest_free,tile(type,bitmap)));
     tile_id r=lowest_free;
     if(tile_size==0) tile_size=tile_list[r].get_size();
@@ -70,14 +70,14 @@ tile_id tileset::add_tile(const tile &t) {
     lowest_free=get_next_free_id();
     return  r;
 }
-vector<tile_id> tileset::load_from_bitmap(const ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles) {
+vector<tile_id> tileset::load_from_bitmap(const ALLEGRO_BITMAP *bitmap,const vector<tile::tile_type> &types,unsigned int tile_size,int ntiles) {
     vector<ALLEGRO_BITMAP *> v=slice_bitmap(bitmap,tile_size,tile_size,ntiles); //slice the bitmap in small bitmaps
     vector<tile_id> vid;
-    tile_type type;
+    tile::tile_type type;
     if(v.size()==0) debug_log::report("loading bitmap with size=0",err,true,true,false);
     for(unsigned int i=0; i<v.size(); i++) {
         if(i<types.size()) type=types[i];
-        else type=null_tile; //defines each tile from vector, if there is not a tile_type, is null by default
+        else type=tile::null_tile; //defines each tile from vector, if there is not a tile_type, is null by default
         vid.push_back(add_tile(type,v[i])); //adds the tile to the tileset with id=i
     }
     return vid;
@@ -108,8 +108,8 @@ unsigned int tileset::get_tile_size() const {
 string tileset::get_name() const {
     return name;
 }
-tile_type tileset::get_tile_type(tile_id id) const {
-    tile_type type=null_tile;
+tile::tile_type tileset::get_tile_type(tile_id id) const {
+    tile::tile_type type=tile::null_tile;
     map<tile_id,tile>::const_iterator it;
     it=tile_list.find(id);
     if(it!=tile_list.end()) type=it->second.type;

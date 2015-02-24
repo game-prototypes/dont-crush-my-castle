@@ -1,7 +1,7 @@
 //TITLE: Main Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: full test of DCmC,calling other tests
 
 #include "input_handler.h"
@@ -23,7 +23,7 @@ const char *bitmap_path="resources/spr/example_clock.png";
 
 int main() {
     cout<<"DCmC Test\n";
-    cout<<"0.6\n";
+    cout<<"0.7\n";
     cout<<"=========\n";
     bool test_result=true;
     al_init();
