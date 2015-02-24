@@ -88,19 +88,13 @@ vector<list<enemy>::iterator> game_objects::update_enemies() {
     vector<list<enemy>::iterator> res;
     vector<list<enemy>::iterator> to_invalidate;
     for(list<enemy>::iterator it=spawned_enemies.begin(); it!=spawned_enemies.end(); it++) {
-        bool can_die=false;
-        if(it->alive()) can_die=true;
         it->update();
         if(it->is_active()==false) {
             list<enemy>::iterator it2=it;
             it--;
+            killed++;
+            to_invalidate.push_back(it2);
             spawned_enemies.erase(it2);
-        }
-        else if(it->alive()==false) {
-            if(can_die==true) {
-                killed++;
-                to_invalidate.push_back(it);
-            }
         }
         else if(it->idle()) res.push_back(it);
     }

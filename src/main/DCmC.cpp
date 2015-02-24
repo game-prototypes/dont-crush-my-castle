@@ -134,9 +134,6 @@ int main() {
             al_clear_to_color(al_map_rgb(0, 0, 0));
             game_map.draw_tilemap();
             master_0.update();
-            /*  game_objects_0.draw_enemies();
-              game_objects_0.draw_towers();
-              game_objects_0.draw_attacks();*/
             game_objects_0.draw();
             al_flip_display();
             redraw=false;

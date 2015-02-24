@@ -36,7 +36,9 @@ bool test_controller() {
     if(towertest.check()==false) test_result=false;
     //GAMEOBJECTS
     game_objects go;
-    if(go.enemy_size()!=0 || go.tower_size()!=0) test_result=false;
+    if(go.enemy_size()!=0 || go.tower_size()!=0 || go.attack_size()!=0) test_result=false;
+    if(go.killed_enemies()!=0) test_result=false;
+    if(go.empty()==false) test_result=false;
     if(go.check()==false) test_result=false;
     go.add_enemy(testenemy);
     tower_id tid=go.add_tower(towertest);
