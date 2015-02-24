@@ -1,7 +1,7 @@
 //TITLE:GAME_OBJECTS_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: stores all instantiated objects in the scene
 #include "game_objects.h"
 
@@ -121,6 +121,21 @@ void game_objects::update_attacks() {
         else if(it->second.hit() && can_collide && it->second.is_valid()) it->first->damage(it->second.get_damage());
     }
 }
+void game_objects::draw() const {
+    multimap<double,const game_object *> object_list;
+    for(map<tower_id,tower>::const_iterator it=spawned_towers.begin(); it!=spawned_towers.end(); it++)
+        object_list.insert(make_pair(it->second.get_position().second,&(it->second)));
+    for(list<enemy>::const_iterator it=spawned_enemies.begin(); it!=spawned_enemies.end(); it++)
+        object_list.insert(make_pair(it->get_position().second,&(*it)));
+    for(list<pair<list<enemy>::iterator,tower_atk> >::const_iterator it=spawned_attacks.begin(); it!=spawned_attacks.end(); it++)
+        object_list.insert(make_pair(it->second.get_position().second,&(it->second)));
+    for(multimap<double,const game_object *>::const_iterator it=object_list.begin(); it!=object_list.end(); it++) {
+        it->second->draw();
+    }
+    // for(list<pair<list<enemy>::iterator,tower_atk> >::const_iterator it=spawned_attacks.begin(); it!=spawned_attacks.end(); it++)
+    //  it->second.draw();
+}
+/*
 void game_objects::draw_towers() const {
     for(map<tower_id,tower>::const_iterator it=spawned_towers.begin(); it!=spawned_towers.end(); it++)
         it->second.draw();
@@ -134,7 +149,7 @@ void game_objects::draw_attacks() const {
     for(atks=spawned_attacks.begin(); atks!=spawned_attacks.end(); atks++) {
         atks->second.draw();
     }
-}
+}*/
 bool game_objects::check() {
     bool b=true;
     return b;

@@ -1,7 +1,7 @@
 //TITLE: GAME_OBJECTS_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: stores all instantiated ofjects in the scene
 
 #ifndef GAME_OBJECTS
@@ -54,10 +54,7 @@ public:
     //updates all attacks, damaging all enemies when collided
     void update_attacks();
     // pair<vector<tower_id>,vector<list<gameobject::iterator>> update_gameobjets() const;
-    //void draw() const;
-    void draw_towers() const;
-    void draw_enemies() const;
-    void draw_attacks() const;
+    void draw() const;
     bool check();
 
 private:

@@ -30,7 +30,6 @@ struct tower_attributes {
     bool check() const;
     //destroy tower attributes (including bitmaps and attack attribute)
     void destroy();
-
 };
 
 class tower : public game_object {
