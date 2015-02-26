@@ -8,6 +8,7 @@
 game_objects::game_objects() {
     current_id=1;
     killed=0;
+    reward=0;
 }
 /*game_objects::game_objects(const list<enemy> &spawned_enemies,const map<tower_id,tower> &spawned_towers,const multimap<list<enemy>::iterator,tower_atk> &spawned_attacks) {
     this->spawned_enemies=spawned_enemies;
@@ -40,6 +41,7 @@ void game_objects::clear() {
     spawned_attacks.clear();
     current_id=1;
     killed=0;
+    reward=0;
 }
 unsigned int game_objects::enemy_size() const {
     return spawned_enemies.size();
@@ -55,6 +57,11 @@ bool game_objects::empty() const {
 }
 unsigned int game_objects::killed_enemies() const {
     return killed;
+}
+unsigned int game_objects::get_reward() {
+    unsigned int r=reward;
+    reward=0;
+    return r;
 }
 list<enemy>::iterator game_objects::get_first_enemy() {
     return spawned_enemies.begin();
@@ -93,6 +100,7 @@ vector<list<enemy>::iterator> game_objects::update_enemies() {
             list<enemy>::iterator it2=it;
             it--;
             killed++;
+            reward+=it2->get_reward();
             to_invalidate.push_back(it2);
             spawned_enemies.erase(it2);
         }

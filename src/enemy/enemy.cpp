@@ -178,6 +178,10 @@ void enemy::kill() {
     attributes.animation[current_animation].animation_loop(false);
     attributes.animation[current_animation].start();
 }
+unsigned int enemy::destiny_reached() {
+    deactivate();
+    return 1;
+}
 void enemy::update() {
     if(spawned()) {
         if(alive()) {

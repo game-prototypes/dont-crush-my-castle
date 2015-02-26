@@ -10,7 +10,8 @@ player_controller
 
 #ifndef CONTROLLER_TEST
 #define CONTROLLER_TEST
-
+void win_func();
+void lose_func();
 bool test_controller() {
     cout<<"GAME CONTROLLERS TEST";
     bool test_result=true;
@@ -112,9 +113,20 @@ bool test_controller() {
     if(pc.can_build(30,10)==false) test_result=false;
     if(pc.check()==false) test_result=false;
     if(pc.get_tower(12,8)->get_name()!="towerTest") test_result=false;
+    if(pc.spawned_towers()!=go.tower_size()) test_result=false;
     pc.remove_tower(1,1);
+    if(pc.spawned_towers()!=go.tower_size()) test_result=false;
     if(pc.spawned_towers()!=0) test_result=false;
     if(pc.check()==false) test_result=false;
+    //PLAYER
+    player testplayer("player test",towers,go,testmap,10,150,lose_func);
+    if(testplayer.check()==false) test_result=false;
+    if(testplayer.get_name()!="player test") test_result=false;
+    if(testplayer.get_coins()!=150) test_result=false;
+    if(testplayer.get_lifes()!=10) test_result=false;
+    testplayer.remove_life();
+    testplayer.remove_life(2);
+    if(testplayer.get_lifes()!=7) test_result=false;
     //GAME MASTER
     spawn_wave wave;
     wave.push(make_pair(5,"enemyTest"));
@@ -124,7 +136,7 @@ bool test_controller() {
     if(gspawn.get_wave(0)!=wave) test_result=false;
     if(gspawn.check()==false) test_result=false;
     enemy_set enemset("test",testenemy_attr,timer);
-    game_master gm(enemset,go,testmap,gspawn,timer);
+    game_master gm(enemset,go,testmap,testplayer,gspawn,timer,win_func);
     if(gm.check()==false) test_result=false;
     if(gm.is_active()==false) test_result=false;
     if(gm.get_current_wave()!=0) test_result=false;
@@ -134,5 +146,9 @@ bool test_controller() {
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
     return test_result;
+}
+void win_func() {
+}
+void lose_func() {
 }
 #endif

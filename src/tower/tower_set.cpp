@@ -70,6 +70,17 @@ set<string> tower_set::get_towers_names() const {
     for(it=towers.begin(); it!=towers.end(); it++) names.insert(names.end(),it->second.name);
     return names;
 }
+unsigned int tower_set::get_tower_cost(const string &name) const {
+    map<string,tower_attributes>::const_iterator it;
+    it=towers.find(name);
+    if(it==towers.end()) {
+        return 0;
+    }
+    else
+        return it->second.cost;
+}
+
+
 tower tower_set::spawn_tower(const string &name,double posx,double posy) const {
     map<string,tower_attributes>::const_iterator it;
     it=towers.find(name);

@@ -95,6 +95,8 @@ public:
     void damage(unsigned int dam);
     //set life automatically to 0 and live=false, this kills the enemy, starting the animation, but will not destroy the class
     void kill();
+    //deactivaes enemy and returns lives taken
+    unsigned int destiny_reached();
     //update the movement,animation and all booleans
     void update();
     //draw the current_animation in the enemy position

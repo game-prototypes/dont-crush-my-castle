@@ -15,6 +15,7 @@
 class player_controller {
 private:
     map<pair<unsigned int,unsigned int>,tower_id> built_towers; //tile in map and tower_id
+
     tower_set *towers;
     game_objects *objects;
     tilemap *game_map;
@@ -29,17 +30,20 @@ public:
     //return all tower names in tower_set
     set<string> get_tower_names() const;
 
+    //return the cost of tower with given name
+    unsigned int get_tower_cost(const string &name) const;
+    //return all the spawned towers
     unsigned int spawned_towers() const;
     //return true if can build in given position(in pixels)
     bool can_build(double x,double y) const;
     //build tower of given name in given position, will return true if succsefully built
     bool build_tower(const string &name,double x,double y);
-    //remove tower of given position
-    void remove_tower(double x,double y);
+    //remove tower of given position, return true if removed
+    bool remove_tower(double x,double y);
     //return true if there is a tower in given position
     bool is_tower(double x,double y) const;
     //get pointer to tower in given position
-    tower *get_tower(double x,double y);
+    //tower *get_tower(double x,double y);
     const tower *get_tower(double x,double y) const;
     bool check() const;
 private:
@@ -48,11 +52,6 @@ private:
     void remove_tower(tower_id id);
     pair<unsigned int,unsigned int> translate_position(double x,double y) const;
     pair<double,double> translate_position(unsigned int x,unsigned int y) const;
-
-
-
-
-
 };
 
 #endif

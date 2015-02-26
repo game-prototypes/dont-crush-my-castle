@@ -6,6 +6,9 @@
 
 #include "input_handler.h"
 
+input_handler::input_handler() {
+    active=false;
+}
 input_handler::input_handler(ALLEGRO_EVENT_QUEUE *event_queue,function<void(int,unsigned int,unsigned int)> click_mouse,function<void(int)> key_pressed) {
     al_install_mouse();
     al_install_keyboard();
@@ -13,11 +16,18 @@ input_handler::input_handler(ALLEGRO_EVENT_QUEUE *event_queue,function<void(int,
     al_register_event_source(event_queue,al_get_keyboard_event_source());
     this->click_mouse=click_mouse;
     this->key_pressed=key_pressed;
-    this->mouse_wheel=mouse_wheel;
+    active=true;
 }
 input_handler::~input_handler() {
     al_uninstall_mouse();
     al_uninstall_keyboard();
+    active=false;
+}
+void input_handler::set_active(bool active) {
+    this->active=active;
+}
+bool input_handler::is_active() const {
+    return active;
 }
 pair<unsigned int,unsigned int> input_handler::get_mouse_position() const {
     ALLEGRO_MOUSE_STATE state;
@@ -29,8 +39,14 @@ bool input_handler::is_pressed(int keycode) const {
     return al_key_down(&state,keycode);
 }
 void input_handler::update(const ALLEGRO_EVENT &event) const {
-    if(event.type==ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) click_mouse(event.mouse.button,(unsigned int) event.mouse.x,(unsigned int) event.mouse.y);
-    if(event.type==ALLEGRO_EVENT_KEY_DOWN) key_pressed(event.keyboard.keycode);
+    if(active) {
+        if(event.type==ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) click_mouse(event.mouse.button,(unsigned int) event.mouse.x,(unsigned int) event.mouse.y);
+        if(event.type==ALLEGRO_EVENT_KEY_DOWN) key_pressed(event.keyboard.keycode);
+    }
+}
+void input_handler::set_functions(function<void(int,unsigned int,unsigned int)> click_mouse,function<void(int)> key_pressed) {
+    this->click_mouse=click_mouse;
+    this->key_pressed=key_pressed;
 }
 bool input_handler::check() const {
     bool b=true;

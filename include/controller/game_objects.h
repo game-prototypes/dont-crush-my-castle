@@ -19,7 +19,7 @@ private:
     list<enemy> spawned_enemies;
     map<tower_id,tower> spawned_towers;
     list<pair<list<enemy>::iterator,tower_atk> > spawned_attacks;
-
+    unsigned int reward;
     tower_id current_id;
     unsigned int killed;
 public:
@@ -40,6 +40,8 @@ public:
     //return true if every list is empty
     bool empty() const;
     unsigned int killed_enemies() const;
+    //rewards from dead enemies will accumulate until get_reward called
+    unsigned int get_reward();
     list<enemy>::iterator get_first_enemy();
     list<enemy>::const_iterator get_first_enemy() const;
     list<enemy>::iterator get_last_enemy();
