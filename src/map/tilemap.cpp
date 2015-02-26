@@ -1,7 +1,7 @@
 //TITLE: TILEMAP_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: Generate,write,read and draw maps
 
 #include "tilemap.h"

@@ -34,7 +34,7 @@ game_master *gm_pointer;
 player *player_pointer;
 
 int main() {
-    cout<<"DCmC V0.6 alpha\n";
+    cout<<"DCmC V0.7 alpha\n";
     cout<<"===============\n";
     ALLEGRO_DISPLAY *display;
     ALLEGRO_EVENT_QUEUE *event_queue;
@@ -204,7 +204,7 @@ game_spawner create_game_spawner() {
 
 void click_mouse(int button_number,unsigned int x,unsigned int y) {
     player_pointer->click_action(button_number,x,y);
-    cout<<"coins:"<<player_pointer->get_coins()<<endl;
+    //cout<<"coins:"<<player_pointer->get_coins()<<endl;
 }
 void key_pressed(int keycode) {
     player_pointer->key_action(keycode);
@@ -212,10 +212,10 @@ void key_pressed(int keycode) {
 }
 
 void game_over() {
-    cout<<"you lose\n";
+    cout<<"You Lose\n";
     gm_pointer->set_active(false);
 }
 void game_win() {
-    cout<<"you win - "<<player_pointer->get_lifes()<<endl;
+    cout<<"You Win!!"<<endl<<"Lifes:"<<player_pointer->get_lifes()<<endl;
     gm_pointer->set_active(false);
 }

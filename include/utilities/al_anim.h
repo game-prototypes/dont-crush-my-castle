@@ -1,7 +1,7 @@
 //TITLE: AL_ANIM_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: defines a general animation with allegro as a set of bitmaps
 
 #ifndef AL_ANIM_H

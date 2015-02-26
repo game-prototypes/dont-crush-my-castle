@@ -1,7 +1,7 @@
 //TITLE: ENEMY_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: defines each single enemy
 
 #ifndef ENEMY_H
@@ -95,7 +95,7 @@ public:
     void damage(unsigned int dam);
     //set life automatically to 0 and live=false, this kills the enemy, starting the animation, but will not destroy the class
     void kill();
-    //deactivaes enemy and returns lives taken
+    //deactivates enemy and returns lives taken
     unsigned int destiny_reached();
     //update the movement,animation and all booleans
     void update();

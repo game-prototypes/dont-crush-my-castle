@@ -1,11 +1,13 @@
 //TITLE: TEST_CONTROLLER
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: will test different game controllers
 /*This test will check:
 game_objects
 player_controller
+game_master
+player
 */
 
 #ifndef CONTROLLER_TEST
@@ -39,6 +41,7 @@ bool test_controller() {
     game_objects go;
     if(go.enemy_size()!=0 || go.tower_size()!=0 || go.attack_size()!=0) test_result=false;
     if(go.killed_enemies()!=0) test_result=false;
+    if(go.get_reward()!=0) test_result=false;
     if(go.empty()==false) test_result=false;
     if(go.check()==false) test_result=false;
     go.add_enemy(testenemy);
@@ -124,6 +127,7 @@ bool test_controller() {
     if(testplayer.get_name()!="player test") test_result=false;
     if(testplayer.get_coins()!=150) test_result=false;
     if(testplayer.get_lifes()!=10) test_result=false;
+    if(testplayer.get_tower_names().size()!=towers.get_size()) test_result=false;
     testplayer.remove_life();
     testplayer.remove_life(2);
     if(testplayer.get_lifes()!=7) test_result=false;

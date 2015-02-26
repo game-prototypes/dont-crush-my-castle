@@ -1,7 +1,7 @@
 //TITLE: INPUT_HANDLER_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: user input class for allegro5 (keys and mouse)
 
 #ifndef INPUT_HANDLER_H

@@ -1,10 +1,12 @@
 //TITLE: Al_utils Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 /*DESCRIPTION: basic test of allegro utilities (src/utilities) for DCmC
 This test will check:
 al_utils
+input_handler
+game_object
 */
 #ifndef UTILITIES_TEST
 #define UTILITIES_TEST
@@ -92,10 +94,13 @@ bool test_utilities() {
     event_queue = al_create_event_queue();
     input_handler handler_test(event_queue,click_event_test,key_pressed_test);
     if(handler_test.check()==false) test_result=false;
+    if(handler_test.is_active()==false) test_result=false;
     //testing gameobject
     game_object gameobj;
     if(gameobj.check()==false) test_result=false;
     if(gameobj.get_position()!=make_pair(-1.0,-1.0)) test_result=false;
+    gameobj.set_position(2,2);
+    if(gameobj.get_position()!=make_pair(2.0,2.0)) test_result=false;
     if(gameobj.is_active()==true) test_result=false;
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";

@@ -1,7 +1,7 @@
 //TITLE: TOWER_ATK_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: stores a set of towers
 
 #include "tower_set.h"

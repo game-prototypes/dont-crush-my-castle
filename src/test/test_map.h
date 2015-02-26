@@ -1,7 +1,7 @@
 //TITLE: Map Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: test of DCmC for maps
 /*This test will check:
 tile
