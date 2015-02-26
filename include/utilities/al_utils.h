@@ -1,7 +1,7 @@
 //TITLE: AL UTILS
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: Generic functions for drawing and handdling allegro bitmaps
 #ifndef AL_UTILS_H
 #define AL_UTILS_H
@@ -19,8 +19,9 @@ unsigned int get_bitmap_height(const ALLEGRO_BITMAP *bmp);
 //al_get_bitmap overloaded to get a bitmap from a string
 ALLEGRO_BITMAP *al_load_bitmap(const string &path);
 //draw bitmap (with const cast)
-void draw_bitmap(const ALLEGRO_BITMAP *bmp,unsigned int x,unsigned int y);
-void draw_scaled(const ALLEGRO_BITMAP *bmp,unsigned int x,unsigned int y,unsigned int width,unsigned int height);
+void draw_bitmap(const ALLEGRO_BITMAP *bmp,int x,int y);
+void draw_bitmap(const ALLEGRO_BITMAP *bmp,double x,double y);
+void draw_scaled(const ALLEGRO_BITMAP *bmp,int x,int y,unsigned int width,unsigned int height);
 //resize bmp to given width and height (x and y), destroying the original bitmap
 void resize_bitmap(ALLEGRO_BITMAP *&bitmap,unsigned int x,unsigned int y);
 //copy bitmap

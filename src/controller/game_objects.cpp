@@ -100,7 +100,7 @@ vector<list<enemy>::iterator> game_objects::update_enemies() {
             list<enemy>::iterator it2=it;
             it--;
             killed++;
-            if(it->alive()==false) reward+=it2->get_reward();
+            if(it2->alive()==false) reward+=it2->get_reward();
             to_invalidate.push_back(it2);
             spawned_enemies.erase(it2);
         }
