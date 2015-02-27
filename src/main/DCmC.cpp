@@ -76,6 +76,11 @@ int main() {
     map_matrix[4][4]=0;
     map_matrix[4][5]=0;
     map_matrix[4][6]=0;
+    map_matrix[4][0]=2;
+    map_matrix[6][0]=2;
+    map_matrix[4][9]=2;
+    map_matrix[6][9]=2;
+    map_matrix[6][6]=2;
     set< pair<unsigned int,unsigned int> >  destinations,spawners;
     destinations.insert(make_pair(5,9));
     spawners.insert(make_pair(5,0));
