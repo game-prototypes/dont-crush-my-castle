@@ -57,11 +57,13 @@ game_master::game_master() {
     wave_delay_counter=0;
     spawn_delay_counter=0;
 }
-game_master::game_master(enemy_set &enemies,game_objects &objects,const tilemap &game_map,const game_spawner &spawner,const ALLEGRO_TIMER *timer) {
+game_master::game_master(enemy_set &enemies,game_objects &objects,const tilemap &game_map,player &game_player,const game_spawner &spawner,const ALLEGRO_TIMER *timer,function<void()> win_function) {
     this->enemies=&enemies;
     this->objects=&objects;
     this->game_map=&game_map;
+    this->game_player=&game_player;
     this->spawner=spawner;
+    this->win_function=win_function;
     current_wave=0;
     set_active(true);
     srand(time(NULL));
@@ -102,6 +104,7 @@ void game_master::update() {
         if(tower_atk_counter==0) update_tower_attacks(tids);
         objects->update_attacks();
         vector<list<enemy>::iterator> enemy_list=objects->update_enemies();
+        game_player->add_coins(objects->get_reward());
         update_enemy_position(enemy_list);
         if(current_wave==spawner.get_total_waves() && left.empty() && objects->enemy_size()==0) game_over();
         tower_atk_counter--;
@@ -145,8 +148,13 @@ void game_master::update_enemy_position(const vector<list<enemy>::iterator> &ene
     pair<double,double> dest;
     for(unsigned int i=0; i<enemy_list.size(); i++) {
         it=enemy_list[i];
-        dest=game_map->get_next_position(it->get_position().first,it->get_position().second);
-        it->move_to(dest.first,dest.second);
+        if(game_map->get_path_value_of_position(it->get_position().first,it->get_position().second)==0) {
+            game_player->remove_life(it->destiny_reached());
+        }
+        else {
+            dest=game_map->get_next_position(it->get_position().first,it->get_position().second);
+            it->move_to(dest.first,dest.second);
+        }
     }
 }
 
@@ -187,6 +195,5 @@ void game_master::set_delays(const ALLEGRO_TIMER *timer) {
 }
 void game_master::game_over() {
     active=false;
-    cout<<"Game Over\n";
-    //stuff if game over
+    win_function();
 }

@@ -1,16 +1,18 @@
 //TITLE: GAME_MASTER_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: control the IA and in-game stuff (spawning,movement etc..)
 
-#ifndef GAME_MASTER
-#define GAME_MASTER
+#ifndef GAME_MASTER_H
+#define GAME_MASTER_H
 
 #include "game_objects.h"
+#include "player.h"
 #include "tilemap.h"
 #include "enemy_set.h"
 #include <stack>
+#include <functional>
 //#include <stdlib.h>
 //#include <time.h>
 
@@ -46,6 +48,7 @@ private:
     enemy_set *enemies;
     game_objects *objects;
     const tilemap *game_map;
+    player *game_player;
     unsigned int current_wave;
 
     unsigned int spawn_delay; //in frames
@@ -55,10 +58,12 @@ private:
     unsigned int wave_delay_counter;
     unsigned int spawn_delay_counter;
 
+    function<void()> win_function; //function when win, with enemies killed and parameter
+
     bool active;
 public:
     game_master();
-    game_master(enemy_set &enemies,game_objects &objects,const tilemap &game_map,const game_spawner &spawner,const ALLEGRO_TIMER *timer);
+    game_master(enemy_set &enemies,game_objects &objects,const tilemap &game_map,player &game_player,const game_spawner &spawner,const ALLEGRO_TIMER *timer,function<void()> win_function);
     ~game_master();
 
     unsigned int get_current_wave() const;

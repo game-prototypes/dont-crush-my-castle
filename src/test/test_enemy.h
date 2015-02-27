@@ -1,7 +1,7 @@
 //TITLE: Enemy Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: test of enemies
 /*This test will check:
 enemy
@@ -58,6 +58,9 @@ bool test_enemy() {
     if(testenemy.alive()==false) test_result=false;
     testenemy.kill();
     if(testenemy.alive()==true) test_result=false;
+    if(testenemy.is_active()==false) test_result=false;
+    if(testenemy.destiny_reached()!=1) test_result=false;
+    if(testenemy.is_active()==true) test_result=false;
     //ENEMYSET
     enemy_set testset("Minions of darkness",testenemy_attr,timer);
     if(testset.get_name()!="Minions of darkness") test_result=false;
@@ -75,7 +78,8 @@ bool test_enemy() {
     if(testenemy2.get_position()!=make_pair(5.0,5.0)) test_result=false;
     if(testenemy2.get_destiny()!=make_pair(5.0,5.0)) test_result=false;
     if(testenemy2.check()==false) test_result=false;
-    if(testenemy2.alive()==false || testenemy.spawned()==false) test_result=false;
+    if(testenemy2.alive()==false || testenemy2.spawned()==false) test_result=false;
+    if(testenemy2.is_active()==false) test_result=false;
     if(testenemy2.idle()==false) test_result=false;
     if(testenemy2.get_current_animation()!=idle_anim) test_result=false;
     testset.remove_enemy("minion test");

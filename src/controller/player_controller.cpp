@@ -1,7 +1,7 @@
 //TITLE: PLAYER_CONTROLLER_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: controls the actions of the player
 
 #include "player_controller.h"
@@ -22,6 +22,9 @@ unsigned int player_controller::get_towers_size() const {
 }
 set<string> player_controller::get_tower_names() const {
     return towers->get_towers_names();
+}
+unsigned int player_controller::get_tower_cost(const string &name) const {
+    return towers->get_tower_cost(name);
 }
 unsigned int player_controller::spawned_towers() const {
     return objects->tower_size();
@@ -47,7 +50,7 @@ bool player_controller::build_tower(const string &name,double x,double y) {
     }
     return b;
 }
-void player_controller::remove_tower(double x,double y) {
+bool player_controller::remove_tower(double x,double y) {
     pair<unsigned int,unsigned int> p=translate_position(x,y);
     map<pair<unsigned int,unsigned int>,tower_id>::iterator it;
     it=built_towers.find(p);
@@ -56,16 +59,18 @@ void player_controller::remove_tower(double x,double y) {
         objects->remove_tower(id);
         built_towers.erase(it);
         game_map->free_tile(p.first,p.second);
+        return true;
     }
+    else return false;
 }
 bool player_controller::is_tower(double x,double y) const {
     pair<unsigned int,unsigned int> p=translate_position(x,y);
     if(built_towers.find(p)==built_towers.end()) return false;
     else return true;
 }
-tower *player_controller::get_tower(double x,double y) {
+/*tower *player_controller::get_tower(double x,double y) {
     return objects->get_tower(get_tower_id(x,y));
-}
+}*/
 const tower *player_controller::get_tower(double x,double y) const {
     return objects->get_tower(get_tower_id(x,y));
 }

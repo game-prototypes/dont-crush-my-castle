@@ -1,7 +1,7 @@
 //TITLE: TOWER_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: defines each player tower
 
 #ifndef TOWER_H
@@ -30,17 +30,14 @@ struct tower_attributes {
     bool check() const;
     //destroy tower attributes (including bitmaps and attack attribute)
     void destroy();
-
 };
 
-class tower {
+class tower : public game_object {
 private:
     tower_attributes attributes;
-    pair<double,double> position; //tower position (centered)  //¿Maybe use foot as in enemy?
     unsigned int atk_counter; //time to next attack (depending on delay) in frames
     unsigned int atk_delay; //atk delay (in frames)
     //change atk_delay to unsigned int (count as frames)
-    bool active;
     const ALLEGRO_TIMER *timer; //timer of the tower and attacks
 
 public:
@@ -48,14 +45,8 @@ public:
     //full constructor
     tower(const tower_attributes &attributes,double posx,double posy,const ALLEGRO_TIMER *timer);
     ~tower();
-    //deactivates the tower updating
-    void deactivate();
-    //return true if active
-    bool is_active() const;
     //returns tower name
     string get_name() const;
-    //return tower position (in pixels)
-    pair<double,double> get_position()const;
     //return tower range in pixels
     unsigned int get_range()const;
     //return tower damage

@@ -1,13 +1,14 @@
 //TITLE: ENEMY_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: defines each single enemy
 
 #ifndef ENEMY_H
 #define ENEMY_H
 
 #include "al_anim.h"
+#include "game_object.h"
 #include <map>
 
 enum enemy_animation {idle_anim,up_anim,down_anim,left_anim,right_anim,dead_anim}; //defines each animation for an enemy
@@ -38,16 +39,14 @@ struct enemy_attributes {
 };
 
 
-class enemy {
+class enemy : public game_object {
 private:
     enemy_attributes attributes; //basic info of enemy type
     unsigned int life; //current life of enemy
     unsigned int level; //level may change enemy parameters
     double speed; //pixels per frame
 
-    pair<double,double> position; //actual position, it refers to foot centered position
     pair<double,double> destiny; //position to move
-    bool active; //if false, update will not take effect, false by default in constructors
 
     enemy_animation current_animation;
 public:
@@ -74,16 +73,12 @@ public:
     unsigned int get_max_life() const;
     //returns reward when killed
     unsigned int get_reward() const;
-    //return enemy position in a pair<x,y>
-    pair<double,double> get_position() const;
     //return the enemy destiny (where is moving)
     pair<double,double> get_destiny() const;
     //return true if enemy is alive(life>0)
     bool alive() const;
     //return true if enemy is active
     bool spawned() const;
-    //same as spawned()
-    bool is_active() const;
     //return true if enemy is idle (destiny==position)
     bool idle() const;
     //return current aimation
@@ -100,8 +95,8 @@ public:
     void damage(unsigned int dam);
     //set life automatically to 0 and live=false, this kills the enemy, starting the animation, but will not destroy the class
     void kill();
-    //deactive the enemy,so no longer will be updated or drawn (do after kill the enemy)
-    void deactivate();
+    //deactivates enemy and returns lives taken
+    unsigned int destiny_reached();
     //update the movement,animation and all booleans
     void update();
     //draw the current_animation in the enemy position
@@ -109,6 +104,7 @@ public:
     void draw() const;
     //check enemy class is working well, debug_log output if error or warning, return true if everything is ok
     bool check() const;
+    //  pair<double,double> get_position() const;
 private:
     //changes to given movement animation
     void change_movement_animation(enemy_animation anim);

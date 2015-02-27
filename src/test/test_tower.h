@@ -1,7 +1,7 @@
 //TITLE: Tower Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 /*DESCRIPTION: test of towers and buildings
 This test will check:
 tower_atk
@@ -95,6 +95,7 @@ bool test_tower() {
     if(testset.get_size()!=1) test_result=false;
     if((testset.get_towers_names()).size()!=1) test_result=false;
     if(testset.is_tower("towerTest")==false) test_result=false;
+    if(testset.get_tower_cost("towerTest")!=110) test_result=false;
     if(testset.empty()==true) test_result=false;
     if(testset.check()==false) test_result=false;
     towertest=testset.spawn_tower("towerTest",1,1);

@@ -1,7 +1,7 @@
 //TITLE: ENEMY_SET_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: stores all kinds of enemies and spawn instances of each enemy
 
 #ifndef ENEMY_SET_H

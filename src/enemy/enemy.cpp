@@ -1,7 +1,7 @@
 //TITLE: ENEMY_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: defines each single enemy
 
 #include "enemy.h"
@@ -87,7 +87,7 @@ enemy::enemy() {
     life=level=0;
     speed=0.0;
     position=destiny=make_pair(-1,-1);
-    active=false;
+    deactivate();
     current_animation=idle_anim;
 }
 enemy::enemy(const enemy_attributes &attributes,unsigned int level,double posx,double posy,const ALLEGRO_TIMER *timer) {
@@ -105,8 +105,9 @@ enemy::~enemy() {
 void enemy::spawn(double posx,double posy) {
     if(posx<0 || posy<0) debug_log::report("enemy position negative",err,true,true,false);
     else {
-        destiny=position=make_pair(posx,posy);
-        active=true;
+        destiny=make_pair(posx,posy);
+        set_position(posx,posy);
+        activate();
     }
 }
 //CONSULT
@@ -128,9 +129,6 @@ unsigned int enemy::get_max_life() const {
 unsigned int enemy::get_reward() const {
     return attributes.reward;
 }
-pair<double,double> enemy::get_position() const {
-    return position;
-}
 pair<double,double> enemy::get_destiny() const {
     return destiny;
 }
@@ -138,10 +136,7 @@ bool enemy::alive() const {
     return life>0;
 }
 bool enemy::spawned() const {
-    return active;
-}
-bool enemy::is_active() const {
-    return active;
+    return is_active();
 }
 bool enemy::idle() const {
     return position==destiny;
@@ -183,9 +178,9 @@ void enemy::kill() {
     attributes.animation[current_animation].animation_loop(false);
     attributes.animation[current_animation].start();
 }
-
-void enemy::deactivate() {
-    active=false;
+unsigned int enemy::destiny_reached() {
+    deactivate();
+    return 1;
 }
 void enemy::update() {
     if(spawned()) {
@@ -222,6 +217,9 @@ bool enemy::check() const {
     if(position.first<0.0 || position.second<0.0 || destiny.first<0.0 || destiny.second<0.0) b=false;
     return b;
 }
+/*pair<double,double> enemy::get_position() const{
+    return position;
+}*/
 
 //PRIVATE
 void enemy::change_movement_animation(enemy_animation anim) {

@@ -1,7 +1,7 @@
 //TITLE: TILESET_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: Information about a set of tiles to be used on maps
 #ifndef TILESET_H
 #define TILESET_H
@@ -24,9 +24,9 @@ public:
     //contructor from tmx file
     //      tileset(const Tmx::Tileset *ts);
     //full constructor
-    tileset(const string &name,const ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles=-1);
+    tileset(const string &name,const ALLEGRO_BITMAP *bitmap,const vector<tile::tile_type> &types,unsigned int tile_size,int ntiles=-1);
     //full constructor (without name)
-    tileset(const ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles=-1);
+    tileset(const ALLEGRO_BITMAP *bitmap,const vector<tile::tile_type> &types,unsigned int tile_size,int ntiles=-1);
     //contructors with one tile
     tileset(const string &name,const tile &t,unsigned int tile_size);
     tileset(const tile &t,unsigned int tile_size);
@@ -35,10 +35,10 @@ public:
     ~tileset();
     //MODIFICATION
     //adds a tile,returning tile_id used
-    tile_id add_tile(tile_type type,const ALLEGRO_BITMAP *bitmap);
+    tile_id add_tile(tile::tile_type type,const ALLEGRO_BITMAP *bitmap);
     tile_id add_tile(const tile &t);
     //slices given bitmap and adds tiles to the tileset, return vector of ids used
-    vector<tile_id> load_from_bitmap(const ALLEGRO_BITMAP *bitmap,const vector<tile_type> &types,unsigned int tile_size,int ntiles);
+    vector<tile_id> load_from_bitmap(const ALLEGRO_BITMAP *bitmap,const vector<tile::tile_type> &types,unsigned int tile_size,int ntiles);
     //removes tile with given id
     void remove_tile(tile_id id);
     //change name
@@ -57,7 +57,7 @@ public:
     //returns name of tileset
     string get_name() const;
     //returns tile type (null if not found)
-    tile_type get_tile_type(tile_id id) const;
+    tile::tile_type get_tile_type(tile_id id) const;
 
     //DRAWING
     //draw the tile with given id in position x,y

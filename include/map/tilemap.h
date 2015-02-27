@@ -1,7 +1,7 @@
 //TITLE: TILEMAP_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: Generate,write,read and draw maps
 #ifndef TILEMAP_H
 #define TILEMAP_H
@@ -67,7 +67,7 @@ public:
     //return tile_id
     tile_id get_tile_id(unsigned int x,unsigned int y) const;
     //return tile_type
-    tile_type get_tile_type(unsigned int x,unsigned int y) const;
+    tile::tile_type get_tile_type(unsigned int x,unsigned int y) const;
     //returns path value
     int get_path_value(unsigned int x,unsigned int y) const;
     //returns path value of position in pixels

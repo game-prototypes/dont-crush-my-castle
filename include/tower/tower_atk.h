@@ -1,13 +1,13 @@
 //TITLE: TOWER_ATK_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: defines the attack of buildings
 #ifndef TOWER_ATK_H
 #define TOWER_ATK_H
 
 #include "al_anim.h"
-
+#include "game_object.h"
 enum atk_type {shoot_atk,explosion_atk,continuous_atk};
 
 //defines the atributes of an attack
@@ -32,15 +32,13 @@ struct atk_attributes {
 };
 
 //defines an instance of attack
-class tower_atk {
+class tower_atk : public game_object {
 private:
     atk_attributes attributes;
-    pair<double,double> position; //actual position
     pair<double,double> destiny; //position to move
     double speed; //speed (pixels per frame)
     bool collide; //true if the attack reached destiny
     bool valid; //true if attack is valid (enemy alive)
-    bool active;
 public:
     //default constructor
     tower_atk();
@@ -56,12 +54,8 @@ public:
     double get_speed() const;
     //return range of attack
     unsigned int get_range() const;
-    //returns attack position
-    pair<double,double> get_position() const;
     //returns attack type
     atk_type get_type() const;
-    //return true if active
-    bool is_active() const;
     //return true if valid
     bool is_valid() const;
     //return true after collision

@@ -1,7 +1,7 @@
 //TITLE: TILE_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: Defines one tile of a tileset
 
 #ifndef TILE_H
@@ -9,16 +9,17 @@
 
 #include "al_utils.h"
 
-enum tile_type {blocked,road,ground,open_ground,special,null_tile};
-/*tile_type:
-block: blocked, not construction or enemies can pass
-road: blocked for construction, enemies can pass
-ground: free for construction
-open_ground: free for constuction and enemy movement
-*/
 
 class tile {
 public:
+    enum tile_type {blocked,road,ground,open_ground,special,null_tile};
+    /*tile_type:
+    block: blocked, not construction or enemies can pass
+    road: blocked for construction, enemies can pass
+    ground: free for construction
+    open_ground: free for constuction and enemy movement
+    */
+
     tile_type type;
 private:
     ALLEGRO_BITMAP *bitmap;

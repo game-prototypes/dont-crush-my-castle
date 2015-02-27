@@ -1,11 +1,11 @@
 //TITLE: DCmC Main
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7
 //DESCRIPTION: Main program of DCmC
 
 #include "input_handler.h"
-#include "player_controller.h"
+#include "player.h"
 #include "game_master.h"
 using namespace std;
 
@@ -22,16 +22,19 @@ game_spawner create_game_spawner();
 //input functions
 void click_mouse(int button_number,unsigned int x,unsigned int y);
 void key_pressed(int keycode);
+void game_over();
+void game_win();
 
 //Global pointers
 string tower_selected="tower_0";
 tilemap *tm_pointer;
 game_objects *go_pointer;
 game_master *gm_pointer;
-player_controller *pc_pointer;
+//player_controller *pc_pointer;
+player *player_pointer;
 
 int main() {
-    cout<<"DCmC V0.6 alpha\n";
+    cout<<"DCmC V0.7 alpha\n";
     cout<<"===============\n";
     ALLEGRO_DISPLAY *display;
     ALLEGRO_EVENT_QUEUE *event_queue;
@@ -52,10 +55,10 @@ int main() {
         cout<<"error loading bitmap\n";
         exit(1);
     }
-    vector<tile_type> tile_type_v;
-    tile_type_v.push_back(road);
-    tile_type_v.push_back(ground);
-    tile_type_v.push_back(blocked);
+    vector<tile::tile_type> tile_type_v;
+    tile_type_v.push_back(tile::road);
+    tile_type_v.push_back(tile::ground);
+    tile_type_v.push_back(tile::blocked);
     tileset tset("Ground tileset",tilesetbmp,tile_type_v,32);
     cout<<"Tileset Name:"<<tset.get_name()<<endl;
     cout<<"Tile Size:"<<tset.get_tile_size()<<endl;
@@ -106,15 +109,13 @@ int main() {
     game_objects game_objects_0;
     go_pointer=&game_objects_0;
     game_spawner spawner_0=create_game_spawner();
-    game_master master_0(eset,game_objects_0,game_map,spawner_0,timer);
+    input_handler input_handler_0(event_queue,click_mouse,key_pressed);
+    player player_0("player_0",towerset,game_objects_0,game_map,10,200,game_over);
+    player_pointer=&player_0;
+    cout<<player_0.get_name()<<"  lifes:"<<player_0.get_lifes()<<endl;
+    game_master master_0(eset,game_objects_0,game_map,player_0,spawner_0,timer,game_win);
     gm_pointer=&master_0;
     cout<<"Number of waves:"<<master_0.get_total_waves()<<endl;
-    player_controller player_constroller_0(towerset,game_objects_0,game_map);
-    pc_pointer=&player_constroller_0;
-    // cout<<"player_controller can_build [330,330]:"<<pc.can_build(300.0,300.0)<<endl;
-    // player_constroller_0.build_tower("tower_0",300,300);
-    // cout<<"player_controller can_build [330,330] (after build):"<<pc.can_build(300.0,300.0)<<endl;
-    input_handler input_handler_0(event_queue,click_mouse,key_pressed);
     cout<<endl<<"Start Game\n";
     while(true) {
         ALLEGRO_EVENT event;
@@ -134,9 +135,7 @@ int main() {
             al_clear_to_color(al_map_rgb(0, 0, 0));
             game_map.draw_tilemap();
             master_0.update();
-            game_objects_0.draw_enemies();
-            game_objects_0.draw_towers();
-            game_objects_0.draw_attacks();
+            game_objects_0.draw();
             al_flip_display();
             redraw=false;
         }
@@ -192,7 +191,7 @@ tower_attributes create_tower_0(const ALLEGRO_TIMER *timer) {
     al_anim explosion_anim(exp_bitmap,64,64,0.5,timer);
     al_destroy_bitmap(exp_bitmap);
     atk_attributes atk_0(atk_bitmap,explosion_anim,60,90,2,5,shoot_atk);
-    return tower_attributes("tower_0",tower_bitmap,atk_0,100);
+    return tower_attributes("tower_0",tower_bitmap,atk_0,50);
 }
 game_spawner create_game_spawner() {
     spawn_wave wav;
@@ -204,16 +203,19 @@ game_spawner create_game_spawner() {
 
 
 void click_mouse(int button_number,unsigned int x,unsigned int y) {
-    // cout<<"mouse button "<<button_number<<"clicked at ["<<x<<","<<y<<"]\n";
-    if(pc_pointer->is_tower(x,y)) {
-        /// cout<<"remove tower clicked\n";
-        pc_pointer->remove_tower(x,y);
-    }
-    else {
-        pc_pointer->build_tower(tower_selected,x,y);// cout<<"tower built\n";
-        //else cout<<"impossible to build tower\n";
-    }
+    player_pointer->click_action(button_number,x,y);
+    //cout<<"coins:"<<player_pointer->get_coins()<<endl;
 }
 void key_pressed(int keycode) {
-    cout<<"pressed key:"<<keycode<<"   "<<al_keycode_to_name(keycode)<<endl;
+    player_pointer->key_action(keycode);
+    //cout<<"pressed key:"<<keycode<<"   "<<al_keycode_to_name(keycode)<<endl;
+}
+
+void game_over() {
+    cout<<"You Lose\n";
+    gm_pointer->set_active(false);
+}
+void game_win() {
+    cout<<"You Win!!"<<endl<<"Lifes:"<<player_pointer->get_lifes()<<endl;
+    gm_pointer->set_active(false);
 }
