@@ -126,11 +126,11 @@ bool test_controller() {
     if(testplayer.check()==false) test_result=false;
     if(testplayer.get_name()!="player test") test_result=false;
     if(testplayer.get_coins()!=150) test_result=false;
-    if(testplayer.get_lifes()!=10) test_result=false;
+    if(testplayer.get_lives()!=10) test_result=false;
     if(testplayer.get_tower_names().size()!=towers.get_size()) test_result=false;
     testplayer.remove_life();
     testplayer.remove_life(2);
-    if(testplayer.get_lifes()!=7) test_result=false;
+    if(testplayer.get_lives()!=7) test_result=false;
     //GAME MASTER
     spawn_wave wave;
     wave.push(make_pair(5,"enemyTest"));

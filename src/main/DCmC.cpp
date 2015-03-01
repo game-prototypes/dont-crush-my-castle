@@ -117,7 +117,7 @@ int main() {
     input_handler input_handler_0(event_queue,click_mouse,key_pressed);
     player player_0("player_0",towerset,game_objects_0,game_map,10,200,game_over);
     player_pointer=&player_0;
-    cout<<player_0.get_name()<<"  lifes:"<<player_0.get_lifes()<<endl;
+    cout<<player_0.get_name()<<"  lives:"<<player_0.get_lives()<<endl;
     game_master master_0(eset,game_objects_0,game_map,player_0,spawner_0,timer,game_win);
     gm_pointer=&master_0;
     cout<<"Number of waves:"<<master_0.get_total_waves()<<endl;
@@ -221,6 +221,8 @@ void game_over() {
     gm_pointer->set_active(false);
 }
 void game_win() {
-    cout<<"You Win!!"<<endl<<"Lifes:"<<player_pointer->get_lifes()<<endl;
-    gm_pointer->set_active(false);
+    if(player_pointer->get_lives()>0) {
+        cout<<"You Win!!"<<endl<<"lives:"<<player_pointer->get_lives()<<endl;
+        gm_pointer->set_active(false);
+    }
 }
