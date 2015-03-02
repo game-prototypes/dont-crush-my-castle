@@ -37,6 +37,7 @@ private:
     atk_attributes attributes;
     pair<double,double> destiny; //position to move
     double speed; //speed (pixels per frame)
+    double rotation;
     bool collide; //true if the attack reached destiny
     bool valid; //true if attack is valid (enemy alive)
 public:
@@ -71,5 +72,6 @@ private:
     void collision();
     //set speed (pixels per second), need timer wich will be used
     void set_speed(const ALLEGRO_TIMER *timer);
+    void set_rotation();
 };
 #endif

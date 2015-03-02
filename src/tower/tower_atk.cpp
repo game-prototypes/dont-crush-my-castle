@@ -55,6 +55,7 @@ bool atk_attributes::check() const {
 tower_atk::tower_atk() {
     position=make_pair(-1,-1);
     destiny=make_pair(-1,-1);
+    rotation=0;
     collide=false;
     active=false;
     valid=false;
@@ -66,6 +67,7 @@ tower_atk::tower_atk(const atk_attributes &attributes,pair<double,double> positi
     this->position=position;
     this->destiny=destiny;
     set_speed(timer);
+    set_rotation();
     collide=false;
     active=true;
     valid=true;
@@ -108,7 +110,8 @@ void tower_atk::update() {
 //redraw tower atk
 void tower_atk::draw() const {
     if(active) {
-        if(collide==false) draw_centered(attributes.bitmap,position.first,position.second);
+        if(collide==false) draw_rotated(attributes.bitmap,position.first,position.second,rotation);
+            //draw_centered(attributes.bitmap,position.first,position.second);
         else attributes.collision_anim.draw(destiny.first,destiny.second);
     }
 }
@@ -129,3 +132,10 @@ void tower_atk::set_speed(const ALLEGRO_TIMER *timer) {
     speed=convert_speed(attributes.speed,timer);
 }
 
+void tower_atk::set_rotation(){
+    double dx=destiny.first-position.first;
+    dx+=0.00000001;
+    double dy=destiny.second-position.second;
+    rotation=atan(dy/dx);
+    if(position.first>destiny.first) rotation+=3.141592;
+}
