@@ -89,6 +89,7 @@ enemy::enemy() {
     position=destiny=make_pair(-1,-1);
     deactivate();
     current_animation=idle_anim;
+    reward_given=false;
 }
 enemy::enemy(const enemy_attributes &attributes,unsigned int level,double posx,double posy,const ALLEGRO_TIMER *timer) {
     this->attributes=attributes;
@@ -109,6 +110,7 @@ void enemy::spawn(double posx,double posy) {
         set_position(posx,posy);
         activate();
     }
+    reward_given=false;
 }
 //CONSULT
 string enemy::get_name() const {
@@ -126,8 +128,12 @@ unsigned int enemy::get_level() const {
 unsigned int enemy::get_max_life() const {
     return attributes.max_life;
 }
-unsigned int enemy::get_reward() const {
+unsigned int enemy::get_reward() {
+    reward_given=true;
     return attributes.reward;
+}
+bool enemy::is_reward_given() const {
+    return reward_given;
 }
 pair<double,double> enemy::get_destiny() const {
     return destiny;

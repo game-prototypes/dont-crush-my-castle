@@ -48,6 +48,8 @@ private:
 
     pair<double,double> destiny; //position to move
 
+    bool reward_given;
+
     enemy_animation current_animation;
 public:
     //CONSTRUCTORS
@@ -71,8 +73,10 @@ public:
     unsigned int get_level() const;
     //return max life
     unsigned int get_max_life() const;
-    //returns reward when killed
-    unsigned int get_reward() const;
+    //returns reward when killed, also set reward given to true
+    unsigned int get_reward();
+    //return true if the reward has benn already given
+    bool is_reward_given() const;
     //return the enemy destiny (where is moving)
     pair<double,double> get_destiny() const;
     //return true if enemy is alive(life>0)

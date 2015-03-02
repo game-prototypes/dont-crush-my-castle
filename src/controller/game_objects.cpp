@@ -100,11 +100,13 @@ vector<list<enemy>::iterator> game_objects::update_enemies() {
             list<enemy>::iterator it2=it;
             it--;
             killed++;
-            if(it2->alive()==false) reward+=it2->get_reward();
             to_invalidate.push_back(it2);
             spawned_enemies.erase(it2);
         }
         else if(it->idle()) res.push_back(it);
+        else if(it->alive()==false && !it->is_reward_given()) {
+            reward+=it->get_reward();
+        }
     }
     invalidate_attacks(to_invalidate);
     return res;
