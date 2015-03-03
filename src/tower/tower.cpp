@@ -36,6 +36,7 @@ bool tower_attributes::check() const {
 void tower_attributes::destroy() {
     //animation.destroy();
     al_destroy_bitmap(bitmap);
+    bitmap=NULL;
     atk.destroy();
 }
 //TOWER

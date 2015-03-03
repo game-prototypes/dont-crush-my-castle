@@ -136,7 +136,10 @@ void al_anim::clear() {
     bitmap_set.clear();
 }
 void al_anim::destroy() {
-    for(unsigned int i=0; i<bitmap_set.size(); i++) al_destroy_bitmap(bitmap_set[i]);
+    for(unsigned int i=0; i<bitmap_set.size(); i++) {
+        al_destroy_bitmap(bitmap_set[i]);
+        bitmap_set[i]=NULL;
+    }
     clear();
 }
 bool al_anim::check() const {

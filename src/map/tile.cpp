@@ -39,6 +39,7 @@ tile::tile(const tile &other) {
 }
 tile::~tile() {
     al_destroy_bitmap(this->bitmap);
+    this->bitmap=NULL;
 }
 //MODIFICATION
 void tile::resize(unsigned int width) {

@@ -34,6 +34,8 @@ game_master *gm_pointer;
 player *player_pointer;
 
 int main() {
+    //   al_init_font_addon(); // initialize the font addon
+    //  al_init_ttf_addon();// initialize the ttf (True Type Font) addon
     cout<<"DCmC V0.7 alpha\n";
     cout<<"===============\n";
     ALLEGRO_DISPLAY *display;

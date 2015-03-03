@@ -29,6 +29,7 @@ void atk_attributes::clear() {
 }
 void atk_attributes::destroy() {
     al_destroy_bitmap(bitmap);
+    bitmap=NULL;
     collision_anim.destroy();
     clear();
 }
@@ -111,7 +112,7 @@ void tower_atk::update() {
 void tower_atk::draw() const {
     if(active) {
         if(collide==false) draw_rotated(attributes.bitmap,position.first,position.second,rotation);
-            //draw_centered(attributes.bitmap,position.first,position.second);
+        //draw_centered(attributes.bitmap,position.first,position.second);
         else attributes.collision_anim.draw(destiny.first,destiny.second);
     }
 }
@@ -132,7 +133,7 @@ void tower_atk::set_speed(const ALLEGRO_TIMER *timer) {
     speed=convert_speed(attributes.speed,timer);
 }
 
-void tower_atk::set_rotation(){
+void tower_atk::set_rotation() {
     double dx=destiny.first-position.first;
     dx+=0.00000001;
     double dy=destiny.second-position.second;

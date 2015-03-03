@@ -35,11 +35,11 @@ void draw_bitmap(const ALLEGRO_BITMAP *bmp,double x,double y) {
 void draw_scaled(const ALLEGRO_BITMAP *bmp,int x,int y,unsigned int width,unsigned int height) {
     al_draw_scaled_bitmap(const_cast<ALLEGRO_BITMAP *>(bmp),0,0, get_bitmap_width(bmp),  get_bitmap_height(bmp),x,y,width,height,0);//draw the original bitmap to the new one (resized)
 }
-void draw_rotated(const ALLEGRO_BITMAP *bmp,double x,double y,double rotation){
+void draw_rotated(const ALLEGRO_BITMAP *bmp,double x,double y,double rotation) {
     double midx=get_bitmap_width(bmp)/2.0;
     double midy=get_bitmap_height(bmp)/2.0;
     al_draw_rotated_bitmap(const_cast<ALLEGRO_BITMAP *>(bmp),midx,midy, x-midx,y-midy, rotation, 0);
-    }
+}
 //resize bmp to given width and height (x and y), destroying the original bitmap
 void resize_bitmap(ALLEGRO_BITMAP *&bitmap,unsigned int x,unsigned int y) {
     if(bitmap!=NULL && x>0 && y>0) {

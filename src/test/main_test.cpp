@@ -7,10 +7,12 @@
 #include "input_handler.h"
 #include "player_controller.h"
 #include "game_master.h"
+#include "text_handler.h"
 using namespace std;
 //ALLEGRO,timer and queue pointers
 ALLEGRO_TIMER *timer;
 const char *bitmap_path="resources/spr/example_clock.png";
+const string font_path="resources/fonts/big_bottom_cartoon.ttf";
 
 #include "test_utils.h"
 #include "test_anim.h"

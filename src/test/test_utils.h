@@ -7,7 +7,9 @@ This test will check:
 al_utils
 input_handler
 game_object
+text_handler
 */
+
 #ifndef UTILITIES_TEST
 #define UTILITIES_TEST
 void click_event_test(int button,unsigned int x,unsigned int y) {
@@ -102,6 +104,10 @@ bool test_utilities() {
     gameobj.set_position(2,2);
     if(gameobj.get_position()!=make_pair(2.0,2.0)) test_result=false;
     if(gameobj.is_active()==true) test_result=false;
+    //testing handler
+    text_handler th("testing text",font_path,48,80,80);
+    if(th.check()==false) test_result=false;
+    if(th.get_string()!="testing text") test_result=false;
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
     return test_result;

@@ -4,8 +4,8 @@
 //VERSION: 0.7
 //DESCRIPTION: defines a generic gameobject
 
-#ifndef GAME_OBJECT_H
-#define GAME_OBJECT_H
+#ifndef GAME_OBJECT
+#define GAME_OBJECT
 
 #include <iostream>
 #include <utility>
