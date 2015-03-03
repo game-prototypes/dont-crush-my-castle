@@ -11,31 +11,28 @@
 #include <allegro5/allegro_ttf.h>
 #include "game_object.h"
 
-// al_init_font_addon(); // initialize the font addon
-//  al_init_ttf_addon();// initialize the ttf (True Type Font) addon
-
-// ALLEGRO_FONT *font = al_load_ttf_font("pirulen.ttf",72,0 );
-
 
 class text_handler : public game_object {
 public:
     enum alignment {align_left,align_center,align_right};
 private:
     string text;
+    string tag; //name (tag) of the handler
     ALLEGRO_COLOR text_color;
     ALLEGRO_FONT *font;
     alignment text_align;
 
 public:
     text_handler();
-    text_handler(ALLEGRO_FONT *font,unsigned int x,unsigned int y);
-    text_handler(const string &text,ALLEGRO_FONT *font,unsigned int x,unsigned int y);
-    text_handler(const string &text,const string &filename,unsigned int size,unsigned int x,unsigned int y);
+    text_handler(const string &tag,ALLEGRO_FONT *font,unsigned int x,unsigned int y);
+    text_handler(const string &tag,ALLEGRO_FONT *font,unsigned int x,unsigned int y,const string &text);
+    text_handler(const string &tag,const string &filename,unsigned int size,unsigned int x,unsigned int y,const string &text);
     ~text_handler();
 
     void draw() const;
     //sets the string
-    void set_text(const string &text);
+    void set_string(const string &text);
+    void set_tag(const string &tag);
     //sets new font
     void set_font(ALLEGRO_FONT *font);
     //set new font,if size is negative it will measure as pixel heigh
@@ -46,11 +43,13 @@ public:
     void set_alignment(alignment text_align);
     //return the string
     string get_string() const;
+    string get_tag() const;
     //clear the string, not changing font
     void clear();
-    //void update();
+    //does nothing
+    void update();
+    void destroy();
     bool check() const;
-
 private:
     //destroy font
     void destroy_font();

@@ -30,6 +30,8 @@ int main() {
     bool test_result=true;
     al_init();
     al_init_image_addon();
+    al_init_font_addon();
+    al_init_ttf_addon();
     timer = al_create_timer(1.0 / 60); //60 fps timer
     al_start_timer(timer); //begin timer
     test_result=test_result && test_utilities();

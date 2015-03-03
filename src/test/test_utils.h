@@ -105,13 +105,12 @@ bool test_utilities() {
     if(gameobj.get_position()!=make_pair(2.0,2.0)) test_result=false;
     if(gameobj.is_active()==true) test_result=false;
     //testing handler
-    text_handler th("testing text",font_path,48,80,80);
+    text_handler th("testing text",font_path,48,80,80,"this is the text");
     if(th.check()==false) test_result=false;
-    if(th.get_string()!="testing text") test_result=false;
+    if(th.get_string()!="this is the text") test_result=false;
+    if(th.get_tag()!="testing text") test_result=false;
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
     return test_result;
 }
-
-
 #endif

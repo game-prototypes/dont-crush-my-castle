@@ -71,6 +71,10 @@ bool test_controller() {
     go.remove_tower(tid);
     if(go.check()==false) test_result=false;
     if(go.tower_size()!=0) test_result=false;
+    text_handler th("testing text",font_path,48,80,80,"this is the text");
+    go.add_text(th);
+    if(go.texts_size()!=1) test_result=false;
+    if(go.get_text("testing text")->get_string()!="this is the text") test_result=false;
     //tower atk in gameobjects not tested
     //PLAYER CONTROLLER
     ALLEGRO_BITMAP *bmp3=al_load_bitmap(bitmap_path);

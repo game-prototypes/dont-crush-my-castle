@@ -1,7 +1,7 @@
 //TITLE: DCmC Main
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.2
 //DESCRIPTION: Main program of DCmC
 
 #include "input_handler.h"
@@ -15,9 +15,11 @@ unsigned int screen_width=600;
 unsigned int screen_height=600;
 bool fullscreen=false;
 //end conf
-string enemy_path="resources/spr/enemy_0/";
+const string enemy_path="resources/spr/enemy_0/";
+const string font_path="resources/fonts/big_bottom_cartoon.ttf";
 enemy_attributes create_enemy_0(const ALLEGRO_TIMER *timer);
 tower_attributes create_tower_0(const ALLEGRO_TIMER *timer);
+pair<text_handler,text_handler> create_text_handlers();
 game_spawner create_game_spawner();
 //input functions
 void click_mouse(int button_number,unsigned int x,unsigned int y);
@@ -43,6 +45,8 @@ int main() {
     ALLEGRO_TIMER *timer;
     al_init();
     al_init_image_addon();
+    al_init_font_addon();
+    al_init_ttf_addon();
     //al_set_new_display_flags(ALLEGRO_FULLSCREEN);
     display = al_create_display(screen_width,screen_height);
     event_queue = al_create_event_queue();
@@ -115,6 +119,9 @@ int main() {
     cout<<endl;
     game_objects game_objects_0;
     go_pointer=&game_objects_0;
+    pair<text_handler,text_handler> textp=create_text_handlers();
+    game_objects_0.add_text(textp.first);
+    game_objects_0.add_text(textp.second);
     game_spawner spawner_0=create_game_spawner();
     input_handler input_handler_0(event_queue,click_mouse,key_pressed);
     player player_0("player_0",towerset,game_objects_0,game_map,10,200,game_over);
@@ -139,6 +146,8 @@ int main() {
             break;
         else input_handler_0.update(event);
         if(redraw  && al_is_event_queue_empty(event_queue)) {
+            game_objects_0.get_text("life_text")->set_string("LIFE:"+to_string(player_0.get_lives()));
+            game_objects_0.get_text("coins_text")->set_string("COINS:"+to_string(player_0.get_coins()));
             al_clear_to_color(al_map_rgb(0, 0, 0));
             game_map.draw_tilemap();
             master_0.update();
@@ -227,4 +236,12 @@ void game_win() {
         cout<<"You Win!!"<<endl<<"lives:"<<player_pointer->get_lives()<<endl;
         gm_pointer->set_active(false);
     }
+}
+
+pair<text_handler,text_handler> create_text_handlers() {
+    text_handler life_text("life_text",font_path,20,30,30,"LIFE:");
+    life_text.set_color(1,0,0);
+    text_handler coins_text("coins_text",font_path,20,400,30,"COINS:");
+    coins_text.set_color(1,1,0);
+    return make_pair(life_text,coins_text);
 }

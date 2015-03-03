@@ -56,7 +56,7 @@ void enemy_attributes::clear() {
 }
 void enemy_attributes::destroy() {
     map<enemy_animation,al_anim>::iterator it;
-    for(it=animation.begin(); it!=animation.end(); it++) .(it->second).destroy();
+    for(it=animation.begin(); it!=animation.end(); it++)(it->second).destroy();
     clear();
 }
 bool enemy_attributes::check() const {
