@@ -4,8 +4,8 @@
 //VERSION: 0.7
 //DESCRIPTION: control the IA and in-game stuff (spawning,movement etc..)
 
-#ifndef GAME_MASTER_H
-#define GAME_MASTER_H
+#ifndef GAME_MASTER
+#define GAME_MASTER
 
 #include "game_objects.h"
 #include "player.h"

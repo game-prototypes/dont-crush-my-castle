@@ -44,6 +44,9 @@ public:
     //return the string
     string get_string() const;
     string get_tag() const;
+    //returns text width in pixels
+    unsigned int get_width() const;
+
     //clear the string, not changing font
     void clear();
     //does nothing

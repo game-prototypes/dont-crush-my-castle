@@ -83,6 +83,9 @@ string text_handler::get_string() const {
 string text_handler::get_tag() const {
     return tag;
 }
+unsigned int text_handler::get_width() const {
+    return al_get_text_width(font, text.c_str());
+}
 //clear the string, not changing font
 void text_handler::clear() {
     text.clear();

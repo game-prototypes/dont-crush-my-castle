@@ -1,4 +1,4 @@
-#Don't Crush my Castle Makefile v0.7
+#Don't Crush my Castle Makefile v0.7.2
 #by demiurgosoft
 #Just type make to compile project (currently compiling tests)
 #make test: compile tests

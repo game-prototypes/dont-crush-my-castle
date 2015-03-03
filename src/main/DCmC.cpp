@@ -38,7 +38,7 @@ player *player_pointer;
 int main() {
     //   al_init_font_addon(); // initialize the font addon
     //  al_init_ttf_addon();// initialize the ttf (True Type Font) addon
-    cout<<"DCmC V0.7 alpha\n";
+    cout<<"DCmC V0.7.2 alpha\n";
     cout<<"===============\n";
     ALLEGRO_DISPLAY *display;
     ALLEGRO_EVENT_QUEUE *event_queue;
@@ -109,12 +109,12 @@ int main() {
     unsigned int tt=0;
     enemy_set eset("Enemy_set_0",create_enemy_0(timer),timer);
     cout<<"Enemy Set Name:"<<eset.get_name()<<endl;
-    cout<<"Enemy Set Size:"<<eset.get_size()<<endl;
+    cout<<"Enemy Set Size:"<<eset.size()<<endl;
     if(eset.check()==false) cout<<"error in check\n";
     cout<<endl;
     tower_set towerset("Tower_set_0",create_tower_0(timer),timer);
     cout<<"Tower Set Name:"<<towerset.get_name()<<endl;
-    cout<<"Tower Set Size:"<<towerset.get_size()<<endl;
+    cout<<"Tower Set Size:"<<towerset.size()<<endl;
     if(towerset.check()==false) cout<<"error in check\n";
     cout<<endl;
     game_objects game_objects_0;

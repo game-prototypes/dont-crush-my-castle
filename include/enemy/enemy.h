@@ -4,8 +4,8 @@
 //VERSION: 0.7
 //DESCRIPTION: defines each single enemy
 
-#ifndef ENEMY_H
-#define ENEMY_H
+#ifndef ENEMY
+#define ENEMY
 
 #include "al_anim.h"
 #include "game_object.h"

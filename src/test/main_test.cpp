@@ -25,7 +25,7 @@ const string font_path="resources/fonts/big_bottom_cartoon.ttf";
 
 int main() {
     cout<<"DCmC Test\n";
-    cout<<"0.7\n";
+    cout<<"0.7.2\n";
     cout<<"=========\n";
     bool test_result=true;
     al_init();

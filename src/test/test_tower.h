@@ -92,7 +92,7 @@ bool test_tower() {
     //TOWER SET
     tower_set testset("test_tower_set",attr2,timer);
     if(testset.get_name()!="test_tower_set") test_result=false;
-    if(testset.get_size()!=1) test_result=false;
+    if(testset.size()!=1) test_result=false;
     if((testset.get_towers_names()).size()!=1) test_result=false;
     if(testset.is_tower("towerTest")==false) test_result=false;
     if(testset.get_tower_cost("towerTest")!=110) test_result=false;

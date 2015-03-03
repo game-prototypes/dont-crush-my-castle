@@ -32,14 +32,14 @@ bool test_map() {
     //road tile with given bmp,512x512
     tile testtile(tile::road,bmp,512);
     if(testtile.check()==false) test_result=false;
-    if(testtile.get_size()!=512) test_result=false;
+    if(testtile.size()!=512) test_result=false;
     if(testtile.type!=tile::road) test_result=false;
     tile *testtile2=new tile(tile::ground,bmp,256);
     testtile=*testtile2;
     delete testtile2;
-    if(testtile.get_size()!=256 || testtile.type!=tile::ground) test_result=false;
+    if(testtile.size()!=256 || testtile.type!=tile::ground) test_result=false;
     test_func(testtile);
-    if(testtile.get_size()!=80) test_result=false;
+    if(testtile.size()!=80) test_result=false;
     //TESTING TILESET
     vector<tile::tile_type> types;
     types.push_back(tile::ground);

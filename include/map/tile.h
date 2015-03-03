@@ -1,11 +1,11 @@
 //TITLE: TILE_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.2
 //DESCRIPTION: Defines one tile of a tileset
 
-#ifndef TILE_H
-#define TILE_H
+#ifndef TILE
+#define TILE
 
 #include "al_utils.h"
 
@@ -41,7 +41,7 @@ public:
     //draw the tile bitmap on x,y  position, resizing it to width given
     void draw_resized(float x,float y,unsigned int width) const;
     //returns tile width
-    unsigned int get_size() const;
+    unsigned int size() const;
     //check the class
     bool check() const;
     //OPERATORS

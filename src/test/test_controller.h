@@ -110,8 +110,8 @@ bool test_controller() {
     tilemap testmap("testing map",mapids,&tiles,dest,spaw);
     player_controller pc(towers,go,testmap);
     if(pc.check()==false) test_result=false;
-    if(pc.get_towers_size()!=towers.get_size()) test_result=false;
-    if(pc.get_tower_names().size()!=towers.get_size()) test_result=false;
+    if(pc.get_towers_size()!=towers.size()) test_result=false;
+    if(pc.get_tower_names().size()!=towers.size()) test_result=false;
     if(pc.build_tower("towerTest",1,1)==false) test_result=false;
     if(pc.build_tower("towerTest",10,10)==true) test_result=false;
     if(pc.build_tower("towerTest",10,30)==true) test_result=false;
@@ -131,7 +131,7 @@ bool test_controller() {
     if(testplayer.get_name()!="player test") test_result=false;
     if(testplayer.get_coins()!=150) test_result=false;
     if(testplayer.get_lives()!=10) test_result=false;
-    if(testplayer.get_tower_names().size()!=towers.get_size()) test_result=false;
+    if(testplayer.get_tower_names().size()!=towers.size()) test_result=false;
     testplayer.remove_life();
     testplayer.remove_life(2);
     if(testplayer.get_lives()!=7) test_result=false;
