@@ -36,6 +36,10 @@ This Project is Open-Source under GNU GPL v3
 
 **Attributions**
 
+ALLEGRO 5 - http://alleg.sourceforge.net/git.html
+
+TinyXML2 by Lee Thomason - https://github.com/leethomason/tinyxml2
+
 example_clock.png (used for testing) is under CCLicense by [Jorge Durán Llanos] (https://github.com/Caesar95)
  <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
 
