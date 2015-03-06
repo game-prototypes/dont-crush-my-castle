@@ -34,7 +34,8 @@ struct atk_attributes {
 //defines an instance of attack
 class tower_atk : public game_object {
 private:
-    atk_attributes attributes;
+    al_anim collision_anim;
+    const atk_attributes *attributes;
     pair<double,double> destiny; //position to move
     double speed; //speed (pixels per frame)
     double rotation;

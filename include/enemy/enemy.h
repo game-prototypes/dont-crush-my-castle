@@ -28,8 +28,6 @@ struct enemy_attributes {
     ~enemy_attributes();
     //insert animation (erasing previous animations and reseting all counters)
     void insert_animation(enemy_animation type,const al_anim &anim);
-    //increase values according to level
-    void increase_level(unsigned int level);
     //clear all attributes (dont destroy bitmaps)
     void clear();
     //destroy all animations and clear data
@@ -41,7 +39,9 @@ struct enemy_attributes {
 
 class enemy : public game_object {
 private:
-    enemy_attributes attributes; //basic info of enemy type
+    const enemy_attributes *attributes; //basic info of enemy type
+    map<enemy_animation,al_anim> animation; //stores all animations of an enemy
+
     unsigned int life; //current life of enemy
     unsigned int level; //level may change enemy parameters
     double speed; //pixels per frame
@@ -87,7 +87,6 @@ public:
     bool idle() const;
     //return current aimation
     enemy_animation get_current_animation() const;
-
     //ENEMY CONTROL (make sure to call update in each iteration)
     //stop the movement(idle) (final destination will be the current position)
     void stop();
@@ -122,6 +121,8 @@ private:
     void set_level(unsigned int level);
     //sets movement animation
     void set_movement_animation();
+    //return the incremenet of attributes at given level
+    unsigned int get_level_increment(unsigned int value) const;
 };
 
 

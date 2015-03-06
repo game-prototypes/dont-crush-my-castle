@@ -64,7 +64,8 @@ tower_atk::tower_atk() {
 }
 
 tower_atk::tower_atk(const atk_attributes &attributes,pair<double,double> position,pair<double,double> destiny,const ALLEGRO_TIMER *timer) {
-    this->attributes=attributes;
+    this->attributes=&attributes;
+    this->collision_anim=this->attributes->collision_anim;
     this->position=position;
     this->destiny=destiny;
     set_speed(timer);
@@ -79,16 +80,16 @@ void tower_atk::invalidate() {
     valid=false;
 }
 unsigned int tower_atk::get_damage()const {
-    return attributes.damage;
+    return attributes->damage;
 }
 double tower_atk::get_speed() const {
-    return attributes.speed;
+    return attributes->speed;
 }
 unsigned int tower_atk::get_range() const {
-    return attributes.range;
+    return attributes->range;
 }
 atk_type tower_atk::get_type() const {
-    return attributes.type;
+    return attributes->type;
 }
 bool tower_atk::is_valid() const {
     return valid;
@@ -99,38 +100,38 @@ bool tower_atk::hit() const {
 void tower_atk::update() {
     if(active) {
         if(collide==false) {
-            position=movement_update(position,destiny,attributes.speed);
+            position=movement_update(position,destiny,attributes->speed);
             if(position==destiny) collision();
         }
         else {
-            attributes.collision_anim.update(); //animation update
-            if(attributes.collision_anim.is_active()==false) active=false;
+            collision_anim.update(); //animation update
+            if(collision_anim.is_active()==false) active=false;
         }
     }
 }
 //redraw tower atk
 void tower_atk::draw() const {
     if(active) {
-        if(collide==false) draw_rotated(attributes.bitmap,position.first,position.second,rotation);
+        if(collide==false) draw_rotated(attributes->bitmap,position.first,position.second,rotation);
         //draw_centered(attributes.bitmap,position.first,position.second);
-        else attributes.collision_anim.draw(destiny.first,destiny.second);
+        else collision_anim.draw(destiny.first,destiny.second);
     }
 }
 bool tower_atk::check() const {
     bool b=true;
-    if(attributes.check()==false) b=false;
+    if(attributes->check()==false) b=false;
     return b;
 }
 //when attack hit, starts collision, and damage enemy (if still available)
 void tower_atk::collision() {
     if(collide==false) {
         collide=true;
-        attributes.collision_anim.animation_loop(false);
-        attributes.collision_anim.start();
+        collision_anim.animation_loop(false);
+        collision_anim.start();
     }
 }
 void tower_atk::set_speed(const ALLEGRO_TIMER *timer) {
-    speed=convert_speed(attributes.speed,timer);
+    speed=convert_speed(attributes->speed,timer);
 }
 
 void tower_atk::set_rotation() {

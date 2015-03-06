@@ -34,7 +34,7 @@ struct tower_attributes {
 
 class tower : public game_object {
 private:
-    tower_attributes attributes;
+    const tower_attributes *attributes;
     unsigned int atk_counter; //time to next attack (depending on delay) in frames
     unsigned int atk_delay; //atk delay (in frames)
     //change atk_delay to unsigned int (count as frames)

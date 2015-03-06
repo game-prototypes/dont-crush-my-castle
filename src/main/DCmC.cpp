@@ -223,8 +223,8 @@ void click_mouse(int button_number,unsigned int x,unsigned int y) {
     //cout<<"coins:"<<player_pointer->get_coins()<<endl;
 }
 void key_pressed(int keycode) {
-    player_pointer->key_action(keycode);
-    //cout<<"pressed key:"<<keycode<<"   "<<al_keycode_to_name(keycode)<<endl;
+    if(keycode==ALLEGRO_KEY_ESCAPE) game_over();
+    else player_pointer->key_action(keycode);
 }
 
 void game_over() {
