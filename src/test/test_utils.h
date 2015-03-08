@@ -98,12 +98,12 @@ bool test_utilities() {
     if(handler_test.check()==false) test_result=false;
     if(handler_test.is_active()==false) test_result=false;
     //testing gameobject
-    game_object gameobj;
+    /*game_object gameobj;
     if(gameobj.check()==false) test_result=false;
     if(gameobj.get_position()!=make_pair(-1.0,-1.0)) test_result=false;
     gameobj.set_position(2,2);
     if(gameobj.get_position()!=make_pair(2.0,2.0)) test_result=false;
-    if(gameobj.is_active()==true) test_result=false;
+    if(gameobj.is_active()==true) test_result=false;*/
     //testing handler
     text_handler th("testing text",font_path,48,80,80,"this is the text");
     if(th.check()==false) test_result=false;
