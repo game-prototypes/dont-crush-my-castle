@@ -7,6 +7,7 @@
 #define TOWER_ATK
 
 #include "tower_atk_attributes.h"
+#include "game_object.h"
 
 //defines an instance of attack
 class tower_atk : public game_object {

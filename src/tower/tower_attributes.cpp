@@ -8,6 +8,9 @@
 #include "tower_attributes.h"
 tower_attributes::tower_attributes() {
 }
+tower_attributes::tower_attributes(const string &filename) {
+    if(!read_xml(filename)) destroy();
+}
 tower_attributes::tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,const atk_attributes &atk,unsigned int cost) {
     this->bitmap=bitmap;
     this->atk=atk;
@@ -16,6 +19,17 @@ tower_attributes::tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,con
 }
 tower_attributes::~tower_attributes() {
 }
+bool tower_attributes::read_xml(const string &filename) {
+    bool b=false;
+    if(!atk.read_xml(filename)) return false;
+    return b;
+}
+bool tower_attributes::write_xml(const string &filename) const {
+    bool b=false;
+    //TODO
+    return b;
+}
+
 unsigned int tower_attributes::get_width() const {
     return al_get_bitmap_width(bitmap);
 }
@@ -35,8 +49,7 @@ bool tower_attributes::check() const {
 }
 //destroy tower attributes (including bitmaps and attack attribute)
 void tower_attributes::destroy() {
-    //animation.destroy();
     al_destroy_bitmap(bitmap);
-    bitmap=NULL;
+    bitmap=nullptr;
     atk.destroy();
 }

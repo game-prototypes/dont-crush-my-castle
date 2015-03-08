@@ -9,6 +9,11 @@
 enemy_attributes::enemy_attributes() {
     speed=max_life=armor=reward=0;
 }
+enemy_attributes::enemy_attributes(const string &filename) {
+    if(!read_xml(filename)) {
+        destroy();
+    }
+}
 enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,unsigned int reward) {
     this->name=name;
     this->max_life=life;
@@ -25,6 +30,16 @@ enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned
     this->reward=reward;
 }
 enemy_attributes::~enemy_attributes() {
+}
+bool enemy_attributes::read_xml(const string &filename) {
+    bool b=false;
+    //TODO
+    return b;
+}
+bool enemy_attributes::write_xml(const string &filename) const {
+    bool b=false;
+    //TODO
+    return b;
 }
 void enemy_attributes::insert_animation(enemy_animation type,const al_anim &anim) {
     if(anim.size()==0) debug_log::report("setting empty animation",err,true,true,false);

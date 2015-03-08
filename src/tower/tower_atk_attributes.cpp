@@ -10,6 +10,9 @@ atk_attributes::atk_attributes() {
     damage=range=delay=speed=0;
     type=shoot_atk;
 }
+atk_attributes::atk_attributes(const string &filename) {
+    if(!read_xml(filename)) destroy();
+}
 atk_attributes::atk_attributes(ALLEGRO_BITMAP *bitmap,al_anim collision_anim,unsigned int damage,unsigned int range,unsigned int delay,double speed,atk_type type) {
     this->bitmap=bitmap;
     this->collision_anim=collision_anim;
@@ -20,6 +23,16 @@ atk_attributes::atk_attributes(ALLEGRO_BITMAP *bitmap,al_anim collision_anim,uns
     this->speed=speed;
 }
 atk_attributes::~atk_attributes() {
+}
+bool atk_attributes::read_xml(const string &filename) {
+    bool b=false;
+    //TODO
+    return b;
+}
+bool atk_attributes::write_xml(const string &filename) const {
+    bool b=false;
+    //TODO
+    return b;
 }
 void atk_attributes::clear() {
     damage=range=delay=0;

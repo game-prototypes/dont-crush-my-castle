@@ -7,11 +7,11 @@
 #define TOWER_ATK_ATTRIBUTES
 
 #include "al_anim.h"
-#include "game_object.h"
+#include "game_object_attributes.h"
 enum atk_type {shoot_atk,explosion_atk,continuous_atk};
 
 //defines the atributes of an attack
-struct atk_attributes {
+struct atk_attributes : game_object_attributes {
     ALLEGRO_BITMAP *bitmap; //attack bitmap
     al_anim collision_anim; //collision animation (explosion) or continuous
     unsigned int damage; //damage of the attack
@@ -22,12 +22,16 @@ struct atk_attributes {
     //string name ¿?
     //METHODS
     atk_attributes();
+    atk_attributes(const string &filename);
     atk_attributes(ALLEGRO_BITMAP *bitmap,al_anim collision_anim,unsigned int damage,unsigned int range,unsigned int delay,double speed,atk_type type=shoot_atk);
     ~atk_attributes();
+
+    bool virtual read_xml(const string &filename);
+    bool virtual write_xml(const string &filename) const;
     //clear data (dont destroy animations)
     void clear();
     //destroy all bitmaps and clear data
-    void destroy();
-    bool check() const;
+    void virtual destroy();
+    bool virtual check() const;
 };
 #endif

@@ -6,14 +6,14 @@
 #ifndef ENEMY_ATTRIBUTES
 #define ENEMY_ATTRIBUTES
 
-#include "game_object.h"
+#include "game_object_attributes.h"
 
 #include "al_anim.h"
 #include <map>
 
 enum enemy_animation {idle_anim,up_anim,down_anim,left_anim,right_anim,dead_anim}; //defines each animation for an enemy
 //defines the basic characteristics of an enemy kind
-struct enemy_attributes {
+struct enemy_attributes : game_object_attributes {
     map<enemy_animation,al_anim> animation; //stores all animations of an enemy
     string name; //name of the enemy
     double speed; //basic speed (pixels per seconds)
@@ -22,16 +22,20 @@ struct enemy_attributes {
     unsigned int reward; //reward when killed
     //Methods
     enemy_attributes();
+    enemy_attributes(const string &filename);
     enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,unsigned int reward=0);
     enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation,unsigned int reward=0);
     ~enemy_attributes();
+
+    bool virtual read_xml(const string &filename);
+    bool virtual write_xml(const string &filename) const;
     //insert animation (erasing previous animations and reseting all counters)
     void insert_animation(enemy_animation type,const al_anim &anim);
     //clear all attributes (dont destroy bitmaps)
     void clear();
     //destroy all animations and clear data
-    void destroy();
+    void virtual destroy();
     //returns true if the enemy has all the necessary info
-    bool check() const;
+    bool virtual check() const;
 };
 #endif
