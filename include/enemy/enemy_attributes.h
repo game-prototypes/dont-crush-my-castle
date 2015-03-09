@@ -7,7 +7,6 @@
 #define ENEMY_ATTRIBUTES
 
 #include "game_object_attributes.h"
-
 #include "al_anim.h"
 #include <map>
 

@@ -30,6 +30,7 @@ bool test_enemy() {
     vanim.insert(make_pair(dead_anim,anim));
     testenemy_attr.animation=vanim;
     if(testenemy_attr.check()==false) test_result=false;
+    //testenemy_attr.write_xml("testenemy.xml");
     //ENEMY
     enemy testenemy(testenemy_attr,0,0,0,timer);
     if(testenemy.get_name()!="minion test") test_result=false;

@@ -37,8 +37,28 @@ bool enemy_attributes::read_xml(const string &filename) {
     return b;
 }
 bool enemy_attributes::write_xml(const string &filename) const {
-    bool b=false;
-    //TODO
+    //THIS is only a small test, not to use!!!
+    bool b=true;
+    XMLDocument document;
+    XMLElement *pRoot=document.NewElement("Enemy");
+    pRoot->SetAttribute("Version","0.7.4");
+    document.InsertFirstChild(pRoot);
+    XMLElement *pElement = document.NewElement("Name");
+    pElement->SetText(name.c_str());
+    pRoot->InsertEndChild(pElement);
+    pElement = document.NewElement("Life");
+    pElement->SetText(max_life);
+    pRoot->InsertEndChild(pElement);
+    pElement = document.NewElement("Armor");
+    pElement->SetText(armor);
+    pRoot->InsertEndChild(pElement);
+    pElement = document.NewElement("Speed");
+    pElement->SetText(speed);
+    pRoot->InsertEndChild(pElement);
+    pElement = document.NewElement("Reward");
+    pElement->SetText(reward);
+    pRoot->InsertEndChild(pElement);
+    XMLError eResult = document.SaveFile(filename.c_str());
     return b;
 }
 void enemy_attributes::insert_animation(enemy_animation type,const al_anim &anim) {
