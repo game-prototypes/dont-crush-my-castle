@@ -8,8 +8,8 @@
 #include "tower_attributes.h"
 tower_attributes::tower_attributes() {
 }
-tower_attributes::tower_attributes(const string &filename) {
-    if(!read_xml(filename)) destroy();
+tower_attributes::tower_attributes(const XMLElement *attributes_root) {
+    if(!read_xml(attributes_root)) destroy();
 }
 tower_attributes::tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,const atk_attributes &atk,unsigned int cost) {
     this->bitmap=bitmap;
@@ -19,12 +19,12 @@ tower_attributes::tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,con
 }
 tower_attributes::~tower_attributes() {
 }
-bool tower_attributes::read_xml(const string &filename) {
+bool tower_attributes::read_xml(const XMLElement *attributes_root) {
     bool b=false;
-    if(!atk.read_xml(filename)) return false;
+    if(!atk.read_xml(attributes_root)) return false;
     return b;
 }
-bool tower_attributes::write_xml(const string &filename) const {
+bool tower_attributes::write_xml(XMLElement *attributes_root) const {
     bool b=false;
     //TODO
     return b;

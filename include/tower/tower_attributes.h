@@ -18,12 +18,12 @@ struct tower_attributes : game_object_attributes {
     string name;
     //METHODS
     tower_attributes();
-    tower_attributes(const string &filename);
+    tower_attributes(const XMLElement *attributes_root);
     tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,const atk_attributes &atk,unsigned int cost);
     ~tower_attributes();
 
-    bool virtual read_xml(const string &filename);
-    bool virtual write_xml(const string &filename) const;
+    bool read_xml(const XMLElement *attributes_root);
+    bool write_xml(XMLElement *attributes_root) const;
 
     //return bitmap width (in pixels)
     unsigned int get_width() const;
@@ -31,9 +31,9 @@ struct tower_attributes : game_object_attributes {
     unsigned int get_height() const;
     //resize bitmap (overriding old) to given size
     void resize(unsigned int width,unsigned int height);
-    bool virtual check() const;
+    bool check() const;
     //destroy tower attributes (including bitmaps and attack attribute)
-    void virtual destroy();
+    void destroy();
 };
 
 

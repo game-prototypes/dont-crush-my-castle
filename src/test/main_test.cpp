@@ -22,7 +22,6 @@ const string font_path="resources/fonts/big_bottom_cartoon.ttf";
 #include "test_controller.h"
 
 
-
 int main() {
     cout<<"DCmC Test\n";
     cout<<"0.7.4\n";

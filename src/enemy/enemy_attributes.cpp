@@ -9,8 +9,8 @@
 enemy_attributes::enemy_attributes() {
     speed=max_life=armor=reward=0;
 }
-enemy_attributes::enemy_attributes(const string &filename) {
-    if(!read_xml(filename)) {
+enemy_attributes::enemy_attributes(XMLElement *enemy_root) {
+    if(!read_xml(enemy_root)) {
         destroy();
     }
 }
@@ -31,34 +31,41 @@ enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned
 }
 enemy_attributes::~enemy_attributes() {
 }
-bool enemy_attributes::read_xml(const string &filename) {
+
+bool enemy_attributes::read_xml(const XMLElement *enemy_root) {
     bool b=false;
-    //TODO
+    if(enemy_root == nullptr) b=false;
+    else if(enemy_root->Value()!=enemy_xml_value) b=false;
+    else {
+        b=true;
+        //get version!!!
+        //get values and call animation read xml
+    }
     return b;
 }
-bool enemy_attributes::write_xml(const string &filename) const {
+bool enemy_attributes::write_xml(XMLElement *enemy_root) const {
     //THIS is only a small test, not to use!!!
     bool b=true;
-    XMLDocument document;
-    XMLElement *pRoot=document.NewElement("Enemy");
-    pRoot->SetAttribute("Version","0.7.4");
-    document.InsertFirstChild(pRoot);
-    XMLElement *pElement = document.NewElement("Name");
-    pElement->SetText(name.c_str());
-    pRoot->InsertEndChild(pElement);
-    pElement = document.NewElement("Life");
-    pElement->SetText(max_life);
-    pRoot->InsertEndChild(pElement);
-    pElement = document.NewElement("Armor");
-    pElement->SetText(armor);
-    pRoot->InsertEndChild(pElement);
-    pElement = document.NewElement("Speed");
-    pElement->SetText(speed);
-    pRoot->InsertEndChild(pElement);
-    pElement = document.NewElement("Reward");
-    pElement->SetText(reward);
-    pRoot->InsertEndChild(pElement);
-    XMLError eResult = document.SaveFile(filename.c_str());
+    /*    XMLDocument document;
+        XMLElement *pRoot=document.NewElement("Enemy");
+        pRoot->SetAttribute("Version","0.7.4");
+        document.InsertFirstChild(pRoot);
+        XMLElement *pElement = document.NewElement("Name");
+        pElement->SetText(name.c_str());
+        pRoot->InsertEndChild(pElement);
+        pElement = document.NewElement("Life");
+        pElement->SetText(max_life);
+        pRoot->InsertEndChild(pElement);
+        pElement = document.NewElement("Armor");
+        pElement->SetText(armor);
+        pRoot->InsertEndChild(pElement);
+        pElement = document.NewElement("Speed");
+        pElement->SetText(speed);
+        pRoot->InsertEndChild(pElement);
+        pElement = document.NewElement("Reward");
+        pElement->SetText(reward);
+        pRoot->InsertEndChild(pElement);
+        XMLError eResult = document.SaveFile(filename.c_str());*/
     return b;
 }
 void enemy_attributes::insert_animation(enemy_animation type,const al_anim &anim) {

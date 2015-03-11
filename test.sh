@@ -5,10 +5,10 @@ echo '+Compiling and testing (may take a while)';
 make clean >/dev/null;
 #COMPILE TEST
 make test >/dev/null;
-#EXXECUTE
+#EXECUTE
 ./bin/main_test;
+RES=$?
 echo '+Cleaning binaries and .o files'
 #CLEAN DIRECTORIES
 make clean >/dev/null;
-
 exit $RES

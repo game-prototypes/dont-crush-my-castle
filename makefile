@@ -64,8 +64,8 @@ $(BDIR)/:
 	mkdir $(BDIR)
 $(ODIR)/:
 	mkdir $(ODIR)
-	
-	
+
+
 .PHONY: main
 main: $(BDIR)/ $(ODIR)/ bin/DCmC
 #compile tests binaries
@@ -74,7 +74,7 @@ test: $(BDIR)/ $(ODIR)/ $(TEST_H) bin/main_test
 #astyle for all code (.cpp and .h)
 .PHONY: astyle
 astyle:
-	astyle --style=attach --break-closing-brackets --align-pointer=name --delete-empty-lines --indent-col1-comments --unpad-paren -n -Q $(IDIR)/*/*.h $(SDIR)/*/*.cpp $(SDIR)/*/*.h
+	astyle --style=java --break-closing-brackets --align-pointer=name --delete-empty-lines --indent-col1-comments --unpad-paren -n -Q $(IDIR)/*/*.h $(SDIR)/*/*.cpp $(SDIR)/*/*.h
 #print variable
 .PHONY: print-%
 print-%  : ; @echo $* = $($*)

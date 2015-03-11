@@ -22,16 +22,16 @@ struct atk_attributes : game_object_attributes {
     //string name ¿?
     //METHODS
     atk_attributes();
-    atk_attributes(const string &filename);
+    atk_attributes(const XMLElement *attributes_root);
     atk_attributes(ALLEGRO_BITMAP *bitmap,al_anim collision_anim,unsigned int damage,unsigned int range,unsigned int delay,double speed,atk_type type=shoot_atk);
     ~atk_attributes();
 
-    bool virtual read_xml(const string &filename);
-    bool virtual write_xml(const string &filename) const;
+    bool read_xml(const XMLElement *attributes_root);
+    bool write_xml(XMLElement *attributes_root) const;
     //clear data (dont destroy animations)
     void clear();
     //destroy all bitmaps and clear data
-    void virtual destroy();
-    bool virtual check() const;
+    void destroy();
+    bool check() const;
 };
 #endif
