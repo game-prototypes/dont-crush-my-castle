@@ -1,14 +1,17 @@
 language: cpp
 compiler:
   - g++
-  
+
 branches:
   only:
     - master
     - development
-
 before_install:
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo apt-get update -qq
+install:
+  - sudo apt-get install -qq gcc-4.8 g++-4.8
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
   - sudo apt-get install -y libglu-dev build-essential git cmake cmake-curses-gui xorg-dev libgl1-mesa-dev freeglut3-dev libpng-dev libcurl4-openssl-dev libfreetype6-dev libjpeg-dev libvorbis-dev libopenal-dev libphysfs-dev libgtk2.0-dev libasound-dev libpulse-dev libflac-dev libdumb1-dev
   - git clone git://git.code.sf.net/p/alleg/allegro
   - cd allegro

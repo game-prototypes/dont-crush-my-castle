@@ -47,7 +47,7 @@ tileset::tileset(const tile &t,unsigned int tile_size) {
 tileset::tileset(const tile &t) {
     set_name("");
     lowest_free=0;
-    this->tile_size=t.get_size();
+    this->tile_size=t.size();
     add_tile(t);
 }
 tileset::~tileset() {
@@ -57,7 +57,7 @@ tileset::~tileset() {
 tile_id tileset::add_tile(tile::tile_type type,const ALLEGRO_BITMAP *bitmap) {
     tile_list.insert(make_pair(lowest_free,tile(type,bitmap)));
     tile_id r=lowest_free;
-    if(tile_size==0) tile_size=tile_list[r].get_size();
+    if(tile_size==0) tile_size=tile_list[r].size();
     else tile_list[r].resize(tile_size);
     lowest_free=get_next_free_id();
     return  r;
@@ -65,7 +65,7 @@ tile_id tileset::add_tile(tile::tile_type type,const ALLEGRO_BITMAP *bitmap) {
 tile_id tileset::add_tile(const tile &t) {
     tile_list.insert(make_pair(lowest_free,t));
     tile_id r=lowest_free;
-    if(tile_size==0) tile_size=tile_list[r].get_size();
+    if(tile_size==0) tile_size=tile_list[r].size();
     else tile_list[r].resize(tile_size);
     lowest_free=get_next_free_id();
     return  r;
@@ -172,7 +172,7 @@ bool tileset::check() const {
     map<tile_id,tile>::const_iterator it;
     for(it=tile_list.begin(); it!=tile_list.end(); it++) {
         if(it->second.check()==false) b=false;
-        if(it->second.get_size()!=tile_size) {
+        if(it->second.size()!=tile_size) {
             debug_log::report("tile in tileset with different size",warning,true,false,false);
             b=false;
         }

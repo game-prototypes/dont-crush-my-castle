@@ -9,20 +9,20 @@
 //CONSTRUCTORS
 player::player() {
     active=false;
-    coins=lifes=0;
+    coins=lives=0;
 }
-player::player(const string &name,tower_set &towers,game_objects &objects,tilemap &game_map,unsigned int lifes,unsigned int coins,function<void()> lose_function) {
+player::player(const string &name,tower_set &towers,game_objects &objects,tilemap &game_map,unsigned int lives,unsigned int coins,function<void()> lose_function) {
     this->name=name;
     this->controller=player_controller(towers,objects,game_map);
-    this->lifes=lifes;
+    this->lives=lives;
     this->coins=coins;
     this->lose_function=lose_function;
     this->active=true;
     set_current_tower(*(get_tower_names().begin()));
 }
-player::player(tower_set &towers,game_objects &objects,tilemap &game_map,unsigned int lifes,unsigned int coins,function<void()> lose_function) {
+player::player(tower_set &towers,game_objects &objects,tilemap &game_map,unsigned int lives,unsigned int coins,function<void()> lose_function) {
     this->controller=player_controller(towers,objects,game_map);
-    this->lifes=lifes;
+    this->lives=lives;
     this->coins=coins;
     this->lose_function=lose_function;
     this->active=true;
@@ -33,14 +33,14 @@ player::~player() {
     this->active=false;
 }
 //METHODS
-//removes given lifes
-void player::remove_life(unsigned int lifes_removes) {
-    if(lifes_removes>=lifes) lifes=0;
-    else lifes-=lifes_removes;
-    if(lifes==0) game_over();
+//removes given lives
+void player::remove_life(unsigned int lives_removes) {
+    if(lives_removes>=lives) lives=0;
+    else lives-=lives_removes;
+    if(lives==0) game_over();
 }
-void player::recover_life(unsigned int lifes_recovered) {
-    lifes+=lifes_recovered;
+void player::recover_life(unsigned int lives_recovered) {
+    lives+=lives_recovered;
 }
 void player::add_coins(unsigned int coins) {
     this->coins+=coins;
@@ -58,8 +58,8 @@ string player::get_name() const {
 unsigned int player::get_coins() const {
     return coins;
 }
-unsigned int player::get_lifes() const {
-    return lifes;
+unsigned int player::get_lives() const {
+    return lives;
 }
 void player::set_current_tower(const string &tower) {
     current_tower=tower;

@@ -22,6 +22,8 @@ ALLEGRO_BITMAP *al_load_bitmap(const string &path);
 void draw_bitmap(const ALLEGRO_BITMAP *bmp,int x,int y);
 void draw_bitmap(const ALLEGRO_BITMAP *bmp,double x,double y);
 void draw_scaled(const ALLEGRO_BITMAP *bmp,int x,int y,unsigned int width,unsigned int height);
+//draw bitmap centered and rotated
+void draw_rotated(const ALLEGRO_BITMAP *bmp,double x,double y,double rotation);
 //resize bmp to given width and height (x and y), destroying the original bitmap
 void resize_bitmap(ALLEGRO_BITMAP *&bitmap,unsigned int x,unsigned int y);
 //copy bitmap

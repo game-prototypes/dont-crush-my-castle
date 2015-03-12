@@ -1,7 +1,7 @@
 //TITLE: TOWER_ATK_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.2
 //DESCRIPTION: stores a set of towers
 
 #include "tower_set.h"
@@ -54,7 +54,7 @@ void tower_set::clear() {
 string tower_set::get_name() const {
     return name;
 }
-unsigned int tower_set::get_size() const {
+unsigned int tower_set::size() const {
     return towers.size();
 }
 bool tower_set::empty() const {
@@ -79,8 +79,6 @@ unsigned int tower_set::get_tower_cost(const string &name) const {
     else
         return it->second.cost;
 }
-
-
 tower tower_set::spawn_tower(const string &name,double posx,double posy) const {
     map<string,tower_attributes>::const_iterator it;
     it=towers.find(name);

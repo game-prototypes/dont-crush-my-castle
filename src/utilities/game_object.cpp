@@ -38,16 +38,6 @@ void game_object::set_position(pair<double,double> position) {
 pair<double,double> game_object::get_position() const {
     return position;
 }
-void game_object::draw() const {
-    if(active==true) {
-        cout<<"imposible to draw gameobject\n";
-    }
-}
-void game_object::update() {
-    if(active==true) {
-        cout<<"impossible to update gameobject\n";
-    }
-}
 bool game_object::check() const {
     bool b=true;
     return b;

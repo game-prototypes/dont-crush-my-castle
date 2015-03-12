@@ -1,40 +1,17 @@
 //TITLE: TOWER_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.4
 //DESCRIPTION: defines each player tower
 
 #ifndef TOWER_H
 #define TOWER_H
 
-#include "tower_atk.h"
-
-
-//defines the attributes of the tower
-struct tower_attributes {
-    atk_attributes atk; //attack attributes
-    ALLEGRO_BITMAP *bitmap; //main bitmap of the towers (static)
-    //	ALLEGRO_BITMAP *secondary_bitmap; //secondary bitmap (rotate)
-    unsigned int cost;
-    string name;
-    //METHODS
-    tower_attributes();
-    tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,const atk_attributes &atk,unsigned int cost);
-    ~tower_attributes();
-    //return bitmap width (in pixels)
-    unsigned int get_width() const;
-    //returns bitmap height (in pixels)
-    unsigned int get_height() const;
-    //resize bitmap (overriding old) to given size
-    void resize(unsigned int width,unsigned int height);
-    bool check() const;
-    //destroy tower attributes (including bitmaps and attack attribute)
-    void destroy();
-};
+#include "tower_attributes.h"
 
 class tower : public game_object {
 private:
-    tower_attributes attributes;
+    const tower_attributes *attributes;
     unsigned int atk_counter; //time to next attack (depending on delay) in frames
     unsigned int atk_delay; //atk delay (in frames)
     //change atk_delay to unsigned int (count as frames)
@@ -60,9 +37,9 @@ public:
     //return true if tower can attack (counter=0)
     bool can_attack()const;
     //update tower
-    void update();
+    void virtual update();
     //draw tower
-    void draw() const;
+    void virtual draw() const;
     //attacks an enemy (atk destiny will be that enemy), return the attack
     tower_atk attack(const pair<double,double> target);
     bool check() const;

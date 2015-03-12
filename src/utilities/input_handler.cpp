@@ -45,8 +45,8 @@ void input_handler::update(const ALLEGRO_EVENT &event) const {
     }
 }
 void input_handler::set_functions(function<void(int,unsigned int,unsigned int)> click_mouse,function<void(int)> key_pressed) {
-    this->click_mouse=click_mouse;
-    this->key_pressed=key_pressed;
+    if(click_mouse) this->click_mouse=click_mouse;
+    if(key_pressed) this->key_pressed=key_pressed;
 }
 bool input_handler::check() const {
     bool b=true;

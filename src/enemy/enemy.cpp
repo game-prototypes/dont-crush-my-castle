@@ -1,87 +1,10 @@
 //TITLE: ENEMY_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.3
 //DESCRIPTION: defines each single enemy
 
 #include "enemy.h"
-
-//STRUCT enemy_attributes
-enemy_attributes::enemy_attributes() {
-    speed=max_life=armor=reward=0;
-}
-enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,unsigned int reward) {
-    this->name=name;
-    this->max_life=life;
-    this->armor=armor;
-    this->speed=enemy_speed;
-    this->reward=reward;
-}
-enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation,unsigned int rewatd) {
-    this->name=name;
-    this->max_life=life;
-    this->armor=armor;
-    this->animation=animation;
-    this->speed=enemy_speed;
-    this->reward=reward;
-}
-enemy_attributes::~enemy_attributes() {
-}
-void enemy_attributes::insert_animation(enemy_animation type,const al_anim &anim) {
-    if(anim.size()==0) debug_log::report("setting empty animation",err,true,true,false);
-    else {
-        animation.erase(type);
-        animation.insert(make_pair(type,anim));
-        animation[type].stop(); //set the animation to inactive and restart counters
-    }
-}
-void enemy_attributes::increase_level(unsigned int level) {
-    double increase=1+(level_ratio*level);
-    double val_inc;
-    val_inc=speed*increase;
-    speed=val_inc;
-    val_inc=max_life*increase;
-    max_life=val_inc;
-    val_inc=armor*increase;
-    armor=val_inc;
-    val_inc=reward*increase;
-    reward=val_inc;
-}
-void enemy_attributes::clear() {
-    animation.clear();
-    name.clear();
-    speed=0;
-    max_life=0;
-    armor=0;
-}
-void enemy_attributes::destroy() {
-    map<enemy_animation,al_anim>::iterator it;
-    for(it=animation.begin(); it!=animation.end(); it++)(it->second).destroy();
-    clear();
-}
-bool enemy_attributes::check() const {
-    bool b=true;
-    if(name.empty()) {
-        debug_log::report("enemy info without name",err,true,true,false);
-        b=false;
-    }
-    if(animation.size()!=6) {
-        debug_log::report("enemy without all necesssary animations",err,true,true,false);
-        b=false;
-    }
-    if(speed<=0) {
-        debug_log::report("enemy speed<=0",err,true,true,false);
-        b=false;
-    }
-    if(max_life==0) {
-        debug_log::report("enemy info with life=0",err,true,true,false);
-        b=false;
-    }
-    return b;
-}
-
-//############################CLASS ENEMY#############################
-
 //CONSTRUCTORS
 enemy::enemy() {
     life=level=0;
@@ -89,13 +12,15 @@ enemy::enemy() {
     position=destiny=make_pair(-1,-1);
     deactivate();
     current_animation=idle_anim;
+    reward_given=false;
 }
 enemy::enemy(const enemy_attributes &attributes,unsigned int level,double posx,double posy,const ALLEGRO_TIMER *timer) {
-    this->attributes=attributes;
+    this->attributes=&attributes;
     current_animation=idle_anim;
+    this->animation=this->attributes->animation;
     set_level(level);
-    this->life=this->attributes.max_life;
-    set_speed(this->attributes.speed,timer);
+    this->life=get_level_increment(this->attributes->max_life);
+    set_speed(this->attributes->speed,timer);
     spawn(posx,posy);
     update();
 }
@@ -109,13 +34,14 @@ void enemy::spawn(double posx,double posy) {
         set_position(posx,posy);
         activate();
     }
+    reward_given=false;
 }
 //CONSULT
 string enemy::get_name() const {
-    return attributes.name;
+    return attributes->name;
 }
 double enemy::get_speed() const {
-    return attributes.speed;
+    return attributes->speed;
 }
 unsigned int enemy::get_life() const {
     return life;
@@ -124,10 +50,14 @@ unsigned int enemy::get_level() const {
     return level;
 }
 unsigned int enemy::get_max_life() const {
-    return attributes.max_life;
+    return get_level_increment(attributes->max_life);
 }
-unsigned int enemy::get_reward() const {
-    return attributes.reward;
+unsigned int enemy::get_reward() {
+    reward_given=true;
+    return get_level_increment(attributes->reward);
+}
+bool enemy::is_reward_given() const {
+    return reward_given;
 }
 pair<double,double> enemy::get_destiny() const {
     return destiny;
@@ -158,7 +88,7 @@ void enemy::move_to(double x,double y) {
             destiny.first=x;
             destiny.second=y;
             set_movement_animation();
-            attributes.animation[idle_anim].stop();
+            animation[idle_anim].stop();
         }
     }
 }
@@ -167,16 +97,17 @@ void enemy::decrease_life(unsigned int dam) {
     else  life-=dam;
 }
 void enemy::damage(unsigned int dam) {
-    if(attributes.armor>dam) dam=0;
-    else dam-=attributes.armor;
+    unsigned int arm=get_level_increment(attributes->armor);
+    if(arm>dam) dam=0;
+    else dam-=arm;
     decrease_life(dam);
 }
 void enemy::kill() {
     life=0;
-    attributes.animation[current_animation].stop();
+    animation[current_animation].stop();
     current_animation=dead_anim;
-    attributes.animation[current_animation].animation_loop(false);
-    attributes.animation[current_animation].start();
+    animation[current_animation].animation_loop(false);
+    animation[current_animation].start();
 }
 unsigned int enemy::destiny_reached() {
     deactivate();
@@ -191,25 +122,25 @@ void enemy::update() {
             else set_to_idle(); //if reach destiny
         }
         else if(current_animation!=dead_anim) kill(); //killed
-        attributes.animation[current_animation].update(); //animation update
-        if(current_animation==dead_anim && attributes.animation[current_animation].is_active()==false)   deactivate();
+        animation[current_animation].update(); //animation update
+        if(current_animation==dead_anim && animation[current_animation].is_active()==false)   deactivate();
     }
 }
 void enemy::draw() const {
     if(spawned()) {
         map<enemy_animation,al_anim>::const_iterator it;
-        it=attributes.animation.find(current_animation);
+        it=animation.find(current_animation);
         unsigned int hoffset=it->second.get_height()/2;
         it->second.draw(position.first,position.second-hoffset);
     }
 }
 bool enemy::check() const {
-    bool b=attributes.check();
+    bool b=attributes->check();
     if(life>get_max_life()) {
         b=false;
         debug_log::report("enemy life>max life",warning,true,true,false);
     }
-    if(attributes.animation.size()!=6) b=false;
+    if(animation.size()!=6) b=false;
     if(speed<=0) {
         b=false;
         debug_log::report("speed<=0",err,true,true,false);
@@ -217,34 +148,31 @@ bool enemy::check() const {
     if(position.first<0.0 || position.second<0.0 || destiny.first<0.0 || destiny.second<0.0) b=false;
     return b;
 }
-/*pair<double,double> enemy::get_position() const{
-    return position;
-}*/
 
 //PRIVATE
 void enemy::change_movement_animation(enemy_animation anim) {
     if(current_animation!=anim) {
-        unsigned int frame=attributes.animation[current_animation].get_frame();
-        attributes.animation[current_animation].stop();
+        unsigned int frame=animation[current_animation].get_frame();
+        animation[current_animation].stop();
         current_animation=anim;
-        attributes.animation[current_animation].stop();
-        attributes.animation[current_animation].set_frame(frame);
-        attributes.animation[current_animation].activate();
+        animation[current_animation].stop();
+        animation[current_animation].set_frame(frame);
+        animation[current_animation].activate();
     }
 }
 void enemy::set_to_idle() {
     stop_movement_anim();
     destiny=position;
-    attributes.animation[current_animation].stop(); //stop current anim (if it is not movememnt anim)
+    animation[current_animation].stop(); //stop current anim (if it is not movememnt anim)
     current_animation=idle_anim;
-    attributes.animation[current_animation].animation_loop(true);
-    attributes.animation[current_animation].start();
+    animation[current_animation].animation_loop(true);
+    animation[current_animation].start();
 }
 void enemy::stop_movement_anim() {
-    attributes.animation[left_anim].stop();
-    attributes.animation[right_anim].stop();
-    attributes.animation[up_anim].stop();
-    attributes.animation[down_anim].stop();
+    animation[left_anim].stop();
+    animation[right_anim].stop();
+    animation[up_anim].stop();
+    animation[down_anim].stop();
 }
 
 void enemy::set_speed(double spd,const ALLEGRO_TIMER *timer) {
@@ -252,7 +180,6 @@ void enemy::set_speed(double spd,const ALLEGRO_TIMER *timer) {
 }
 void enemy::set_level(unsigned int level) {
     this->level=level;
-    attributes.increase_level(level);
 }
 void enemy::set_movement_animation() {
     double x=destiny.first-position.first;
@@ -265,4 +192,7 @@ void enemy::set_movement_animation() {
         if(y>0) change_movement_animation(down_anim);
         else change_movement_animation(up_anim);
     }
+}
+unsigned int enemy::get_level_increment(unsigned int value) const {
+    return (unsigned int)(value+(value*(level*level_ratio)));
 }

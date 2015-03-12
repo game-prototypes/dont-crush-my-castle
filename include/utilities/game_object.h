@@ -4,11 +4,12 @@
 //VERSION: 0.7
 //DESCRIPTION: defines a generic gameobject
 
-#ifndef GAME_OBJECT_H
-#define GAME_OBJECT_H
+#ifndef GAME_OBJECT
+#define GAME_OBJECT
 
 #include <iostream>
 #include <utility>
+#include "game_object_attributes.h"
 using namespace std;
 
 class game_object {
@@ -37,9 +38,9 @@ public:
     //returns game object position
     pair<double,double> get_position() const;
     //draw gameobject (will print an error and won't do anything)
-    void virtual draw() const;
+    void virtual draw() const=0;
     //update gameobject (will print an error and won't do anything)
-    void virtual update();
+    void virtual update()=0;
     //check game object, return true if everyting is fine
     bool check() const;
 };

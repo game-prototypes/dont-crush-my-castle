@@ -1,7 +1,7 @@
 //TITLE: TILE_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.2
 //DESCRIPTION: Defines one tile of a tileset
 
 #include "tile.h"
@@ -39,6 +39,7 @@ tile::tile(const tile &other) {
 }
 tile::~tile() {
     al_destroy_bitmap(this->bitmap);
+    this->bitmap=NULL;
 }
 //MODIFICATION
 void tile::resize(unsigned int width) {
@@ -56,7 +57,7 @@ void tile::draw_resized(float x,float y,unsigned int width) const {
     if(width==0) debug_log::report("tile size=0",err,true,true,false);
     else if(bitmap!=NULL)  draw_scaled(bitmap,x,y,width,width);
 }
-unsigned int tile::get_size() const {
+unsigned int tile::size() const {
     return get_bitmap_width(bitmap);
 }
 bool tile::check() const {
@@ -65,7 +66,7 @@ bool tile::check() const {
         debug_log::report("tile with no bitmap",err,true,true,false);
         b=false;
     }
-    else if(get_size() != (unsigned int) al_get_bitmap_height(bitmap)) {
+    else if(size() != (unsigned int) al_get_bitmap_height(bitmap)) {
         debug_log::report("tile not squared",err,true,true,false);
         b=false;
     }

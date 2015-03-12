@@ -1,52 +1,29 @@
 //TITLE: ENEMY_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.3
 //DESCRIPTION: defines each single enemy
 
-#ifndef ENEMY_H
-#define ENEMY_H
+#ifndef ENEMY
+#define ENEMY
 
-#include "al_anim.h"
 #include "game_object.h"
-#include <map>
+#include "enemy_attributes.h"
 
-enum enemy_animation {idle_anim,up_anim,down_anim,left_anim,right_anim,dead_anim}; //defines each animation for an enemy
 const double level_ratio=0.3; //ratio used to increase base values per level
-//defines the basic characteristics of an enemy kind
-struct enemy_attributes {
-    map<enemy_animation,al_anim> animation; //stores all animations of an enemy
-    string name; //name of the enemy
-    double speed; //basic speed (pixels per seconds)
-    unsigned int max_life; //max (and initial) life of enemy
-    unsigned int armor; //armor of the enemy
-    unsigned int reward; //reward when killed
-    //Methods
-    enemy_attributes();
-    enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,unsigned int reward=0);
-    enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation,unsigned int reward=0);
-    ~enemy_attributes();
-    //insert animation (erasing previous animations and reseting all counters)
-    void insert_animation(enemy_animation type,const al_anim &anim);
-    //increase values according to level
-    void increase_level(unsigned int level);
-    //clear all attributes (dont destroy bitmaps)
-    void clear();
-    //destroy all animations and clear data
-    void destroy();
-    //returns true if the enemy has all the necessary info
-    bool check() const;
-};
-
 
 class enemy : public game_object {
 private:
-    enemy_attributes attributes; //basic info of enemy type
+    const enemy_attributes *attributes; //basic info of enemy type
+    map<enemy_animation,al_anim> animation; //stores all animations of an enemy
+
     unsigned int life; //current life of enemy
     unsigned int level; //level may change enemy parameters
     double speed; //pixels per frame
 
     pair<double,double> destiny; //position to move
+
+    bool reward_given;
 
     enemy_animation current_animation;
 public:
@@ -71,8 +48,10 @@ public:
     unsigned int get_level() const;
     //return max life
     unsigned int get_max_life() const;
-    //returns reward when killed
-    unsigned int get_reward() const;
+    //returns reward when killed, also set reward given to true
+    unsigned int get_reward();
+    //return true if the reward has benn already given
+    bool is_reward_given() const;
     //return the enemy destiny (where is moving)
     pair<double,double> get_destiny() const;
     //return true if enemy is alive(life>0)
@@ -83,7 +62,6 @@ public:
     bool idle() const;
     //return current aimation
     enemy_animation get_current_animation() const;
-
     //ENEMY CONTROL (make sure to call update in each iteration)
     //stop the movement(idle) (final destination will be the current position)
     void stop();
@@ -98,10 +76,10 @@ public:
     //deactivates enemy and returns lives taken
     unsigned int destiny_reached();
     //update the movement,animation and all booleans
-    void update();
+    void virtual update();
     //draw the current_animation in the enemy position
     //note that draw the enemy with the position at its feet
-    void draw() const;
+    void virtual draw() const;
     //check enemy class is working well, debug_log output if error or warning, return true if everything is ok
     bool check() const;
     //  pair<double,double> get_position() const;
@@ -118,6 +96,8 @@ private:
     void set_level(unsigned int level);
     //sets movement animation
     void set_movement_animation();
+    //return the incremenet of attributes at given level
+    unsigned int get_level_increment(unsigned int value) const;
 };
 
 

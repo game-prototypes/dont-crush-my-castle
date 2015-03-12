@@ -1,7 +1,7 @@
 //TITLE: TOWER_ATK_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.2
 //DESCRIPTION: stores a set of towers
 
 #ifndef TOWER_SET_H
@@ -32,7 +32,7 @@ public:
     void clear();
     //CONSULT
     string get_name() const;
-    unsigned int get_size() const;
+    unsigned int size() const;
     bool empty() const;
     bool is_tower(const string &name) const;
     set<string> get_towers_names() const;

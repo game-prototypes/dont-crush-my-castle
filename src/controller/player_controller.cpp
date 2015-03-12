@@ -18,7 +18,7 @@ player_controller::~player_controller() {
     built_towers.clear();
 }
 unsigned int player_controller::get_towers_size() const {
-    return towers->get_size();
+    return towers->size();
 }
 set<string> player_controller::get_tower_names() const {
     return towers->get_towers_names();

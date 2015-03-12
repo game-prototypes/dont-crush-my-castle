@@ -7,15 +7,12 @@ This test will check:
 al_utils
 input_handler
 game_object
+text_handler
 */
+
 #ifndef UTILITIES_TEST
 #define UTILITIES_TEST
-void click_event_test(int button,unsigned int x,unsigned int y) {
-    cout<<"button pressed:"<<button<<" position:"<<x<<"x"<<y<<endl;
-}
-void key_pressed_test(int keycode) {
-    cout<<"key_pressed:"<<keycode<<endl;
-}
+
 bool test_utilities() {
     cout<<"AL_UTILS TEST";
     //Final result of test, true if everything OK
@@ -89,23 +86,13 @@ bool test_utilities() {
     if(p1!=p2) test_result=false; //now whe are here
     //draw centered not tested
     al_destroy_bitmap(bmp);
-    //Testing handler
-    ALLEGRO_EVENT_QUEUE *event_queue;
-    event_queue = al_create_event_queue();
-    input_handler handler_test(event_queue,click_event_test,key_pressed_test);
-    if(handler_test.check()==false) test_result=false;
-    if(handler_test.is_active()==false) test_result=false;
-    //testing gameobject
-    game_object gameobj;
-    if(gameobj.check()==false) test_result=false;
-    if(gameobj.get_position()!=make_pair(-1.0,-1.0)) test_result=false;
-    gameobj.set_position(2,2);
-    if(gameobj.get_position()!=make_pair(2.0,2.0)) test_result=false;
-    if(gameobj.is_active()==true) test_result=false;
+    //text handler
+    text_handler th("testing text",font_path,48,80,80,"this is the text");
+    if(th.check()==false) test_result=false;
+    if(th.get_string()!="this is the text") test_result=false;
+    if(th.get_tag()!="testing text") test_result=false;
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
     return test_result;
 }
-
-
 #endif
