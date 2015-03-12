@@ -43,10 +43,10 @@ bool enemy_attributes::read_xml(const XMLElement *enemy_root) {
     }
     return b;
 }
-bool enemy_attributes::write_xml(XMLElement *enemy_root) const {
+/*bool enemy_attributes::write_xml(XMLElement *enemy_root) const {
     //THIS is only a small test, not to use!!!
     bool b=true;
-    /*    XMLDocument document;
+       XMLDocument document;
         XMLElement *pRoot=document.NewElement("Enemy");
         pRoot->SetAttribute("Version","0.7.4");
         document.InsertFirstChild(pRoot);
@@ -65,9 +65,9 @@ bool enemy_attributes::write_xml(XMLElement *enemy_root) const {
         pElement = document.NewElement("Reward");
         pElement->SetText(reward);
         pRoot->InsertEndChild(pElement);
-        XMLError eResult = document.SaveFile(filename.c_str());*/
+        XMLError eResult = document.SaveFile(filename.c_str());
     return b;
-}
+}*/
 void enemy_attributes::insert_animation(enemy_animation type,const al_anim &anim) {
     if(anim.size()==0) debug_log::report("setting empty animation",err,true,true,false);
     else {

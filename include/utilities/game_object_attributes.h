@@ -14,7 +14,7 @@ using namespace std;
 
 struct game_object_attributes {
     bool virtual read_xml(const XMLElement *attributes_root)=0;
-    bool virtual write_xml(XMLElement *attributes_root) const=0;
+    //    bool virtual write_xml(XMLElement *attributes_root) const=0;
     void virtual destroy()=0;
     bool virtual check() const;
 };

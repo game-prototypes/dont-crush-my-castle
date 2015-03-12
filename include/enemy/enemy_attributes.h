@@ -28,7 +28,7 @@ struct enemy_attributes : game_object_attributes {
     ~enemy_attributes();
 
     bool read_xml(const XMLElement *enemy_root);
-    bool write_xml(XMLElement *enemy_root) const;
+    //    bool write_xml(XMLElement *enemy_root) const;
     //insert animation (erasing previous animations and reseting all counters)
     void insert_animation(enemy_animation type,const al_anim &anim);
     //clear all attributes (dont destroy bitmaps)
