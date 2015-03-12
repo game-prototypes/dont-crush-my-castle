@@ -12,12 +12,12 @@ text_handler
 
 #ifndef UTILITIES_TEST
 #define UTILITIES_TEST
-void click_event_test(int button,unsigned int x,unsigned int y) {
+/*void click_event_test(int button,unsigned int x,unsigned int y) {
     cout<<"button pressed:"<<button<<" position:"<<x<<"x"<<y<<endl;
 }
 void key_pressed_test(int keycode) {
     cout<<"key_pressed:"<<keycode<<endl;
-}
+}*/
 bool test_utilities() {
     cout<<"AL_UTILS TEST";
     //Final result of test, true if everything OK
@@ -91,12 +91,12 @@ bool test_utilities() {
     if(p1!=p2) test_result=false; //now whe are here
     //draw centered not tested
     al_destroy_bitmap(bmp);
-    //Testing handler
+  /*  //Testing handler
     ALLEGRO_EVENT_QUEUE *event_queue;
     event_queue = al_create_event_queue();
     input_handler handler_test(event_queue,click_event_test,key_pressed_test);
     if(handler_test.check()==false) test_result=false;
-    if(handler_test.is_active()==false) test_result=false;
+    if(handler_test.is_active()==false) test_result=false;*/
     //testing gameobject
     /*game_object gameobj;
     if(gameobj.check()==false) test_result=false;
