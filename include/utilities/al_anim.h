@@ -10,7 +10,7 @@
 #include "al_utils.h"
 #include "tinyxml2.h"
 using namespace tinyxml2;
-const string anim_xml_value="Al Animation";
+const string anim_xml_value="Al_Animation";
 class al_anim {
 private:
     vector<ALLEGRO_BITMAP *> bitmap_set;
@@ -33,7 +33,6 @@ public:
     //destructor
     ~al_anim();
     //MODIFICATION
-    bool read_xml(const XMLElement *animation_root);
     //checks animation and activates it
     void activate();
     //checks and activates animation from the beginning (like stop+activate)
@@ -86,6 +85,7 @@ public:
 private:
     //slice the given bitmap into pieces of equal size for animation
     void load_from_bitmap(const ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height);
+    bool read_xml(const XMLElement *animation_root);
 };
 
 #endif

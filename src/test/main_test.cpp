@@ -20,6 +20,7 @@ const string font_path="resources/fonts/big_bottom_cartoon.ttf";
 #include "test_enemy.h"
 #include "test_tower.h"
 #include "test_controller.h"
+#include "test_xml.h"
 
 
 int main() {
@@ -39,6 +40,7 @@ int main() {
     test_result=test_result && test_enemy();
     test_result=test_result && test_tower();
     test_result=test_result && test_controller();
+    test_result=test_result && test_xml();
     al_destroy_timer(timer);
     cout<<"Final Result - ";
     if(test_result==true) cout<<"OK\n";
