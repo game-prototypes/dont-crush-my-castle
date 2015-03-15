@@ -1,7 +1,7 @@
 //TITLE: Main Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.4
+//VERSION: 0.7.5
 //DESCRIPTION: full test of DCmC,calling other tests
 
 #include "input_handler.h"
@@ -25,7 +25,7 @@ const string font_path="resources/fonts/big_bottom_cartoon.ttf";
 
 int main() {
     cout<<"DCmC Test\n";
-    cout<<"0.7.4\n";
+    cout<<"0.7.5\n";
     cout<<"=========\n";
     bool test_result=true;
     al_init();

@@ -1,7 +1,7 @@
 //TITLE: ENEMY_ATTRIBUTES_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.4
+//VERSION: 0.7.5
 //DESCRIPTION: defines each kind of enemy
 
 #include "enemy_attributes.h"

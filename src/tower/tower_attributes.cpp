@@ -21,7 +21,7 @@ tower_attributes::~tower_attributes() {
 }
 bool tower_attributes::read_xml(const XMLElement *attributes_root) {
     bool b=false;
-    if(!atk.read_xml(attributes_root)) return false;
+    //if(!atk.read_xml(attributes_root)) return false;
     return b;
 }
 bool tower_attributes::write_xml(XMLElement *attributes_root) const {
