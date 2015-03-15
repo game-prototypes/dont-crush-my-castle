@@ -35,8 +35,8 @@ bool test_xml() {
     else {
         XMLElement *enemy_element = document.RootElement();
         string element_name=enemy_element->Name();
-        if(element_name!="Enemy") test_result=false;
-        else if(enemy_element == nullptr) test_result=false;
+        if(enemy_element == nullptr) test_result=false;
+        else if(element_name!="Enemy") test_result=false;
         else {
             enemy_attributes test_enemy(enemy_element,timer);
             if(test_enemy.check()==false) test_result=false;
@@ -46,6 +46,22 @@ bool test_xml() {
             if(test_enemy.armor!=1) test_result=false;
             if(test_enemy.reward!=20) test_result=false;
             if(test_enemy.animation.size()!=6) test_result=false;
+        }
+    }
+    document.Clear();
+    if(document.LoadFile("resources/xml/atk_test.xml")!=XML_SUCCESS) test_result=false;
+    else {
+        XMLElement *atk_element=document.RootElement();
+        string element_name=atk_element->Name();
+        if(atk_element==nullptr) test_result=false;
+        else if(element_name!="Tower_Atk") test_result=false;
+        else {
+            atk_attributes test_tower_atk(atk_element,timer);
+            if(test_tower_atk.check()==false) test_result=false;
+            if(test_tower_atk.damage!=60) test_result=false;
+            if(test_tower_atk.delay!=2) test_result=false;
+            if(test_tower_atk.speed!=5) test_result=false;
+            if(test_tower_atk.type!=shoot_atk) test_result=false;
         }
     }
     if(test_result==true) cout<<" - OK\n";

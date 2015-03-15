@@ -36,7 +36,7 @@ bool atk_attributes::read_xml(const XMLElement *atk_root,const ALLEGRO_TIMER *ti
         if(version==nullptr) return false;
         const XMLElement *damage_element,*range_element,*delay_element,*type_element,*speed_element;
         damage_element=atk_root->FirstChildElement("Damage");
-        range_element=atk_root->FirstChildElement("Life");
+        range_element=atk_root->FirstChildElement("Range");
         delay_element=atk_root->FirstChildElement("Delay");
         type_element=atk_root->FirstChildElement("Type");
         speed_element=atk_root->FirstChildElement("Speed");
@@ -60,7 +60,7 @@ bool atk_attributes::read_xml(const XMLElement *atk_root,const ALLEGRO_TIMER *ti
         if(bitmap_p==nullptr) return false;
         ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_p);
         if(!bmp) return false;
-        const XMLElement *collision_element=atk_root->FirstChildElement("Collision_Animation");
+        const XMLElement *collision_element=atk_root->FirstChildElement("Al_Animation");
         if(collision_element!=nullptr) { //it is possible to attack without animaton
             al_anim anim;
             if(anim.read_xml(collision_element,timer)==true) {
