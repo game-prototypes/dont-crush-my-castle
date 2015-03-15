@@ -9,8 +9,8 @@
 enemy_attributes::enemy_attributes() {
     speed=max_life=armor=reward=0;
 }
-enemy_attributes::enemy_attributes(XMLElement *enemy_root) {
-    if(!read_xml(enemy_root)) {
+enemy_attributes::enemy_attributes(XMLElement *enemy_root,const ALLEGRO_TIMER *timer) {
+    if(!read_xml(enemy_root,timer)) {
         destroy();
     }
 }
@@ -31,15 +31,56 @@ enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned
 }
 enemy_attributes::~enemy_attributes() {
 }
-
-bool enemy_attributes::read_xml(const XMLElement *enemy_root) {
+bool enemy_attributes::read_xml(const XMLElement *enemy_root,const ALLEGRO_TIMER *timer) {
     bool b=false;
     if(enemy_root == nullptr) b=false;
     else if(enemy_root->Value()!=enemy_xml_value) b=false;
     else {
         b=true;
-        //get version!!!
-        //get values and call animation read xml
+        const char *version=enemy_root->Attribute("Version");
+        //Compare version!!!!
+        if(version==nullptr) return false;
+        const XMLElement *name_element,*life_element,*armor_element,*speed_element,*reward_element;
+        name_element=enemy_root->FirstChildElement("Name");
+        life_element=enemy_root->FirstChildElement("Life");
+        armor_element=enemy_root->FirstChildElement("Armor");
+        speed_element=enemy_root->FirstChildElement("Speed");
+        reward_element=enemy_root->FirstChildElement("Reward");
+        if(name_element==nullptr || life_element==nullptr || armor_element==nullptr || speed_element==nullptr || reward_element==nullptr) return false;
+        if(life_element->QueryUnsignedText(&max_life)!=XML_SUCCESS ||
+                armor_element->QueryUnsignedText(&armor)!=XML_SUCCESS ||
+                reward_element->QueryUnsignedText(&reward)!=XML_SUCCESS ||
+                speed_element->QueryDoubleText(&speed)!=XML_SUCCESS) {
+            return false;
+        }
+        const char *nam=name_element->GetText();
+        this->name=string(nam);
+        if(name.empty()) return false;
+        const XMLElement *anim_element=enemy_root->FirstChildElement("Al_Animation");
+        while(anim_element!=nullptr) {
+            al_anim anim;
+            if(anim.read_xml(anim_element)==false) return false;
+            const char *type=anim_element->Attribute("type");
+            if(type==nullptr) {
+                anim.destroy();
+                return false;
+            }
+            string typ=(type);
+            enemy_animation anim_type;
+            if(typ=="dead") anim_type=dead_anim;
+            else if(typ=="left") anim_type=left_anim;
+            else if(typ=="right") anim_type=right_anim;
+            else if(typ=="up") anim_type=up_anim;
+            else if(typ=="down") anim_type=down_anim;
+            else if(typ=="idle") anim_type=idle_anim;
+            else {
+                anim.destroy();
+                return false;
+            }
+            insert_animation(anim_type,anim);
+            anim_element=anim_element->NextSiblingElement("Al_Animation");
+        }
+        if(animation.size()<6) return false;
     }
     return b;
 }

@@ -32,6 +32,8 @@ public:
     al_anim(const ALLEGRO_BITMAP *bitmap_sheet,unsigned int width,unsigned int height,double duration,const ALLEGRO_TIMER *timer);
     //destructor
     ~al_anim();
+    //read data from xml file
+    bool read_xml(const XMLElement *animation_root);
     //MODIFICATION
     //checks animation and activates it
     void activate();
@@ -85,7 +87,6 @@ public:
 private:
     //slice the given bitmap into pieces of equal size for animation
     void load_from_bitmap(const ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height);
-    bool read_xml(const XMLElement *animation_root);
 };
 
 #endif

@@ -9,7 +9,6 @@
 
 #include <iostream>
 #include <utility>
-#include "game_object_attributes.h"
 using namespace std;
 
 class game_object {

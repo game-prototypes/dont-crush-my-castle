@@ -10,7 +10,7 @@
 #include "tower_atk.h"
 
 //defines the attributes of the tower
-struct tower_attributes : game_object_attributes {
+struct tower_attributes {
     atk_attributes atk; //attack attributes
     ALLEGRO_BITMAP *bitmap; //main bitmap of the towers (static)
     //	ALLEGRO_BITMAP *secondary_bitmap; //secondary bitmap (rotate)
