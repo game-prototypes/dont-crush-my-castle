@@ -33,7 +33,7 @@ public:
     //destructor
     ~al_anim();
     //read data from xml file
-    bool read_xml(const XMLElement *animation_root);
+    bool read_xml(const XMLElement *animation_root,const ALLEGRO_TIMER *timer);
     //MODIFICATION
     //checks animation and activates it
     void activate();

@@ -1,7 +1,7 @@
 //TITLE: XML Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.5
 /*DESCRIPTION: basic test of allegro utilities (src/utilities) for DCmC
 This test will check:
 al_anim
@@ -38,7 +38,14 @@ bool test_xml() {
         if(element_name!="Enemy") test_result=false;
         else if(enemy_element == nullptr) test_result=false;
         else {
-        //    enemy_attributes test_enemy(enemy_element,timer);
+            enemy_attributes test_enemy(enemy_element,timer);
+            if(test_enemy.check()==false) test_result=false;
+            if(test_enemy.name!="Enemy_0") test_result=false;
+            if(test_enemy.speed!=50) test_result=false;
+            if(test_enemy.max_life!=100) test_result=false;
+            if(test_enemy.armor!=1) test_result=false;
+            if(test_enemy.reward!=20) test_result=false;
+            if(test_enemy.animation.size()!=6) test_result=false;
         }
     }
     if(test_result==true) cout<<" - OK\n";

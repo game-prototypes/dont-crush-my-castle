@@ -10,9 +10,10 @@ enemy_attributes::enemy_attributes() {
     speed=max_life=armor=reward=0;
 }
 enemy_attributes::enemy_attributes(XMLElement *enemy_root,const ALLEGRO_TIMER *timer) {
-    if(!read_xml(enemy_root,timer)) {
-        destroy();
-    }
+    read_xml(enemy_root,timer);
+    /*    if(!read_xml(enemy_root,timer)) {
+            destroy();
+        }*/
 }
 enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,unsigned int reward) {
     this->name=name;
@@ -59,7 +60,7 @@ bool enemy_attributes::read_xml(const XMLElement *enemy_root,const ALLEGRO_TIMER
         const XMLElement *anim_element=enemy_root->FirstChildElement("Al_Animation");
         while(anim_element!=nullptr) {
             al_anim anim;
-            if(anim.read_xml(anim_element)==false) return false;
+            if(anim.read_xml(anim_element,timer)==false) return false;
             const char *type=anim_element->Attribute("type");
             if(type==nullptr) {
                 anim.destroy();

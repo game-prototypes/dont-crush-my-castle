@@ -14,11 +14,7 @@ al_anim::al_anim() {
     active=false;
 }
 al_anim::al_anim(const XMLElement *animation_root,const ALLEGRO_TIMER *timer) {
-    this->timer=timer;
-    this->count=0;
-    this->active=false;
-    this->loop=true;
-    read_xml(animation_root);
+    read_xml(animation_root,timer);
     /*if(!read_xml(animation_root)) {
     destroy();
     }*/
@@ -44,9 +40,12 @@ al_anim::al_anim(const ALLEGRO_BITMAP *bitmap_sheet,unsigned int width,unsigned 
 }
 al_anim::~al_anim() {
 }
-bool al_anim::read_xml(const XMLElement *animation_root) {
+bool al_anim::read_xml(const XMLElement *animation_root,const ALLEGRO_TIMER *timer) {
     bool b=false;
-    this->count=false;
+    this->timer=timer;
+    this->count=0;
+    this->active=false;
+    this->loop=true;
     if(animation_root == nullptr) b=false;
     else if(animation_root->Value()!=anim_xml_value) b=false;
     else {
