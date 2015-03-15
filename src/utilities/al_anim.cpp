@@ -13,6 +13,12 @@ al_anim::al_anim() {
     loop=true;
     active=false;
 }
+al_anim::al_anim(const XMLElement *animation_root,const ALLEGRO_TIMER *timer) {
+    read_xml(animation_root,timer);
+    /*if(!read_xml(animation_root)) {
+    destroy();
+    }*/
+}
 al_anim::al_anim(const vector<ALLEGRO_BITMAP *> bitmap_sheet,double duration,const ALLEGRO_TIMER *timer) {
     if(bitmap_sheet.empty()) debug_log::report("animation with no bitmaps",err,true,true,false);
     else {
@@ -33,6 +39,49 @@ al_anim::al_anim(const ALLEGRO_BITMAP *bitmap_sheet,unsigned int width,unsigned 
     }
 }
 al_anim::~al_anim() {
+}
+bool al_anim::read_xml(const XMLElement *animation_root,const ALLEGRO_TIMER *timer) {
+    bool b=false;
+    this->timer=timer;
+    this->count=0;
+    this->active=false;
+    this->loop=true;
+    if(animation_root == nullptr) b=false;
+    else if(animation_root->Value()!=anim_xml_value) b=false;
+    else {
+        b=true;
+        const char *version=animation_root->Attribute("Version");
+        //Compare version!!!!
+        if(version==nullptr) return false;
+        const char *loop=animation_root->Attribute("loop");
+        if(loop!=nullptr) {
+            string sloop=(string(loop));
+            if(sloop=="true" || sloop=="1") this->loop=true;
+            else if(sloop=="false" || sloop=="0") this->loop=false;
+        }
+        const XMLElement *width_element,*height_element,*duration_element;
+        width_element=animation_root->FirstChildElement("Width");
+        height_element=animation_root->FirstChildElement("Height");
+        duration_element=animation_root->FirstChildElement("Duration");
+        if(height_element==nullptr || width_element==nullptr || duration_element==nullptr) return false;
+        int width,height,duration;
+        if(width_element->QueryIntText(&width)!=XML_SUCCESS ||
+                height_element->QueryIntText(&height)!=XML_SUCCESS ||
+                duration_element->QueryIntText(&duration)!=XML_SUCCESS) return false;
+        const XMLElement *sheet_path=animation_root->FirstChildElement("Bitmap_Sheet");
+        if(sheet_path==nullptr) return false;
+        const char *bitmap_sheet=sheet_path->GetText();
+        if(bitmap_sheet==nullptr) return false;
+        ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_sheet);
+        if(!bmp) b=false;
+        else {
+            load_from_bitmap(bmp,width,height);
+            al_destroy_bitmap(bmp);
+            if(bitmap_set.empty()==true) b=false;
+            else set_duration(duration,timer);
+        }
+    }
+    return b;
 }
 void al_anim::activate() {
     if(check()==true)
@@ -138,7 +187,7 @@ void al_anim::clear() {
 void al_anim::destroy() {
     for(unsigned int i=0; i<bitmap_set.size(); i++) {
         al_destroy_bitmap(bitmap_set[i]);
-        bitmap_set[i]=NULL;
+        bitmap_set[i]=nullptr;
     }
     clear();
 }

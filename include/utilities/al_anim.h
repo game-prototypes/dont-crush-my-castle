@@ -1,15 +1,16 @@
 //TITLE: AL_ANIM_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.4
 //DESCRIPTION: defines a general animation with allegro as a set of bitmaps
 
 #ifndef AL_ANIM_H
 #define AL_ANIM_H
 
 #include "al_utils.h"
-
-
+#include "tinyxml2.h"
+using namespace tinyxml2;
+const string anim_xml_value="Al_Animation";
 class al_anim {
 private:
     vector<ALLEGRO_BITMAP *> bitmap_set;
@@ -23,12 +24,16 @@ public:
     //CONSTRUCTORS
     //default constructor
     al_anim();
+    //contructor from XML element
+    al_anim(const XMLElement *animation_root,const ALLEGRO_TIMER *timer);
     //full constructor for an al_anim, will set it to unactive by default,duration is the total duration of animation in seconds
     al_anim(const vector<ALLEGRO_BITMAP *> bitmap_sheet,double duration,const ALLEGRO_TIMER *timer);
     //loads animationa from one bitmap slicing it
     al_anim(const ALLEGRO_BITMAP *bitmap_sheet,unsigned int width,unsigned int height,double duration,const ALLEGRO_TIMER *timer);
     //destructor
     ~al_anim();
+    //read data from xml file
+    bool read_xml(const XMLElement *animation_root,const ALLEGRO_TIMER *timer);
     //MODIFICATION
     //checks animation and activates it
     void activate();
@@ -83,4 +88,5 @@ private:
     //slice the given bitmap into pieces of equal size for animation
     void load_from_bitmap(const ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height);
 };
+
 #endif

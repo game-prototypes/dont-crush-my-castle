@@ -1,0 +1,43 @@
+<Enemy Version="0.7.4">
+	<Name>Enemy_0</Name>
+	<Life>100</Life>
+	<Armor>1</Armor>
+	<Speed>50</Speed>
+	<Reward>20</Reward>
+	<Al_Animation Version="0.7.4" loop="false" type="dead">
+		<Width>64</Width>
+		<Height>64</Height>
+		<Duration>2</Duration>
+		<Bitmap_Sheet>resources/spr/enemy_0/dead.png</Bitmap_Sheet>
+	</Al_Animation>
+	<Al_Animation Version="0.7.4" loop="false" type="down">
+		<Width>64</Width>
+		<Height>64</Height>
+		<Duration>3</Duration>
+		<Bitmap_Sheet>resources/spr/enemy_0/down.png</Bitmap_Sheet>
+	</Al_Animation>
+	<Al_Animation Version="0.7.4" loop="false" type="up">
+		<Width>64</Width>
+		<Height>64</Height>
+		<Duration>3</Duration>
+		<Bitmap_Sheet>resources/spr/enemy_0/up.png</Bitmap_Sheet>
+	</Al_Animation>
+	<Al_Animation Version="0.7.4" loop="false" type="idle">
+		<Width>64</Width>
+		<Height>64</Height>
+		<Duration>3</Duration>
+		<Bitmap_Sheet>resources/spr/enemy_0/idle.png</Bitmap_Sheet>
+	</Al_Animation>
+	<Al_Animation Version="0.7.4" loop="false" type="left">
+		<Width>64</Width>
+		<Height>64</Height>
+		<Duration>3</Duration>
+		<Bitmap_Sheet>resources/spr/enemy_0/left.png</Bitmap_Sheet>
+	</Al_Animation>
+	<Al_Animation Version="0.7.4" loop="false" type="right">
+		<Width>64</Width>
+		<Height>64</Height>
+		<Duration>3</Duration>
+		<Bitmap_Sheet>resources/spr/enemy_0/right.png</Bitmap_Sheet>
+	</Al_Animation>
+</Enemy>

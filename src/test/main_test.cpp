@@ -1,7 +1,7 @@
 //TITLE: Main Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.5
 //DESCRIPTION: full test of DCmC,calling other tests
 
 #include "input_handler.h"
@@ -20,12 +20,12 @@ const string font_path="resources/fonts/big_bottom_cartoon.ttf";
 #include "test_enemy.h"
 #include "test_tower.h"
 #include "test_controller.h"
-
+#include "test_xml.h"
 
 
 int main() {
     cout<<"DCmC Test\n";
-    cout<<"0.7.2\n";
+    cout<<"0.7.5\n";
     cout<<"=========\n";
     bool test_result=true;
     al_init();
@@ -40,6 +40,7 @@ int main() {
     test_result=test_result && test_enemy();
     test_result=test_result && test_tower();
     test_result=test_result && test_controller();
+    test_result=test_result && test_xml();
     al_destroy_timer(timer);
     cout<<"Final Result - ";
     if(test_result==true) cout<<"OK\n";

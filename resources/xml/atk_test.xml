@@ -1,0 +1,14 @@
+<Tower_Atk  Version="0.7.4">
+	<Damage>60</Damage>
+	<Range>90</Range>
+	<Delay>2</Delay>
+	<Speed>5</Speed>
+	<Type>Shoot</Type>
+	<Sprite>resources/spr/cannonball.png</Sprite>
+	<Al_Animation Version="0.7.4" loop="false">
+		<Width>64</Width>
+		<Height>64</Height>
+		<Duration>0.5</Duration>
+		<Bitmap_Sheet>resources/spr/explosion.png</Bitmap_Sheet>
+	</Al_Animation>
+</Tower_Atk>

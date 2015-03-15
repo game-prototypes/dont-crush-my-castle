@@ -1,7 +1,7 @@
 //TITLE: DCmC Main
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.2
+//VERSION: 0.7.4
 //DESCRIPTION: Main program of DCmC
 
 #include "input_handler.h"
@@ -38,7 +38,7 @@ player *player_pointer;
 int main() {
     //   al_init_font_addon(); // initialize the font addon
     //  al_init_ttf_addon();// initialize the ttf (True Type Font) addon
-    cout<<"DCmC V0.7.2 alpha\n";
+    cout<<"DCmC V0.7.4 alpha\n";
     cout<<"===============\n";
     ALLEGRO_DISPLAY *display;
     ALLEGRO_EVENT_QUEUE *event_queue;
@@ -223,8 +223,8 @@ void click_mouse(int button_number,unsigned int x,unsigned int y) {
     //cout<<"coins:"<<player_pointer->get_coins()<<endl;
 }
 void key_pressed(int keycode) {
-    player_pointer->key_action(keycode);
-    //cout<<"pressed key:"<<keycode<<"   "<<al_keycode_to_name(keycode)<<endl;
+    if(keycode==ALLEGRO_KEY_ESCAPE) game_over();
+    else player_pointer->key_action(keycode);
 }
 
 void game_over() {

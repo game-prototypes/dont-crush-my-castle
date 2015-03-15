@@ -15,7 +15,7 @@ using namespace std;
 enum log_type {comment,warning,err,fatal_error};
 
 namespace debug_log {
-const string version="V0.3";
+const string version="V0.4.4";
 const string log_file="dcmc.log";
 const bool show_contact=false;
 const string contact_info="Please, contact support";

@@ -30,6 +30,7 @@ bool test_enemy() {
     vanim.insert(make_pair(dead_anim,anim));
     testenemy_attr.animation=vanim;
     if(testenemy_attr.check()==false) test_result=false;
+    //testenemy_attr.write_xml("testenemy.xml");
     //ENEMY
     enemy testenemy(testenemy_attr,0,0,0,timer);
     if(testenemy.get_name()!="minion test") test_result=false;
@@ -70,7 +71,7 @@ bool test_enemy() {
     enemy testenemy2=testset.spawn_enemy("minion test",2,5.0,5.0);
     double inc=1+(2*level_ratio);
     if(testenemy2.get_name()!="minion test") test_result=false;
-    if(testenemy2.get_speed()!=2*inc) test_result=false;
+    if(testenemy2.get_speed()!=2) test_result=false;
     if(testenemy2.get_level()!=2) test_result=false;
     if(testenemy2.get_life()!=100*inc) test_result=false; //some of these may change in the future
     if(testenemy2.get_max_life()!=100*inc) test_result=false;
