@@ -23,12 +23,11 @@ tower_attributes::tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,con
 tower_attributes::~tower_attributes() {
 }
 bool tower_attributes::read_xml(const XMLElement *tower_root,const ALLEGRO_TIMER *timer) {
-    bool b=false;
+    bool b=true;
     destroy();
     if(tower_root == nullptr) b=false;
     else if(tower_root->Value()!=tower_xml_value) b=false;
     else {
-        b=true;
         const char *version=tower_root->Attribute("Version");
         //Compare version!!!!
         if(version==nullptr) return false;
@@ -42,7 +41,7 @@ bool tower_attributes::read_xml(const XMLElement *tower_root,const ALLEGRO_TIMER
         const char *nam=name_element->GetText();
         this->name=string(nam);
         if(name.empty()) return false;
-        if(!atk.read_xml(atk_element,timer)==false) return false;
+        if(atk.read_xml(atk_element,timer)==false) return false;
         const char *bitmap_path=sprite_element->GetText();
         if(bitmap_path==nullptr) return false;
         ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_path);

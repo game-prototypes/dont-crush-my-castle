@@ -195,8 +195,8 @@ void al_anim::destroy() {
 }
 bool al_anim::check() const {
     bool b=true;
-    if(bitmap_set.empty()) debug_log::report("animation with no bitmaps",err,true,true,false);
-    if(animation_delay==0) debug_log::report("animation with speed=0",err,true,true,false);
+    //if(bitmap_set.empty()) debug_log::report("animation with no bitmaps",err,true,true,false);
+    //if(animation_delay==0) debug_log::report("animation with speed=0",err,true,true,false);
     return b;
 }
 void al_anim::load_from_bitmap(const ALLEGRO_BITMAP *bitmap,unsigned int width,unsigned int height) {

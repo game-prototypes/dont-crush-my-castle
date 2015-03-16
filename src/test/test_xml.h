@@ -65,6 +65,7 @@ bool test_xml() {
             if(test_tower_atk.damage!=60) test_result=false;
             if(test_tower_atk.delay!=2) test_result=false;
             if(test_tower_atk.speed!=5) test_result=false;
+            if(test_tower_atk.bitmap==false) test_result=false;
             if(test_tower_atk.type!=shoot_atk) test_result=false;
             test_tower_atk.destroy();
         }
@@ -81,6 +82,7 @@ bool test_xml() {
             if(test_tower.read_xml(tower_element,timer)==false) test_result=false;
             if(test_tower.check()==false) test_result=false;
             if(test_tower.name!="Tower 0") test_result=false;
+            if(test_tower.bitmap==nullptr) test_result=false;
             if(test_tower.cost!=50) test_result=false;
             test_tower.destroy();
         }

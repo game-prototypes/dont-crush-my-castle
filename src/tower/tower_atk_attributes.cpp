@@ -27,7 +27,7 @@ atk_attributes::atk_attributes(ALLEGRO_BITMAP *bitmap,al_anim collision_anim,uns
 atk_attributes::~atk_attributes() {
 }
 bool atk_attributes::read_xml(const XMLElement *atk_root,const ALLEGRO_TIMER *timer) {
-    bool b=false;
+    bool b=true;
     destroy();
     if(atk_root == nullptr) b=false;
     else if(atk_root->Value()!=tower_atk_xml_value) b=false;
@@ -62,6 +62,7 @@ bool atk_attributes::read_xml(const XMLElement *atk_root,const ALLEGRO_TIMER *ti
         if(bitmap_p==nullptr) return false;
         ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_p);
         if(!bmp) return false;
+        this->bitmap=bmp;
         const XMLElement *collision_element=atk_root->FirstChildElement("Al_Animation");
         if(collision_element!=nullptr) { //it is possible to attack without animaton
             al_anim anim;
@@ -98,7 +99,7 @@ bool atk_attributes::check() const {
         debug_log::report("attack damage equals 0",warning,true,false,false);
         b=false;
     }
-    if(bitmap==NULL) b=false;
+    if(bitmap==nullptr) b=false;
     if(speed<=0 || delay<=0) b=false;
     if(collision_anim.check()==false) b=false;
     return b;
