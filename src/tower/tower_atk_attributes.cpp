@@ -9,9 +9,10 @@
 atk_attributes::atk_attributes() {
     damage=range=delay=speed=0;
     type=shoot_atk;
+    bitmap=nullptr;
 }
 atk_attributes::atk_attributes(const XMLElement *attributes_root,const ALLEGRO_TIMER *timer) {
-    //if(!read_xml(attributes_root)) destroy();
+    bitmap=nullptr;
     read_xml(attributes_root,timer);
 }
 atk_attributes::atk_attributes(ALLEGRO_BITMAP *bitmap,al_anim collision_anim,unsigned int damage,unsigned int range,unsigned int delay,double speed,atk_type type) {
@@ -27,6 +28,7 @@ atk_attributes::~atk_attributes() {
 }
 bool atk_attributes::read_xml(const XMLElement *atk_root,const ALLEGRO_TIMER *timer) {
     bool b=false;
+    destroy();
     if(atk_root == nullptr) b=false;
     else if(atk_root->Value()!=tower_atk_xml_value) b=false;
     else {
@@ -74,11 +76,11 @@ void atk_attributes::clear() {
     damage=range=delay=0;
     type=shoot_atk;
     collision_anim.clear();
-    bitmap=NULL;
+    bitmap=nullptr;
 }
 void atk_attributes::destroy() {
     al_destroy_bitmap(bitmap);
-    bitmap=NULL;
+    bitmap=nullptr;
     collision_anim.destroy();
     clear();
 }

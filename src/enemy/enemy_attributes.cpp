@@ -34,6 +34,7 @@ enemy_attributes::~enemy_attributes() {
 }
 bool enemy_attributes::read_xml(const XMLElement *enemy_root,const ALLEGRO_TIMER *timer) {
     bool b=false;
+    destroy();
     if(enemy_root == nullptr) b=false;
     else if(enemy_root->Value()!=enemy_xml_value) b=false;
     else {

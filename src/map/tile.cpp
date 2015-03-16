@@ -8,6 +8,7 @@
 
 tile::tile() {
     type=null_tile;
+    bitmap=nullptr;
 }
 tile::tile(tile_type type,const ALLEGRO_BITMAP *bitmap) {
     this->type=type;
@@ -39,7 +40,7 @@ tile::tile(const tile &other) {
 }
 tile::~tile() {
     al_destroy_bitmap(this->bitmap);
-    this->bitmap=NULL;
+    this->bitmap=nullptr;
 }
 //MODIFICATION
 void tile::resize(unsigned int width) {
