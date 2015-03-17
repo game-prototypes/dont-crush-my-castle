@@ -9,7 +9,7 @@
 
 #FLAGS
 CXX = g++
-CPPFLAGS= -Wall -O1 -std=c++11 #-g
+CPPFLAGS= -Wall -O1 -std=c++11#-g
 ALLEGROFLAGS=-lallegro -lallegro_image -lallegro_main -lallegro_font -lallegro_ttf
 #ALLEGROFLAGS2=-lallegro -lallegro_primitives -lallegro_font -lallegro_ttf -lallegro_image -lallegro_main -lallegro_acodec -lallegro_audio -lallegro_color -lallegro_dialog -lallegro_memfile -lallegro_physfs
 
@@ -29,7 +29,7 @@ MAINDIR=$(SDIR)/main
 _INC=$(UTILSDIR) $(MAPDIR) $(ENEMYDIR) $(TOWERDIR) $(CONTROLLERDIR)
 I_INC=$(patsubst %,-I %,$(_INC))
 
-_AL_UTILS=al_anim.cpp al_utils.cpp debug_log.cpp input_handler.cpp game_object_attributes.cpp game_object.cpp text_handler.cpp tinyxml2.cpp
+_AL_UTILS=al_anim.cpp al_utils.cpp debug_log.cpp input_handler.cpp game_object.cpp text_handler.cpp tinyxml2.cpp
 AL_UTILS_O=$(patsubst %,$(ODIR)/%,$(_AL_UTILS:.cpp=.o))
 _MAP=tile.cpp tileset.cpp tilemap.cpp
 MAP_O=$(patsubst %,$(ODIR)/%,$(_MAP:.cpp=.o))
@@ -41,7 +41,7 @@ _CONTROLLER=game_objects.cpp player_controller.cpp game_master.cpp player.cpp
 CONTROLLER_O=$(patsubst %,$(ODIR)/%,$(_CONTROLLER:.cpp=.o))
 
 TEST_O=$(AL_UTILS_O) $(MAP_O) $(ENEMY_O) $(TOWER_O) $(CONTROLLER_O)
-_TEST_H=test_utils.h test_anim.h test_map.h test_tower.h test_enemy.h test_controller.h
+_TEST_H=test_utils.h test_anim.h test_map.h test_tower.h test_enemy.h test_controller.h test_xml.h
 TEST_H=$(patsubst %,$(TESTDIR)/%,$(_TEST_H))
 
 MAIN_O=$(AL_UTILS_O) $(MAP_O) $(ENEMY_O) $(TOWER_O) $(CONTROLLER_O) $(ODIR)/DCmC.o

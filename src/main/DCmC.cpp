@@ -16,9 +16,12 @@ unsigned int screen_height=600;
 bool fullscreen=false;
 //end conf
 const string enemy_path="resources/spr/enemy_0/";
+
 const string font_path="resources/fonts/big_bottom_cartoon.ttf";
 enemy_attributes create_enemy_0(const ALLEGRO_TIMER *timer);
 tower_attributes create_tower_0(const ALLEGRO_TIMER *timer);
+
+
 pair<text_handler,text_handler> create_text_handlers();
 game_spawner create_game_spawner();
 //input functions
@@ -38,8 +41,8 @@ player *player_pointer;
 int main() {
     //   al_init_font_addon(); // initialize the font addon
     //  al_init_ttf_addon();// initialize the ttf (True Type Font) addon
-    cout<<"DCmC V0.7.4 alpha\n";
-    cout<<"===============\n";
+    cout<<"DCmC V0.7.5 alpha\n";
+    cout<<"=================\n";
     ALLEGRO_DISPLAY *display;
     ALLEGRO_EVENT_QUEUE *event_queue;
     ALLEGRO_TIMER *timer;
@@ -56,23 +59,33 @@ int main() {
     al_start_timer(timer); //start timer
     cout<<"Screen Size:"<<screen_width<<"x"<<screen_height<<endl<<endl;
     //GENEATE TILESET
-    ALLEGRO_BITMAP *tilesetbmp=al_load_bitmap("resources/spr/ground_tileset_reduced.png");
-    if(!tilesetbmp) {
-        cout<<"error loading bitmap\n";
-        exit(1);
+    /*    ALLEGRO_BITMAP *tilesetbmp=al_load_bitmap("resources/spr/ground_tileset_reduced.png");
+        if(!tilesetbmp) {
+            cout<<"error loading bitmap\n";
+            exit(1);
+        }
+        vector<tile::tile_type> tile_type_v;
+        tile_type_v.push_back(tile::road);
+        tile_type_v.push_back(tile::ground);
+        tile_type_v.push_back(tile::blocked);*/
+    //tileset tset("Ground tileset",tilesetbmp,tile_type_v,32);
+    XMLDocument tileset_document,enemy_document,tower_document;
+    if(tileset_document.LoadFile("resources/xml/default/tileset.xml")!=XML_SUCCESS ||
+            enemy_document.LoadFile("resources/xml/default/enemy.xml")!=XML_SUCCESS ||
+            tower_document.LoadFile("resources/xml/default/tower.xml")!=XML_SUCCESS) {
+        cout<<"Couldn't load something\n";
+        return -1;
     }
-    vector<tile::tile_type> tile_type_v;
-    tile_type_v.push_back(tile::road);
-    tile_type_v.push_back(tile::ground);
-    tile_type_v.push_back(tile::blocked);
-    tileset tset("Ground tileset",tilesetbmp,tile_type_v,32);
+    XMLElement *tileset_element=tileset_document.RootElement();
+    tileset tset(tileset_element);
+//    if(tset.read_xml(tileset_element)==false) cout<<"Problem reading xml";
     cout<<"Tileset Name:"<<tset.get_name()<<endl;
     cout<<"Tile Size:"<<tset.get_tile_size()<<endl;
     cout<<"Number of Tiles:"<<tset.size()<<endl;
     if(tset.check()==false) cout<<"error in check\n";
     cout<<"\n";
-    al_destroy_bitmap(tilesetbmp);
-    tile_type_v.clear();
+    //al_destroy_bitmap(tilesetbmp);
+    //tile_type_v.clear();
     //GENERATE MAP
     vector<vector<tile_id> > map_matrix(10,vector<tile_id>(10,1));
     for(unsigned int i=0; i<map_matrix[0].size(); i++) {
@@ -107,12 +120,18 @@ int main() {
     bool redraw=true;
     unsigned int seconds=0;
     unsigned int tt=0;
+//    XMLElement *enemy_element=enemy_document.RootElement();
+//    enemy_attributes enemy_attr(enemy_element,timer);
+//    cout<<enemy_attr.speed<<endl;
     enemy_set eset("Enemy_set_0",create_enemy_0(timer),timer);
     cout<<"Enemy Set Name:"<<eset.get_name()<<endl;
     cout<<"Enemy Set Size:"<<eset.size()<<endl;
     if(eset.check()==false) cout<<"error in check\n";
     cout<<endl;
-    tower_set towerset("Tower_set_0",create_tower_0(timer),timer);
+    XMLElement *tower_element=tower_document.RootElement();
+    tower_attributes tower_attr(tower_element,timer);
+
+    tower_set towerset("Tower_set_0",tower_attr,timer);
     cout<<"Tower Set Name:"<<towerset.get_name()<<endl;
     cout<<"Tower Set Size:"<<towerset.size()<<endl;
     if(towerset.check()==false) cout<<"error in check\n";

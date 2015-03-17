@@ -9,7 +9,6 @@
 
 #include "al_utils.h"
 
-
 class tile {
 public:
     enum tile_type {blocked,road,ground,open_ground,special,null_tile};

@@ -1,6 +1,6 @@
 Don´t Crush my Castle
 =====================
-_Version 0.7.3 (alpha)_
+_Version 0.7.5 (alpha)_
 
 Highly customizable tower defense style game
 
@@ -42,6 +42,8 @@ TinyXML2 by Lee Thomason - https://github.com/leethomason/tinyxml2
 
 example_clock.png (used for testing) is under CCLicense by [Jorge Durán Llanos] (https://github.com/Caesar95)
  <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+
+cyberpunk_skin is under CCLicense by [terceranexus6](https://github.com/terceranexus6)
 
 ground_tileset.png is under CCLicense by [George_](http://opengameart.org/content/old-tiles)
 

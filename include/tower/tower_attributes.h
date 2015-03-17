@@ -8,22 +8,22 @@
 #define TOWER_ATTRIBUTES_H
 
 #include "tower_atk.h"
-
+const string tower_xml_value="Tower";
 //defines the attributes of the tower
-struct tower_attributes : game_object_attributes {
+struct tower_attributes {
+    string name;
     atk_attributes atk; //attack attributes
     ALLEGRO_BITMAP *bitmap; //main bitmap of the towers (static)
-    //	ALLEGRO_BITMAP *secondary_bitmap; //secondary bitmap (rotate)
     unsigned int cost;
-    string name;
+    //ALLEGRO_BITMAP *secondary_bitmap; //secondary bitmap (rotate)
     //METHODS
     tower_attributes();
-    tower_attributes(const XMLElement *attributes_root);
+    tower_attributes(const XMLElement *tower_root,const ALLEGRO_TIMER *timer);
     tower_attributes(const string &name,ALLEGRO_BITMAP *bitmap,const atk_attributes &atk,unsigned int cost);
     ~tower_attributes();
 
-    bool read_xml(const XMLElement *attributes_root);
-    bool write_xml(XMLElement *attributes_root) const;
+    bool read_xml(const XMLElement *tower_root,const ALLEGRO_TIMER *timer);
+    //    bool write_xml(XMLElement *attributes_root) const;
 
     //return bitmap width (in pixels)
     unsigned int get_width() const;

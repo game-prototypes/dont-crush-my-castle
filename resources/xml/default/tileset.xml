@@ -1,0 +1,10 @@
+<Tileset Version="0.7.5" Number="3" Resize="false">
+	<Name>Tileset 0</Name>
+	<Size>32</Size>
+	<Bitmap>resources/spr/ground_tileset_reduced.png</Bitmap>
+	<Tile_Types>
+		<Type>road</Type>
+		<Type>ground</Type>
+		<Type>blocked</Type>
+	</Tile_Types>
+</Tileset>

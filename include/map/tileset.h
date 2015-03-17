@@ -8,9 +8,12 @@
 
 #include "tile.h"
 #include <map>
+#include "tinyxml2.h"
+using namespace tinyxml2;
 
 typedef int tile_id; //defines a id for a tile in the tileset
 static const tile_id null_tile_id=-1;
+const string tileset_xml_value="Tileset";
 class tileset {
 private:
     string name;
@@ -30,15 +33,17 @@ public:
     //contructors with one tile
     tileset(const string &name,const tile &t,unsigned int tile_size);
     tileset(const tile &t,unsigned int tile_size);
+    tileset(const XMLElement *tileset_root);
     //size of tileset tiles will be tile size
     tileset(const tile &t);
     ~tileset();
     //MODIFICATION
+    bool read_xml(const XMLElement *tileset_root);
     //adds a tile,returning tile_id used
     tile_id add_tile(tile::tile_type type,const ALLEGRO_BITMAP *bitmap);
     tile_id add_tile(const tile &t);
     //slices given bitmap and adds tiles to the tileset, return vector of ids used
-    vector<tile_id> load_from_bitmap(const ALLEGRO_BITMAP *bitmap,const vector<tile::tile_type> &types,unsigned int tile_size,int ntiles);
+    vector<tile_id> load_from_bitmap(const ALLEGRO_BITMAP *bitmap,const vector<tile::tile_type> &types,unsigned int tile_size,int ntiles=-1);
     //removes tile with given id
     void remove_tile(tile_id id);
     //change name
@@ -75,5 +80,6 @@ public:
 private:
     //return next free id after or equal to actual lower_id
     tile_id get_next_free_id() const;
+    vector<tile::tile_type> get_xml_types(const XMLElement *types_element);
 };
 #endif
