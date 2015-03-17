@@ -33,6 +33,7 @@ public:
     //contructors with one tile
     tileset(const string &name,const tile &t,unsigned int tile_size);
     tileset(const tile &t,unsigned int tile_size);
+    tileset(const XMLElement *tileset_root);
     //size of tileset tiles will be tile size
     tileset(const tile &t);
     ~tileset();

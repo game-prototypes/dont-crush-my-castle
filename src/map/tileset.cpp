@@ -50,6 +50,12 @@ tileset::tileset(const tile &t) {
     this->tile_size=t.size();
     add_tile(t);
 }
+tileset::tileset(const XMLElement *tileset_root) {
+    tile_size=0;
+    name="";
+    lowest_free=0;
+    read_xml(tileset_root);
+}
 tileset::~tileset() {
     name.clear();
     tile_list.clear();
@@ -87,6 +93,7 @@ bool tileset::read_xml(const XMLElement *tileset_root) {
         if(!bmp) return false;
         vector<tile::tile_type> types=get_xml_types(types_element);
         load_from_bitmap(bmp,types,tile_size,ntiles);
+        al_destroy_bitmap(bmp);
         if(resize==true) resize_tileset(this->tile_size);
     }
     return b;
@@ -246,7 +253,7 @@ vector<tile::tile_type> tileset::get_xml_types(const XMLElement *types_element) 
                     else if(typ=="blocked") new_type=tile::blocked;
                     else if(typ=="open") new_type=tile::open_ground;
                     else if(typ=="special") new_type=tile::special;
-                    else if(typ=="Null") new_type=tile::null_tile;
+                    else if(typ=="null") new_type=tile::null_tile;
                     else {
                         new_type=tile::null_tile;
                     }
