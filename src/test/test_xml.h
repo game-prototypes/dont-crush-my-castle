@@ -87,6 +87,39 @@ bool test_xml() {
             test_tower.destroy();
         }
     }
+    document.Clear();
+    if(document.LoadFile("resources/xml/tower_test.xml")!=XML_SUCCESS) test_result=false;
+    else {
+        XMLElement *tower_element=document.RootElement();
+        string element_name=tower_element->Name();
+        if(tower_element==nullptr) test_result=false;
+        else if(element_name!="Tower") test_result=false;
+        else {
+            tower_attributes test_tower;
+            if(test_tower.read_xml(tower_element,timer)==false) test_result=false;
+            if(test_tower.check()==false) test_result=false;
+            if(test_tower.name!="Tower 0") test_result=false;
+            if(test_tower.bitmap==nullptr) test_result=false;
+            if(test_tower.cost!=50) test_result=false;
+            test_tower.destroy();
+        }
+    }
+    document.Clear();
+    if(document.LoadFile("resources/xml/tile_test.xml")!=XML_SUCCESS) test_result=false;
+    else {
+        XMLElement *tileset_element=document.RootElement();
+        string element_name=tileset_element->Name();
+        if(tileset_element==nullptr) test_result=false;
+        else if(element_name!="Tileset") test_result=false;
+        else {
+            tileset test_tileset;
+            if(test_tileset.read_xml(tileset_element)==false) test_result=false;
+            if(test_tileset.check()==false) test_result=false;
+            if(test_tileset.size()!=3) test_result=false;
+            if(test_tileset.get_name()!="Tileset 0") test_result=false;
+            if(test_tileset.get_tile_size()!=32) test_result=false;
+        }
+    }
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
     return test_result;

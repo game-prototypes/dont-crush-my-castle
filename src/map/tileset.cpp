@@ -54,6 +54,43 @@ tileset::~tileset() {
     name.clear();
     tile_list.clear();
 }
+bool tileset::read_xml(const XMLElement *tileset_root) {
+    bool b=true;
+    if(tileset_root == nullptr) b=false;
+    else if(tileset_root->Value()!=tileset_xml_value) b=false;
+    else {
+        b=true;
+        const char *version=tileset_root->Attribute("Version");
+        //Compare version!!!!
+        if(version==nullptr) return false;
+        bool resize=false;
+        const char *res=tileset_root->Attribute("Resize");
+        if(res!=nullptr) {
+            string s(res);
+            if(s=="True" || s=="true"||s=="1") resize=true;
+        }
+        int ntiles=-1;
+        tileset_root->QueryIntAttribute("Number",&ntiles); //ntiles will be -1 if nothing found
+        const XMLElement *name_element,*size_element,*bitmap_element,*types_element;
+        name_element=tileset_root->FirstChildElement("Name");
+        size_element=tileset_root->FirstChildElement("Size");
+        bitmap_element=tileset_root->FirstChildElement("Bitmap");
+        types_element=tileset_root->FirstChildElement("Tile_Types");
+        if(name_element==nullptr || size_element==nullptr ||bitmap_element==nullptr || types_element==nullptr) return false;
+        if(size_element->QueryUnsignedText(&tile_size)!=XML_SUCCESS) return false;
+        const char *nam=name_element->GetText();
+        this->name=string(nam);
+        if(name.empty()) return false;
+        const char *bitmap_p=bitmap_element->GetText();
+        if(bitmap_p==nullptr) return false;
+        ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_p);
+        if(!bmp) return false;
+        vector<tile::tile_type> types=get_xml_types(types_element);
+        load_from_bitmap(bmp,types,tile_size,ntiles);
+        if(resize==true) resize_tileset(this->tile_size);
+    }
+    return b;
+}
 tile_id tileset::add_tile(tile::tile_type type,const ALLEGRO_BITMAP *bitmap) {
     tile_list.insert(make_pair(lowest_free,tile(type,bitmap)));
     tile_id r=lowest_free;
@@ -127,7 +164,7 @@ void tileset::draw_resized_tile(tile_id id,float x,float y,unsigned int tile_siz
 }
 void tileset::resize_tileset(unsigned int tile_size) {
     if(tile_size<=0) debug_log::report("resize tileset: new size not allowed (not resized)",err,true,true,false);
-    else {
+    else if(tile_size) {
         this->tile_size=tile_size;
         map<tile_id,tile>::iterator it;
         for(it=tile_list.begin(); it!=tile_list.end(); it++) it->second.resize(tile_size);
@@ -194,4 +231,29 @@ tile_id tileset::get_next_free_id() const {
     cid++;
     return cid;
 }
-
+vector<tile::tile_type> tileset::get_xml_types(const XMLElement *types_element) {
+    vector<tile::tile_type> types;
+    if(types_element != nullptr)
+        if((string)types_element->Value()=="Tile_Types") {
+            const XMLElement *type_element=types_element->FirstChildElement("Type");
+            while(type_element!=nullptr) {
+                const char *nam=type_element->GetText();
+                string typ=string(nam);
+                if(typ.empty()==false) {
+                    tile::tile_type new_type;
+                    if(typ=="road") new_type=tile::road;
+                    else if(typ=="ground") new_type=tile::ground;
+                    else if(typ=="blocked") new_type=tile::blocked;
+                    else if(typ=="open") new_type=tile::open_ground;
+                    else if(typ=="special") new_type=tile::special;
+                    else if(typ=="Null") new_type=tile::null_tile;
+                    else {
+                        new_type=tile::null_tile;
+                    }
+                    types.push_back(new_type);
+                }
+                type_element=type_element->NextSiblingElement("Type");
+            }
+        }
+    return types;
+}
