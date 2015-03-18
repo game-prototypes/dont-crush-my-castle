@@ -1,7 +1,7 @@
 //TITLE: DCmC Main
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.4
+//VERSION: 0.7.5
 //DESCRIPTION: Main program of DCmC
 
 #include "input_handler.h"
@@ -71,14 +71,14 @@ int main() {
     //tileset tset("Ground tileset",tilesetbmp,tile_type_v,32);
     XMLDocument tileset_document,enemy_document,tower_document;
     if(tileset_document.LoadFile("resources/xml/default/tileset.xml")!=XML_SUCCESS ||
-            enemy_document.LoadFile("resources/xml/default/enemy.xml")!=XML_SUCCESS ||
+            //    enemy_document.LoadFile("resources/xml/default/enemy.xml")!=XML_SUCCESS ||
             tower_document.LoadFile("resources/xml/default/tower.xml")!=XML_SUCCESS) {
         cout<<"Couldn't load something\n";
         return -1;
     }
     XMLElement *tileset_element=tileset_document.RootElement();
     tileset tset(tileset_element);
-//    if(tset.read_xml(tileset_element)==false) cout<<"Problem reading xml";
+    //    if(tset.read_xml(tileset_element)==false) cout<<"Problem reading xml";
     cout<<"Tileset Name:"<<tset.get_name()<<endl;
     cout<<"Tile Size:"<<tset.get_tile_size()<<endl;
     cout<<"Number of Tiles:"<<tset.size()<<endl;
@@ -120,17 +120,20 @@ int main() {
     bool redraw=true;
     unsigned int seconds=0;
     unsigned int tt=0;
-//    XMLElement *enemy_element=enemy_document.RootElement();
-//    enemy_attributes enemy_attr(enemy_element,timer);
-//    cout<<enemy_attr.speed<<endl;
-    enemy_set eset("Enemy_set_0",create_enemy_0(timer),timer);
+    //    XMLElement *enemy_element=enemy_document.RootElement();
+    //    if(enemy_element==nullptr) cout<<"Error\n";
+    //    XMLElement *enemy_element=get_root_element("resources/xml/default/enemy.xml",enemy_document);
+    //    if(enemy_element==nullptr) cout<<"Error\n";
+    //    enemy_attributes enemy_attr(enemy_element,timer);
+    enemy_attributes enemy_attr;
+    enemy_attr.read_xml("resources/xml/default/enemy.xml",timer);
+    enemy_set eset("Enemy set 0",enemy_attr,timer);
     cout<<"Enemy Set Name:"<<eset.get_name()<<endl;
     cout<<"Enemy Set Size:"<<eset.size()<<endl;
     if(eset.check()==false) cout<<"error in check\n";
     cout<<endl;
     XMLElement *tower_element=tower_document.RootElement();
     tower_attributes tower_attr(tower_element,timer);
-
     tower_set towerset("Tower_set_0",tower_attr,timer);
     cout<<"Tower Set Name:"<<towerset.get_name()<<endl;
     cout<<"Tower Set Size:"<<towerset.size()<<endl;
@@ -185,7 +188,7 @@ int main() {
 
 enemy_attributes create_enemy_0(const ALLEGRO_TIMER *timer) {
     ALLEGRO_BITMAP *enemy_bitmap;
-    enemy_attributes res("enemy_0",100,1,50,20);
+    enemy_attributes res("Soldier",100,1,50,20);
     enemy_bitmap=al_load_bitmap(enemy_path+"idle.png");
     if(!enemy_bitmap) cout<<"error loading enemy bitmap\n";
     res.insert_animation(idle_anim,al_anim(enemy_bitmap,64,64,1,timer));
@@ -230,13 +233,11 @@ tower_attributes create_tower_0(const ALLEGRO_TIMER *timer) {
 }
 game_spawner create_game_spawner() {
     spawn_wave wav;
-    wav.push(make_pair(10,"enemy_0"));
+    wav.push(make_pair(10,"Soldier"));
     vector<spawn_wave> v;
     v.push_back(wav);
     return  game_spawner(v,10);
 }
-
-
 void click_mouse(int button_number,unsigned int x,unsigned int y) {
     player_pointer->click_action(button_number,x,y);
     //cout<<"coins:"<<player_pointer->get_coins()<<endl;

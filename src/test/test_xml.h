@@ -120,6 +120,21 @@ bool test_xml() {
             if(test_tileset.get_tile_size()!=32) test_result=false;
         }
     }
+    document.Clear();
+    if(document.LoadFile("resources/xml/enemy_set_test.xml")!=XML_SUCCESS) test_result=false;
+    else {
+        XMLElement *enemyset_element=document.RootElement();
+        string element_name=enemyset_element->Name();
+        if(enemyset_element==nullptr) test_result=false;
+        else if(element_name!="Enemy_Set") test_result=false;
+        else {
+            enemy_set tset;
+            if(tset.read_xml(enemyset_element,timer)==false) test_result=false;
+            if(tset.check()==false) test_result=false;
+            if(tset.get_name()!="Default Enemies") test_result=false;
+            if(tset.size()!=2) test_result=false;
+        }
+    }
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
     return test_result;

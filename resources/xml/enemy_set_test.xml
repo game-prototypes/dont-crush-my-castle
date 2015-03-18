@@ -1,0 +1,47 @@
+<Enemy_Set Version="0.7.5">
+<Name>Default Enemies</Name>
+<Enemy Version="0.7.5"> <!-- defined in this xml -->
+	<Name>Nexus I</Name>
+	<Life>200</Life>
+	<Armor>2</Armor>
+	<Speed>20</Speed>
+	<Reward>50</Reward>
+	<Al_Animation Version="0.7.5" loop="false" type="dead">
+		<Width>64</Width>
+		<Height>64</Height>
+		<Duration>2</Duration>
+		<Bitmap_Sheet>resources/spr/ciberpunk_skin/android/dead.png</Bitmap_Sheet>
+	</Al_Animation>
+	<Al_Animation Version="0.7.5" loop="false" type="down">
+		<Width>64</Width>
+		<Height>64</Height>
+		<Duration>3</Duration>
+		<Bitmap_Sheet>resources/spr/ciberpunk_skin/android/down.png</Bitmap_Sheet>
+	</Al_Animation>
+	<Al_Animation Version="0.7.5" loop="false" type="up">
+		<Width>64</Width>
+		<Height>64</Height>
+		<Duration>3</Duration>
+		<Bitmap_Sheet>resources/spr/ciberpunk_skin/android/up.png</Bitmap_Sheet>
+	</Al_Animation>
+	<Al_Animation Version="0.7.5" loop="false" type="idle">
+		<Width>64</Width>
+		<Height>64</Height>
+		<Duration>3</Duration>
+		<Bitmap_Sheet>resources/spr/ciberpunk_skin/android/idle.png</Bitmap_Sheet>
+	</Al_Animation>
+	<Al_Animation Version="0.7.5" loop="false" type="left">
+		<Width>64</Width>
+		<Height>64</Height>
+		<Duration>3</Duration>
+		<Bitmap_Sheet>resources/spr/ciberpunk_skin/android/left.png</Bitmap_Sheet>
+	</Al_Animation>
+	<Al_Animation Version="0.7.5" loop="false" type="right">
+		<Width>64</Width>
+		<Height>64</Height>
+		<Duration>3</Duration>
+		<Bitmap_Sheet>resources/spr/ciberpunk_skin/android/right.png</Bitmap_Sheet>
+	</Al_Animation>
+</Enemy>
+<Enemy>resources/xml/default/enemy.xml</Enemy> <!-- defined on another xml -->
+</Enemy_Set>

@@ -41,9 +41,9 @@ public:
     //return true after collision
     bool hit() const;
     //updates the attack,updating its position and colliding if necessary
-    void virtual update();
+    void update();
     //draws the attack
-    void virtual draw() const;
+    void draw() const;
     //check class, return false if problem
     bool check() const;
 private:

@@ -8,7 +8,7 @@
 #define ENEMY_SET
 
 #include "enemy.h"
-
+const string enemy_set_xml_value="Enemy_Set";
 class enemy_set {
 private:
     string name; //name of the set
@@ -17,11 +17,14 @@ private:
 public:
     //CONSTRUCTORS
     enemy_set();
+    enemy_set(const XMLElement *enemy_set_root,const ALLEGRO_TIMER *timer);
     enemy_set(const string &name,const ALLEGRO_TIMER *timer);
     enemy_set(const string &name,const vector<enemy_attributes> &enemy_list,const ALLEGRO_TIMER *timer);
     enemy_set(const string &name,const enemy_attributes &enemy_list,const ALLEGRO_TIMER *timer);
     ~enemy_set();
 
+    bool read_xml(const XMLElement *enemy_set_root,const ALLEGRO_TIMER *timer);
+    bool read_xml(const string &filename,const ALLEGRO_TIMER *timer);
     //MODIFICATION
     void set_name(const string &name);
     void add_enemy(const enemy_attributes &info);
