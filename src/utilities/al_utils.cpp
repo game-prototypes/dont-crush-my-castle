@@ -168,3 +168,11 @@ XMLElement *get_root_element(const string &filename,XMLDocument &document) {
     }
     return root_element;
 }
+ALLEGRO_BITMAP *al_load_bitmap(XMLElement* element) {
+    ALLEGRO_BITMAP* bmp=nullptr;
+    if(element!=nullptr){
+        const char *bitmap_p=element->GetText();
+        if(bitmap_p!=nullptr) bmp=al_load_bitmap(bitmap_p);
+    }
+    return bmp;
+}
