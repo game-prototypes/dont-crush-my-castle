@@ -13,7 +13,7 @@ text_handler::text_handler() {
     set_alignment(align_left);
     font=NULL;
 }
-text_handler::text_handler(const string &tag,ALLEGRO_FONT *font,unsigned int x,unsigned int y) {
+/*text_handler::text_handler(const string &tag,ALLEGRO_FONT *font,unsigned int x,unsigned int y) {
     font=NULL;
     active=true;
     position=make_pair(x,y);
@@ -22,8 +22,6 @@ text_handler::text_handler(const string &tag,ALLEGRO_FONT *font,unsigned int x,u
     set_alignment(align_left);
     set_color(0.0,0.0,0.0);
 }
-
-
 text_handler::text_handler(const string &tag,ALLEGRO_FONT *font,unsigned int x,unsigned int y,const string &text) {
     font=NULL;
     active=true;
@@ -33,7 +31,7 @@ text_handler::text_handler(const string &tag,ALLEGRO_FONT *font,unsigned int x,u
     set_alignment(align_left);
     set_tag(tag);
     set_color(0.0,0.0,0.0);
-}
+}*/
 text_handler::text_handler(const string &tag,const string &filename,unsigned int size,unsigned int x,unsigned int y,const string &text) {
     font=NULL;
     active=true;
@@ -47,7 +45,7 @@ text_handler::text_handler(const string &tag,const string &filename,unsigned int
 text_handler::~text_handler() {
     text.clear();
     tag.clear();
-    // destroy_font();
+    //destroy_font();
 }
 
 void text_handler::draw() const {
@@ -58,10 +56,6 @@ void text_handler::set_string(const string &text) {
 }
 void text_handler::set_tag(const string &tag) {
     this->tag=tag;
-}
-void text_handler::set_font(ALLEGRO_FONT *font) {
-    destroy_font();
-    this->font=font;
 }
 void text_handler::set_font(const string &filename,int size) {
     destroy_font();
@@ -87,7 +81,7 @@ unsigned int text_handler::get_width() const {
     return al_get_text_width(font, text.c_str());
 }
 //clear the string, not changing font
-void text_handler::clear() {
+void text_handler::clear_text() {
     text.clear();
 }
 void text_handler::update() {
@@ -95,9 +89,9 @@ void text_handler::update() {
 void text_handler::destroy() {
     destroy_font();
     tag.clear();
-    clear();
+    clear_text();
     set_color(0.0,0.0,0.0);
-    active=false;
+    deactivate();
 }
 bool text_handler::check() const {
     bool b=true;

@@ -24,8 +24,8 @@ private:
 
 public:
     text_handler();
-    text_handler(const string &tag,ALLEGRO_FONT *font,unsigned int x,unsigned int y);
-    text_handler(const string &tag,ALLEGRO_FONT *font,unsigned int x,unsigned int y,const string &text);
+    //    text_handler(const string &tag,ALLEGRO_FONT *font,unsigned int x,unsigned int y);
+    //    text_handler(const string &tag,ALLEGRO_FONT *font,unsigned int x,unsigned int y,const string &text);
     text_handler(const string &tag,const string &filename,unsigned int size,unsigned int x,unsigned int y,const string &text);
     ~text_handler();
 
@@ -34,7 +34,7 @@ public:
     void set_string(const string &text);
     void set_tag(const string &tag);
     //sets new font
-    void set_font(ALLEGRO_FONT *font);
+    //    void set_font(ALLEGRO_FONT *font);
     //set new font,if size is negative it will measure as pixel heigh
     void set_font(const string &filename,int size);
     //sets new color
@@ -48,13 +48,13 @@ public:
     unsigned int get_width() const;
 
     //clear the string, not changing font
-    void clear();
+    void clear_text();
     //does nothing
     void update();
     void destroy();
     bool check() const;
-private:
     //destroy font
+private:
     void destroy_font();
 };
 

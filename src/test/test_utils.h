@@ -87,10 +87,17 @@ bool test_utilities() {
     //draw centered not tested
     al_destroy_bitmap(bmp);
     //text handler
-    text_handler th("testing text",font_path,48,80,80,"this is the text");
+    text_handler th("testing text",font_path,48,80.0,80.0,"this is the text");
     if(th.check()==false) test_result=false;
     if(th.get_string()!="this is the text") test_result=false;
     if(th.get_tag()!="testing text") test_result=false;
+    if(th.is_active()==false) test_result=false;
+    if(th.get_position()!=make_pair(80.0,80.0)) test_result=false;
+    th.clear_text();
+    if(th.check()==false) test_result=false;
+    if(th.get_string()!="") test_result=false;
+    th.destroy();
+    if(th.is_active()==true) test_result=false;
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
     return test_result;
