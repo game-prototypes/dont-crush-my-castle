@@ -71,8 +71,8 @@ int main() {
     //tileset tset("Ground tileset",tilesetbmp,tile_type_v,32);
     XMLDocument tileset_document,enemy_document,tower_document;
     if(tileset_document.LoadFile("resources/xml/default/tileset.xml")!=XML_SUCCESS ||
-            //    enemy_document.LoadFile("resources/xml/default/enemy.xml")!=XML_SUCCESS ||
-            tower_document.LoadFile("resources/xml/default/tower.xml")!=XML_SUCCESS) {
+            enemy_document.LoadFile("resources/xml/default/enemy_set.xml")!=XML_SUCCESS ||
+            tower_document.LoadFile("resources/xml/default/tower_set.xml")!=XML_SUCCESS) {
         cout<<"Couldn't load something\n";
         return -1;
     }
@@ -125,16 +125,20 @@ int main() {
     //    XMLElement *enemy_element=get_root_element("resources/xml/default/enemy.xml",enemy_document);
     //    if(enemy_element==nullptr) cout<<"Error\n";
     //    enemy_attributes enemy_attr(enemy_element,timer);
-    enemy_attributes enemy_attr;
-    enemy_attr.read_xml("resources/xml/default/enemy.xml",timer);
-    enemy_set eset("Enemy set 0",enemy_attr,timer);
+    //    enemy_attributes enemy_attr;
+    //    enemy_attr.read_xml("resources/xml/default/enemy.xml",timer);
+    XMLElement *enemy_set_root=enemy_document.RootElement();
+    enemy_set eset(enemy_set_root,timer);
+    //    enemy_set eset("Enemy set 0",enemy_attr,timer);
     cout<<"Enemy Set Name:"<<eset.get_name()<<endl;
     cout<<"Enemy Set Size:"<<eset.size()<<endl;
     if(eset.check()==false) cout<<"error in check\n";
     cout<<endl;
-    XMLElement *tower_element=tower_document.RootElement();
-    tower_attributes tower_attr(tower_element,timer);
-    tower_set towerset("Tower_set_0",tower_attr,timer);
+    //    XMLElement *tower_element=tower_document.RootElement();
+    //    tower_attributes tower_attr(tower_element,timer);
+    //    tower_set towerset("Tower_set_0",tower_attr,timer);
+    XMLElement *tower_set_root=tower_document.RootElement();
+    tower_set towerset(tower_set_root,timer);
     cout<<"Tower Set Name:"<<towerset.get_name()<<endl;
     cout<<"Tower Set Size:"<<towerset.size()<<endl;
     if(towerset.check()==false) cout<<"error in check\n";
@@ -233,6 +237,7 @@ tower_attributes create_tower_0(const ALLEGRO_TIMER *timer) {
 }
 game_spawner create_game_spawner() {
     spawn_wave wav;
+    wav.push(make_pair(5,"Nexus I"));
     wav.push(make_pair(10,"Soldier"));
     vector<spawn_wave> v;
     v.push_back(wav);
