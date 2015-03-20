@@ -50,6 +50,12 @@ bool tower_attributes::read_xml(const XMLElement *tower_root,const ALLEGRO_TIMER
     }
     return b;
 }
+bool tower_attributes::read_xml(const string &filename,const ALLEGRO_TIMER *timer) {
+    XMLDocument document;
+    XMLElement *element=get_root_element(filename,document);
+    if(element==nullptr) return false;
+    else return read_xml(element,timer);
+}
 
 unsigned int tower_attributes::get_width() const {
     return al_get_bitmap_width(bitmap);

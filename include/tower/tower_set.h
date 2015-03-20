@@ -1,7 +1,7 @@
 //TITLE: TOWER_ATK_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.2
+//VERSION: 0.7.6
 //DESCRIPTION: stores a set of towers
 
 #ifndef TOWER_SET_H
@@ -11,6 +11,7 @@
 #include <map>
 #include <set>
 
+const string tower_set_xml_value="Tower_Set";
 class tower_set {
 private:
     string name; //name of the set
@@ -19,11 +20,12 @@ private:
 public:
     //CONSTRUCTORS
     tower_set();
+    tower_set(const XMLElement *tower_set_root,const ALLEGRO_TIMER *timer);
     tower_set(const string &name,const ALLEGRO_TIMER *timer);
     tower_set(const string &name,const vector<tower_attributes> &tower_list,const ALLEGRO_TIMER *timer);
     tower_set(const string &name,const tower_attributes &tower_attr,const ALLEGRO_TIMER *timer);
     ~tower_set();
-
+    bool read_xml(const XMLElement *tower_set_root,const ALLEGRO_TIMER *timer);
     //MODIFICATION
     void set_name(const string &name);
     void add_tower(const tower_attributes &info);

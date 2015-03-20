@@ -1,13 +1,16 @@
 //TITLE: TOWER_ATK_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.2
+//VERSION: 0.7.6
 //DESCRIPTION: stores a set of towers
 
 #include "tower_set.h"
 
 
 tower_set::tower_set() {
+}
+tower_set::tower_set(const XMLElement *tower_set_root,const ALLEGRO_TIMER *timer) {
+    read_xml(tower_set_root,timer);
 }
 tower_set::tower_set(const string &name,const ALLEGRO_TIMER *timer) {
     set_name(name);
@@ -31,7 +34,42 @@ tower_set::~tower_set() {
         (it->second).destroy();
     clear();
 }
-
+bool tower_set::read_xml(const XMLElement *tower_set_root,const ALLEGRO_TIMER *timer) {
+    bool b=false;
+    set_timer(timer);
+    if(tower_set_root == nullptr) b=false;
+    else if(tower_set_root->Value()!=tower_set_xml_value) b=false;
+    else {
+        b=true;
+        const char *version=tower_set_root->Attribute("Version");
+        //Compare version!!!!
+        if(version==nullptr) return false;
+        const XMLElement *name_element=tower_set_root->FirstChildElement("Name");
+        if(name_element==nullptr) return false;
+        const char *nam=name_element->GetText();
+        this->name=string(nam);
+        if(name.empty()) return false;
+        const XMLElement *current_tower=tower_set_root->FirstChildElement("Tower");
+        while(current_tower!=nullptr) {
+            tower_attributes ctower;
+            string txt;
+            const char *ctext=current_tower->GetText();
+            if(ctext!=nullptr) txt=string(ctext);
+            if(txt.empty()) {
+                if(ctower.read_xml(current_tower,timer)==true) {
+                    add_tower(ctower);
+                }
+            }
+            else {
+                if(ctower.read_xml(txt,timer)==true) {
+                    add_tower(ctower);
+                }
+            }
+            current_tower=current_tower->NextSiblingElement("Tower");
+        }
+    }
+    return b;
+}
 //MODIFICATION
 void tower_set::set_name(const string &name) {
     this->name=name;

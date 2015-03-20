@@ -135,6 +135,22 @@ bool test_xml() {
             if(tset.size()!=2) test_result=false;
         }
     }
+    //tower_set TODO
+    document.Clear();
+    if(document.LoadFile("resources/xml/tower_set_test.xml")!=XML_SUCCESS) test_result=false;
+    else {
+        XMLElement *towerset_element=document.RootElement();
+        string element_name=towerset_element->Name();
+        if(towerset_element==nullptr) test_result=false;
+        else if(element_name!="Tower_Set") test_result=false;
+        else {
+            tower_set tset;
+            if(tset.read_xml(towerset_element,timer)==false) test_result=false;
+            if(tset.check()==false) test_result=false;
+            if(tset.get_name()!="Default Towers") test_result=false;
+            if(tset.size()!=2) test_result=false;
+        }
+    }
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";
     return test_result;

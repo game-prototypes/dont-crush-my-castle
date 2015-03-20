@@ -23,6 +23,7 @@ struct tower_attributes {
     ~tower_attributes();
 
     bool read_xml(const XMLElement *tower_root,const ALLEGRO_TIMER *timer);
+    bool read_xml(const string &filename,const ALLEGRO_TIMER *timer);
     //    bool write_xml(XMLElement *attributes_root) const;
 
     //return bitmap width (in pixels)
