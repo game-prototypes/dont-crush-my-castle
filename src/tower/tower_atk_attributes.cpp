@@ -73,6 +73,12 @@ bool atk_attributes::read_xml(const XMLElement *atk_root,const ALLEGRO_TIMER *ti
     }
     return b;
 }
+bool atk_attributes::read_xml(const string &filename,const ALLEGRO_TIMER *timer) {
+    XMLDocument document;
+    XMLElement *element=get_root_element(filename,document);
+    if(element==nullptr) return false;
+    else return read_xml(element,timer);
+}
 void atk_attributes::clear() {
     damage=range=delay=0;
     type=shoot_atk;

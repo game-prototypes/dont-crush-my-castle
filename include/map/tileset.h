@@ -39,6 +39,7 @@ public:
     ~tileset();
     //MODIFICATION
     bool read_xml(const XMLElement *tileset_root);
+    bool read_xml(const string &filename);
     //adds a tile,returning tile_id used
     tile_id add_tile(tile::tile_type type,const ALLEGRO_BITMAP *bitmap);
     tile_id add_tile(const tile &t);

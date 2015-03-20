@@ -26,6 +26,7 @@ struct atk_attributes {
     ~atk_attributes();
 
     bool read_xml(const XMLElement *atk_root,const ALLEGRO_TIMER *timer);
+    bool read_xml(const string &filename,const ALLEGRO_TIMER *timer);
     //clear data (dont destroy animations)
     void clear();
     //destroy all bitmaps and clear data

@@ -98,6 +98,12 @@ bool tileset::read_xml(const XMLElement *tileset_root) {
     }
     return b;
 }
+bool tileset::read_xml(const string &filename) {
+    XMLDocument document;
+    XMLElement *element=get_root_element(filename,document);
+    if(element==nullptr) return false;
+    else return read_xml(element);
+}
 tile_id tileset::add_tile(tile::tile_type type,const ALLEGRO_BITMAP *bitmap) {
     tile_list.insert(make_pair(lowest_free,tile(type,bitmap)));
     tile_id r=lowest_free;
