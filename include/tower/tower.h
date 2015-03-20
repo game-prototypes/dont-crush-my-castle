@@ -37,9 +37,9 @@ public:
     //return true if tower can attack (counter=0)
     bool can_attack()const;
     //update tower
-    void virtual update();
+    void update();
     //draw tower
-    void virtual draw() const;
+    void draw() const;
     //attacks an enemy (atk destiny will be that enemy), return the attack
     tower_atk attack(const pair<double,double> target);
     bool check() const;

@@ -1,40 +1,40 @@
 <Enemy Version="0.7.4">
-	<Name>Enemy_0</Name>
+	<Name>Soldier</Name>
 	<Life>100</Life>
 	<Armor>1</Armor>
 	<Speed>50</Speed>
 	<Reward>20</Reward>
-	<Al_Animation Version="0.7.4" loop="false" type="dead">
+	<Al_Animation Version="0.7.4" type="dead">
 		<Width>64</Width>
 		<Height>64</Height>
 		<Duration>2</Duration>
 		<Bitmap_Sheet>resources/spr/enemy_0/dead.png</Bitmap_Sheet>
 	</Al_Animation>
-	<Al_Animation Version="0.7.4" loop="true" type="down">
+	<Al_Animation Version="0.7.4" type="down">
 		<Width>64</Width>
 		<Height>64</Height>
 		<Duration>3</Duration>
 		<Bitmap_Sheet>resources/spr/enemy_0/down.png</Bitmap_Sheet>
 	</Al_Animation>
-	<Al_Animation Version="0.7.4" loop="true" type="up">
+	<Al_Animation Version="0.7.4" type="up">
 		<Width>64</Width>
 		<Height>64</Height>
 		<Duration>3</Duration>
 		<Bitmap_Sheet>resources/spr/enemy_0/up.png</Bitmap_Sheet>
 	</Al_Animation>
-	<Al_Animation Version="0.7.4" loop="true" type="idle">
+	<Al_Animation Version="0.7.4" type="idle">
 		<Width>64</Width>
 		<Height>64</Height>
 		<Duration>3</Duration>
 		<Bitmap_Sheet>resources/spr/enemy_0/idle.png</Bitmap_Sheet>
 	</Al_Animation>
-	<Al_Animation Version="0.7.4" loop="true" type="left">
+	<Al_Animation Version="0.7.4" type="left">
 		<Width>64</Width>
 		<Height>64</Height>
 		<Duration>3</Duration>
 		<Bitmap_Sheet>resources/spr/enemy_0/left.png</Bitmap_Sheet>
 	</Al_Animation>
-	<Al_Animation Version="0.7.4" loop="true" type="right">
+	<Al_Animation Version="0.7.4" type="right">
 		<Width>64</Width>
 		<Height>64</Height>
 		<Duration>3</Duration>

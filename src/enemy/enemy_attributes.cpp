@@ -86,6 +86,12 @@ bool enemy_attributes::read_xml(const XMLElement *enemy_root,const ALLEGRO_TIMER
     }
     return b;
 }
+bool enemy_attributes::read_xml(const string &filename,const ALLEGRO_TIMER *timer) {
+    XMLDocument document;
+    XMLElement *element=get_root_element(filename,document);
+    if(element==nullptr) return false;
+    else return read_xml(element,timer);
+}
 /*bool enemy_attributes::write_xml(XMLElement *enemy_root) const {
     //THIS is only a small test, not to use!!!
     bool b=true;

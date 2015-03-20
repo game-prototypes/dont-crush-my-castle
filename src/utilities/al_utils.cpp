@@ -3,15 +3,7 @@
 //AUTHOR: Andrés Ortiz
 //VERSION: 0.7
 //DESCRIPTION: Generic functions for drawing and handdling allegro bitmaps
-#ifndef AL_UTILS_H
-#define AL_UTILS_H
-
-#include "debug_log.h"
-#include <vector>
-#include <cmath>
-#include <allegro5/allegro.h>
-//#include <allegro5/allegro_image.h>
-//using namespace std;
+#include "al_utils.h"
 
 //returns width (in pixels) as an unsigned int from a const bitmap (with const cast)
 unsigned int get_bitmap_width(const ALLEGRO_BITMAP *bmp) {
@@ -168,5 +160,11 @@ void draw_centered(const ALLEGRO_BITMAP *bitmap,double x,double y) {
     y-=get_bitmap_height(bitmap)/2.0;
     draw_bitmap(bitmap,x,y);
 }
-
-#endif
+XMLElement *get_root_element(const string &filename,XMLDocument &document) {
+    //    document.ClearData();
+    XMLElement *root_element=nullptr;
+    if(document.LoadFile(filename.c_str())==XML_SUCCESS) {
+        root_element=document.RootElement();
+    }
+    return root_element;
+}

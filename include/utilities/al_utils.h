@@ -7,10 +7,13 @@
 #define AL_UTILS_H
 
 #include "debug_log.h"
+#include "tinyxml2.h"
 #include <vector>
 #include <cmath>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
+using namespace std;
+using namespace tinyxml2;
 
 //returns width (in pixels) as an unsigned int from a const bitmap (with const cast)
 unsigned int get_bitmap_width(const ALLEGRO_BITMAP *bmp);
@@ -42,4 +45,6 @@ double convert_speed(double speed,const ALLEGRO_TIMER *timer);
 unsigned int get_frames(double seconds, const ALLEGRO_TIMER *timer);
 //draw given bitmap centered in position
 void draw_centered(const ALLEGRO_BITMAP *bitmap,double x,double y);
+//return the root element of a file with position, nullptr if couldn't read, passing the XMLDocument where XML will be loaded
+XMLElement *get_root_element(const string &filename,XMLDocument &document);
 #endif

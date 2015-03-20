@@ -26,6 +26,7 @@ struct enemy_attributes {
     enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation,unsigned int reward=0);
     ~enemy_attributes();
     bool read_xml(const XMLElement *enemy_root,const ALLEGRO_TIMER *timer);
+    bool read_xml(const string &filename,const ALLEGRO_TIMER *timer);
 
     //    bool write_xml(XMLElement *enemy_root) const;
     //insert animation (erasing previous animations and reseting all counters)

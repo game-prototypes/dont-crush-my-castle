@@ -1,7 +1,7 @@
 //TITLE: ENEMY_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.3
+//VERSION: 0.7.5
 //DESCRIPTION: defines each single enemy
 
 #ifndef ENEMY
@@ -76,10 +76,10 @@ public:
     //deactivates enemy and returns lives taken
     unsigned int destiny_reached();
     //update the movement,animation and all booleans
-    void virtual update();
+    void update();
     //draw the current_animation in the enemy position
     //note that draw the enemy with the position at its feet
-    void virtual draw() const;
+    void draw() const;
     //check enemy class is working well, debug_log output if error or warning, return true if everything is ok
     bool check() const;
     //  pair<double,double> get_position() const;

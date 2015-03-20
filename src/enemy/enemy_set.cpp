@@ -9,6 +9,9 @@
 //CONSTRUCTORS
 enemy_set::enemy_set() {
 }
+enemy_set::enemy_set(const XMLElement *enemy_set_root,const ALLEGRO_TIMER *timer) {
+    read_xml(enemy_set_root,timer);
+}
 enemy_set::enemy_set(const string &name,const ALLEGRO_TIMER *timer) {
     set_name(name);
     set_timer(timer);
@@ -30,6 +33,49 @@ enemy_set::~enemy_set() {
     for(it=enemies.begin(); it!=enemies.end(); it++)
         (it->second).destroy();
     clear();
+}
+
+bool enemy_set::read_xml(const XMLElement *enemy_set_root,const ALLEGRO_TIMER *timer) {
+    bool b=false;
+    set_timer(timer);
+    if(enemy_set_root == nullptr) b=false;
+    else if(enemy_set_root->Value()!=enemy_set_xml_value) b=false;
+    else {
+        b=true;
+        const char *version=enemy_set_root->Attribute("Version");
+        //Compare version!!!!
+        if(version==nullptr) return false;
+        const XMLElement *name_element=enemy_set_root->FirstChildElement("Name");
+        if(name_element==nullptr) return false;
+        const char *nam=name_element->GetText();
+        this->name=string(nam);
+        if(name.empty()) return false;
+        const XMLElement *current_enemy=enemy_set_root->FirstChildElement("Enemy");
+        while(current_enemy!=nullptr) {
+            enemy_attributes cenemy;
+            string txt;
+            const char *ctext=current_enemy->GetText();
+            if(ctext!=nullptr) txt=string(ctext);
+            if(txt.empty()) {
+                if(cenemy.read_xml(current_enemy,timer)==true) {
+                    add_enemy(cenemy);
+                }
+            }
+            else {
+                if(cenemy.read_xml(txt,timer)==true) {
+                    add_enemy(cenemy);
+                }
+            }
+            current_enemy=current_enemy->NextSiblingElement("Enemy");
+        }
+    }
+    return b;
+}
+bool enemy_set::read_xml(const string &filename,const ALLEGRO_TIMER *timer) {
+    XMLDocument document;
+    XMLElement *element=get_root_element(filename,document);
+    if(element==nullptr) return false;
+    else return read_xml(element,timer);
 }
 //MODIFICATION
 void enemy_set::set_name(const string &name) {
