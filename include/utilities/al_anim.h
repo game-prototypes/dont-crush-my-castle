@@ -1,19 +1,18 @@
 //TITLE: AL_ANIM_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.4
+//VERSION: 0.7.6
 //DESCRIPTION: defines a general animation with allegro as a set of bitmaps
 
 #ifndef AL_ANIM_H
 #define AL_ANIM_H
 
 #include "al_utils.h"
-#include "tinyxml2.h"
-using namespace tinyxml2;
 const string anim_xml_value="Al_Animation";
+
 class al_anim {
 private:
-    vector<ALLEGRO_BITMAP *> bitmap_set;
+    vector<ALLEGRO_BITMAP *> bitmap_set; //all bitmaps of the animation
     const ALLEGRO_TIMER *timer;
     unsigned int animation_delay; //delay in fotograms beetween bitmap change
     unsigned int count;
@@ -83,6 +82,7 @@ public:
     void clear();
     //destroy all the bitmaps and clear the animation
     void destroy();
+    //checks the class
     bool check() const;
 private:
     //slice the given bitmap into pieces of equal size for animation

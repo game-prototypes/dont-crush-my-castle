@@ -1,7 +1,7 @@
 //TITLE: TILE_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.2
+//VERSION: 0.7.6
 //DESCRIPTION: Defines one tile of a tileset
 
 #include "tile.h"

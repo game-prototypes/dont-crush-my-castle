@@ -1,12 +1,11 @@
 //TITLE:GAME_MASTER_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7.6
 //DESCRIPTION: control the IA and in-game stuff (spawning,movement etc..)
 #include "game_master.h"
 
 //GAME SPAWNER
-
 game_spawner::game_spawner() {
     delay=0;
 }
@@ -47,7 +46,6 @@ bool game_spawner::check() const {
 }
 
 //GAME MASTER
-
 
 game_master::game_master() {
     this->current_wave=0;
@@ -90,7 +88,6 @@ void game_master::set_active(bool active) {
     this->active=active;
     tower_atk_counter=0;
 }
-//updates all info
 void game_master::update() {
     if(active) {
         if(wave_delay_counter==0) {

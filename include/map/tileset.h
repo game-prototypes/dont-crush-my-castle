@@ -1,15 +1,13 @@
 //TITLE: TILESET_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.6
 //DESCRIPTION: Information about a set of tiles to be used on maps
 #ifndef TILESET_H
 #define TILESET_H
 
 #include "tile.h"
 #include <map>
-#include "tinyxml2.h"
-using namespace tinyxml2;
 
 typedef int tile_id; //defines a id for a tile in the tileset
 static const tile_id null_tile_id=-1;
@@ -20,28 +18,28 @@ private:
     map<tile_id,tile> tile_list;
     tile_id lowest_free; //lowest "free" id
     unsigned int tile_size; //each tile width/height
-    //  const static string tmx_tiletype_property; //defines the name of the property used on tmx for tiletype
 public:
+    //CONSTRUCTOS
     //default constructor
     tileset();
-    //contructor from tmx file
-    //      tileset(const Tmx::Tileset *ts);
     //full constructor
     tileset(const string &name,const ALLEGRO_BITMAP *bitmap,const vector<tile::tile_type> &types,unsigned int tile_size,int ntiles=-1);
-    //full constructor (without name)
-    tileset(const ALLEGRO_BITMAP *bitmap,const vector<tile::tile_type> &types,unsigned int tile_size,int ntiles=-1);
     //contructors with one tile
     tileset(const string &name,const tile &t,unsigned int tile_size);
-    tileset(const tile &t,unsigned int tile_size);
-    tileset(const XMLElement *tileset_root);
     //size of tileset tiles will be tile size
-    tileset(const tile &t);
+    tileset(const string &name,const tile &t);
+    //constructor from XMLElement
+    tileset(const XMLElement *tileset_root);
+    //DESTRUCTOR
     ~tileset();
-    //MODIFICATION
+    //METHODS
+    //read xml from xml element
     bool read_xml(const XMLElement *tileset_root);
+    //reads from sml file (with map as root element)
     bool read_xml(const string &filename);
     //adds a tile,returning tile_id used
     tile_id add_tile(tile::tile_type type,const ALLEGRO_BITMAP *bitmap);
+    //adds new tile
     tile_id add_tile(const tile &t);
     //slices given bitmap and adds tiles to the tileset, return vector of ids used
     vector<tile_id> load_from_bitmap(const ALLEGRO_BITMAP *bitmap,const vector<tile::tile_type> &types,unsigned int tile_size,int ntiles=-1);
@@ -49,7 +47,7 @@ public:
     void remove_tile(tile_id id);
     //change name
     void set_name(const string &name);
-    //ACCESStypes.push_back(road);
+    //ACCESS
     //return true if tile with given tile_id exists
     bool is_tile(tile_id id) const;
     //returns the size of the tileset
@@ -72,15 +70,12 @@ public:
     void draw_resized_tile(tile_id id,float x,float y,unsigned int tile_size) const;
     //resize the tileset, resizing the bitmaps of all tiles in tileset
     void resize_tileset(unsigned int tile_size);
-    //adds a tileset from tmx file to the actual tileset (resizing bitmaps), name and sizes will remain unchanged
-    //tiles with same id will not be inserted
-    //void add_tmx_tileset(const Tmx::Tileset *ts);
-
     //return true if everything correct
     bool check() const;
 private:
     //return next free id after or equal to actual lower_id
     tile_id get_next_free_id() const;
+    //return in a vector all the tile_types from xml element
     vector<tile::tile_type> get_xml_types(const XMLElement *types_element);
 };
 #endif

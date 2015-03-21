@@ -1,7 +1,7 @@
 //TITLE: tower_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7-4
+//VERSION: 0.7.6
 //DESCRIPTION: defines an user tower
 
 #include "tower.h"
@@ -79,4 +79,3 @@ void tower::set_delay() {
 void tower::reset_counter() {
     atk_counter=atk_delay;
 }
-

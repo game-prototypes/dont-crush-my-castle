@@ -1,7 +1,7 @@
 //TITLE: TOWER_ATK_ATTRIBUTES_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.5
+//VERSION: 0.7.6
 //DESCRIPTION: defines the kind of attack of buildings
 
 #include "tower_atk_attributes.h"

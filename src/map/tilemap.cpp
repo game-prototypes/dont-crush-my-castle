@@ -1,7 +1,7 @@
 //TITLE: TILEMAP_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.6
 //DESCRIPTION: Generate,write,read and draw maps
 
 #include "tilemap.h"
@@ -268,47 +268,6 @@ bool tilemap::check() const {
     return b;
 }
 //Private methods
-
-
-/*void tilemap::update_path_map(const vector< pair<unsigned int,unsigned int> > &destination) {
-    for(unsigned int i=0; i<path_map.size(); i++)
-        for(unsigned int j=0; j<path_map[0].size(); j++)
-            path_map[i][j]=-1; //all path map set to -1
-    stack< pair<unsigned int,unsigned int> > left_tiles; //tiles left to check surroundings
-    pair<unsigned int,unsigned int> til;
-    for(unsigned int i=0; i<destination.size(); i++) {
-        til=destination[i];
-        path_map[til.first][til.second]=0; //set tile of destination to 0
-        left_tiles.push(til);
-    }
-    while(!left_tiles.empty()) {
-        til=left_tiles.top();
-        left_tiles.pop();
-        for(int i=-1; i<=1; i++) {
-            for(int j=-1; j<=1; j++) {
-                if(i!=j && i!=-j) {
-                    int x=til.first+i;
-                    int y=til.second+j;
-                    if(x>=0 && y>=0) {
-                        if(in_matrix(x,y)) {
-                            if(get_tile_type(x,y)==road || (get_tile_type(x,y)==open_ground && empty_tile(x,y)==0)) {
-                                int val=path_map[til.first][til.second]+1;
-                                if(path_map[x][y]==-1 || path_map[x][y]>val) {
-                                    left_tiles.push(make_pair(x,y)); //push tile if havent been updated yet
-                                    path_map[x][y]=val;
-                                }
-                                //    else if(path_map[x][y]<val && path_map[x][y]!=-1){
-                                //    path_map[x][y]=val;
-                                // }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}*/
-
 void tilemap::generate_foreground() {
     unsigned int width=get_width();
     unsigned int height=get_height();
@@ -353,14 +312,6 @@ void tilemap::set_background(const vector< vector<tile_id> > &back) {
             background[i].push_back(null_tile_id);
     }
 }
-
-/*   void tilemap::load_background(const Tmx::Layer *lay,int width,int height) {
-        for(int i=0; i<height; i++) {
-            for(int j=0; j<width; j++) {
-                background[i][j]=lay->GetTileTilesetIndex(i,j);
-            }
-        }
-    }*/
 bool tilemap::spawners_in_path() const {
     bool b=true;
     pair<unsigned int,unsigned int> p;

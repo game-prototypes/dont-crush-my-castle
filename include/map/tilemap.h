@@ -1,7 +1,7 @@
 //TITLE: TILEMAP_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.6
 //DESCRIPTION: Generate,write,read and draw maps
 #ifndef TILEMAP_H
 #define TILEMAP_H
@@ -93,13 +93,14 @@ public:
 private:
     //generate path_map from background given destination tiles
     bool spawners_in_path() const;
+    //updates path_map according to current map and objects
     void update_path_map();
     //updates foreground according to background
     void generate_foreground();
     //set background so its rectgular
     void set_background(const vector< vector<tile_id> > &back);
+    //generates path map from background map
     vector< vector<int> > generate_path_map() const;
-    //      void load_background(const Tmx::Layer *lay,int width,int height);
 
 };
 #endif

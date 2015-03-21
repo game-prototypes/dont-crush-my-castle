@@ -1,7 +1,7 @@
 //TITLE: ENEMY_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.3
+//VERSION: 0.7.6
 //DESCRIPTION: defines each single enemy
 
 #include "enemy.h"

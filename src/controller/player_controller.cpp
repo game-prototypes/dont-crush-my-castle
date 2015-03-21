@@ -1,7 +1,7 @@
 //TITLE: PLAYER_CONTROLLER_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.6
 //DESCRIPTION: controls the actions of the player
 
 #include "player_controller.h"
@@ -68,9 +68,6 @@ bool player_controller::is_tower(double x,double y) const {
     if(built_towers.find(p)==built_towers.end()) return false;
     else return true;
 }
-/*tower *player_controller::get_tower(double x,double y) {
-    return objects->get_tower(get_tower_id(x,y));
-}*/
 const tower *player_controller::get_tower(double x,double y) const {
     return objects->get_tower(get_tower_id(x,y));
 }

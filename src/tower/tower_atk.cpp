@@ -1,7 +1,7 @@
 //TITLE: TOWER_ATK_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.4
+//VERSION: 0.7.6
 //DESCRIPTION: defines the attack of buildings
 
 #include "tower_atk.h"
@@ -15,7 +15,6 @@ tower_atk::tower_atk() {
     valid=false;
     speed=0;
 }
-
 tower_atk::tower_atk(const atk_attributes &attributes,pair<double,double> position,pair<double,double> destiny,const ALLEGRO_TIMER *timer) {
     this->attributes=&attributes;
     this->collision_anim=this->attributes->collision_anim;
@@ -75,7 +74,6 @@ bool tower_atk::check() const {
     if(attributes->check()==false) b=false;
     return b;
 }
-//when attack hit, starts collision, and damage enemy (if still available)
 void tower_atk::collision() {
     if(collide==false) {
         collide=true;

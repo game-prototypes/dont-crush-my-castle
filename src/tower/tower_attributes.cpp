@@ -1,7 +1,7 @@
 //TITLE: TOWER_ATTRIBUTES_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.4
+//VERSION: 0.7.6
 //DESCRIPTION: defines each kind of tower
 
 
@@ -56,16 +56,19 @@ bool tower_attributes::read_xml(const string &filename,const ALLEGRO_TIMER *time
     if(element==nullptr) return false;
     else return read_xml(element,timer);
 }
-
 unsigned int tower_attributes::get_width() const {
     return al_get_bitmap_width(bitmap);
 }
 unsigned int tower_attributes::get_height() const {
     return al_get_bitmap_height(bitmap);
 }
-//resize bitmap (overriding old) to given size
 void tower_attributes::resize(unsigned int width,unsigned int height) {
     resize_bitmap(bitmap,width,height);
+}
+void tower_attributes::destroy() {
+    al_destroy_bitmap(bitmap);
+    bitmap=nullptr;
+    atk.destroy();
 }
 bool tower_attributes::check() const {
     bool b=true;
@@ -73,10 +76,4 @@ bool tower_attributes::check() const {
     if(atk.check()==false) b=false;
     if(name.empty()==true) b=false;
     return b;
-}
-//destroy tower attributes (including bitmaps and attack attribute)
-void tower_attributes::destroy() {
-    al_destroy_bitmap(bitmap);
-    bitmap=nullptr;
-    atk.destroy();
 }

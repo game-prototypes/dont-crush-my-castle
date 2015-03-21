@@ -1,7 +1,7 @@
 //TITLE: INPUT_HANDLER_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.6
 //DESCRIPTION: user input class for allegro5
 
 #include "input_handler.h"

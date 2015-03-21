@@ -1,7 +1,7 @@
 //TITLE: TEXT_HANDLER_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.2
+//VERSION: 0.7.6
 //DESCRIPTION: defines a text in the game screen
 #include "text_handler.h"
 
@@ -13,25 +13,6 @@ text_handler::text_handler() {
     set_alignment(align_left);
     font=NULL;
 }
-/*text_handler::text_handler(const string &tag,ALLEGRO_FONT *font,unsigned int x,unsigned int y) {
-    font=NULL;
-    active=true;
-    position=make_pair(x,y);
-    set_font(font);
-    set_tag(tag);
-    set_alignment(align_left);
-    set_color(0.0,0.0,0.0);
-}
-text_handler::text_handler(const string &tag,ALLEGRO_FONT *font,unsigned int x,unsigned int y,const string &text) {
-    font=NULL;
-    active=true;
-    position=make_pair(x,y);
-    set_font(font);
-    set_string(text);
-    set_alignment(align_left);
-    set_tag(tag);
-    set_color(0.0,0.0,0.0);
-}*/
 text_handler::text_handler(const string &tag,const string &filename,unsigned int size,unsigned int x,unsigned int y,const string &text) {
     font=NULL;
     active=true;
