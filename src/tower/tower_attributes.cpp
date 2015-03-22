@@ -42,9 +42,7 @@ bool tower_attributes::read_xml(const XMLElement *tower_root,const ALLEGRO_TIMER
         this->name=string(nam);
         if(name.empty()) return false;
         if(atk.read_xml(atk_element,timer)==false) return false;
-        const char *bitmap_path=sprite_element->GetText();
-        if(bitmap_path==nullptr) return false;
-        ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_path);
+        ALLEGRO_BITMAP *bmp=al_load_bitmap(sprite_element);
         if(!bmp) b=false;
         else this->bitmap=bmp;
     }

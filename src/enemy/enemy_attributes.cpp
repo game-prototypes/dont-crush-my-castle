@@ -9,7 +9,7 @@
 enemy_attributes::enemy_attributes() {
     speed=max_life=armor=reward=0;
 }
-enemy_attributes::enemy_attributes(XMLElement *enemy_root,const ALLEGRO_TIMER *timer) {
+enemy_attributes::enemy_attributes(const XMLElement *enemy_root,const ALLEGRO_TIMER *timer) {
     read_xml(enemy_root,timer);
 }
 enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,unsigned int reward) {

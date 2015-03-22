@@ -71,10 +71,7 @@ bool al_anim::read_xml(const XMLElement *animation_root,const ALLEGRO_TIMER *tim
                 height_element->QueryIntText(&height)!=XML_SUCCESS ||
                 duration_element->QueryIntText(&duration)!=XML_SUCCESS) return false;
         const XMLElement *sheet_path=animation_root->FirstChildElement("Bitmap_Sheet");
-        if(sheet_path==nullptr) return false;
-        const char *bitmap_sheet=sheet_path->GetText();
-        if(bitmap_sheet==nullptr) return false;
-        ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_sheet);
+        ALLEGRO_BITMAP *bmp=al_load_bitmap(sheet_path);
         if(!bmp) b=false;
         else {
             load_from_bitmap(bmp,width,height);

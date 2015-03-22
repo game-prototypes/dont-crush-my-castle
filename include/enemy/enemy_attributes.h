@@ -23,7 +23,7 @@ struct enemy_attributes {
     //default constructor
     enemy_attributes();
     //constructor from xml element
-    enemy_attributes(XMLElement *enemy_root,const ALLEGRO_TIMER *timer);
+    enemy_attributes(const XMLElement *enemy_root,const ALLEGRO_TIMER *timer);
     //full constructor without animations
     enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,unsigned int reward=0);
     //full constructor with animations

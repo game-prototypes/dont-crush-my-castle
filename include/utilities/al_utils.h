@@ -48,5 +48,5 @@ void draw_centered(const ALLEGRO_BITMAP *bitmap,double x,double y);
 //return the root element of a XML file, nullptr if couldn't read, passing the XMLDocument where XML will be loaded
 XMLElement *get_root_element(const string &filename,XMLDocument &document);
 //loads bitmap from XMLElement (which should be the path in the text)
-ALLEGRO_BITMAP *al_load_bitmap(XMLElement *element);
+ALLEGRO_BITMAP *al_load_bitmap(const XMLElement *element);
 #endif
