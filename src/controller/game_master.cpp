@@ -217,7 +217,7 @@ void game_master::spawn(const spawn_wave &wave) {
         left=wave;
         while(aux.empty()==false) {
             left.push(aux.top());
-            aux.top();
+            aux.pop();
         }
     }
     wave_delay_counter=wave_delay;
