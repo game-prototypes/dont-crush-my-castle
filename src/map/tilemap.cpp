@@ -14,20 +14,9 @@ tilemap::tilemap(const string &name,const vector< vector<tile_id> > &background,
     this->destination=destination;
     this->spawners=spawners;
     set_background(background);
-    if(background.size()>0) {
-        generate_foreground();
-        update_path_map();
-    }
 }
-tilemap::tilemap(const vector< vector<tile_id> > &background,const tileset *tiles,const set< pair<unsigned int,unsigned int> > &destination,const set< pair<unsigned int,unsigned int> > &spawners) {
-    this->tiles=tiles;
-    this->destination=destination;
-    this->spawners=spawners;
-    set_background(background);
-    if(background.size()>0) {
-        generate_foreground();
-        update_path_map();
-    }
+tilemap::tilemap(const XMLElement *tilemap_root,const tileset *tiles) {
+    read_xml(tilemap_root,tiles);
 }
 /*   void tilemap::loadtmx(string filename) {
            Tmx::Map map;
@@ -50,6 +39,71 @@ tilemap::tilemap(const vector< vector<tile_id> > &background,const tileset *tile
        }*/
 tilemap::~tilemap() {
     clear();
+}
+bool tilemap::read_xml(const XMLElement *tilemap_root,const tileset *tiles) {
+    bool b=false;
+    this->tiles=tiles;
+    if(tiles==nullptr) b=false;
+    else if(tilemap_root == nullptr) b=false;
+    else if(tilemap_root->Value()!=tilemap_xml_value) b=false;
+    else {
+        b=true;
+        const char *version=tilemap_root->Attribute("Version");
+        //Compare version!!!!
+        if(version==nullptr) return false;
+        const XMLElement *name_element;
+        name_element=tilemap_root->FirstChildElement("Name");
+        if(name_element==nullptr) return false;
+        const char *nam=name_element->GetText();
+        this->name=string(nam);
+        if(name.empty()) return false;
+        vector<vector<tile_id>> back;
+        const XMLElement *row_element=tilemap_root->FirstChildElement("Row");
+        while(row_element!=nullptr) {
+            const char *row_string=row_element->GetText();
+            vector<tile_id> row=parse_row(string(row_string));
+            back.push_back(row);
+            row_element=row_element->NextSiblingElement("Row");
+        }
+        vector<vector<tile_id>>backt;
+        unsigned int max_siz=0;
+        for(unsigned int i=0; i<back.size(); i++)
+            if(back[i].size()>max_siz) max_siz=back[i].size();
+        for(unsigned int j=0; j<max_siz; j++) {
+            vector<tile_id> column;
+            for(unsigned int i=0; i<back.size(); i++) {
+                if(back[i].size()<j) column.push_back(null_tile_id);
+                else    column.push_back(back[i][j]);
+            }
+            backt.push_back(column);
+        }
+        back.clear();
+        set_background(backt);
+        const XMLElement *spawner_element,*destination_element;
+        destination_element=tilemap_root->FirstChildElement("Destiny");
+        while(destination_element!=nullptr) {
+            unsigned int x,y;
+            if(destination_element->QueryUnsignedAttribute("x",&x)==XML_SUCCESS)
+                if(destination_element->QueryUnsignedAttribute("y",&y)==XML_SUCCESS)
+                    add_destiny(x,y);
+            destination_element=destination_element->NextSiblingElement("Destiny");
+        }
+        spawner_element=tilemap_root->FirstChildElement("Spawner");
+        while(spawner_element!=nullptr) {
+            unsigned int x,y;
+            if(spawner_element->QueryUnsignedAttribute("x",&x)==XML_SUCCESS)
+                if(spawner_element->QueryUnsignedAttribute("y",&y)==XML_SUCCESS)
+                    add_spawner(x,y);
+            spawner_element=spawner_element->NextSiblingElement("Spawner");
+        }
+    }
+    return b;
+}
+bool tilemap::read_xml(const string &filename,const tileset *tiles) {
+    XMLDocument document;
+    XMLElement *element=get_root_element(filename,document);
+    if(element==nullptr) return false;
+    else return read_xml(element,tiles);
 }
 void tilemap::clear() {
     name.clear();
@@ -311,6 +365,10 @@ void tilemap::set_background(const vector< vector<tile_id> > &back) {
         while(background[i].size()<max_siz)
             background[i].push_back(null_tile_id);
     }
+    if(background.size()>0) {
+        generate_foreground();
+        update_path_map();
+    }
 }
 bool tilemap::spawners_in_path() const {
     bool b=true;
@@ -360,4 +418,13 @@ void tilemap::update_path_map() {
             }
         }
     }
+}
+vector<tile_id> tilemap::parse_row(const string &row) {
+    vector<tile_id> v;
+    stringstream stream(row);
+    tile_id n;
+    while(stream>>n) {
+        v.push_back(n);
+    }
+    return v;
 }

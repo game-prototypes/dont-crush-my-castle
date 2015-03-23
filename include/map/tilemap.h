@@ -7,9 +7,11 @@
 #define TILEMAP_H
 
 #include "tileset.h"
+#include <sstream>
 #include <stack>
 #include <set>
 
+const string tilemap_xml_value="Map";
 class tilemap {
 private:
     vector< vector<tile_id> > background; //background (grass,roads...)
@@ -24,12 +26,16 @@ public:
     tilemap();
     //full constructor with name
     tilemap(const string &name,const vector< vector<tile_id> > &background,const tileset *tiles,const set< pair<unsigned int,unsigned int> > &destination,const set< pair<unsigned int,unsigned int> > &spawners);
-    //full constructor without name
-    tilemap(const vector< vector<tile_id> > &background,const tileset *tiles,const set< pair<unsigned int,unsigned int> > &destination,const set< pair<unsigned int,unsigned int> > &spawners);
+    //constructor from xml element
+    tilemap(const XMLElement *tilemap_root,const tileset *tiles);
     //Loads from tmx file
     // void loadtmx(string filename);
     ~tilemap();
     //MODIFICATION
+    //reads xml from xml element
+    bool read_xml(const XMLElement *tilemap_root,const tileset *tiles);
+    //reads xml from xml file
+    bool read_xml(const string &filename,const tileset *tiles);
     //clear all the map info (except tileset)
     void clear();
     //set a tile to occupied
@@ -101,6 +107,8 @@ private:
     void set_background(const vector< vector<tile_id> > &back);
     //generates path map from background map
     vector< vector<int> > generate_path_map() const;
+    //generates a vector of tile id from a string of numbers (separated by any other character)
+    vector<tile_id> parse_row(const string &row);
 
 };
 #endif

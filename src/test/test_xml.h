@@ -1,11 +1,9 @@
 //TITLE: XML Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.5
-/*DESCRIPTION: basic test of allegro utilities (src/utilities) for DCmC
-This test will check:
-al_anim
-*/
+//VERSION: 0.7.6
+//DESCRIPTION: basic test for DCmC XML files
+
 #ifndef XML_TEST
 #define XML_TEST
 bool test_xml() {
@@ -30,8 +28,8 @@ bool test_xml() {
             if(test_animation.check()==false) test_result=false;
             test_animation.destroy();
         }
+        document.Clear();
     }
-    document.Clear();
     if(document.LoadFile("resources/xml/enemy_test.xml")!=XML_SUCCESS) test_result=false;
     else {
         XMLElement *enemy_element = document.RootElement();
@@ -50,8 +48,8 @@ bool test_xml() {
             if(test_enemy.animation.size()!=6) test_result=false;
             test_enemy.destroy();
         }
+        document.Clear();
     }
-    document.Clear();
     if(document.LoadFile("resources/xml/atk_test.xml")!=XML_SUCCESS) test_result=false;
     else {
         XMLElement *atk_element=document.RootElement();
@@ -69,8 +67,8 @@ bool test_xml() {
             if(test_tower_atk.type!=shoot_atk) test_result=false;
             test_tower_atk.destroy();
         }
+        document.Clear();
     }
-    document.Clear();
     if(document.LoadFile("resources/xml/tower_test.xml")!=XML_SUCCESS) test_result=false;
     else {
         XMLElement *tower_element=document.RootElement();
@@ -86,8 +84,8 @@ bool test_xml() {
             if(test_tower.cost!=50) test_result=false;
             test_tower.destroy();
         }
+        document.Clear();
     }
-    document.Clear();
     if(document.LoadFile("resources/xml/tower_test.xml")!=XML_SUCCESS) test_result=false;
     else {
         XMLElement *tower_element=document.RootElement();
@@ -103,8 +101,9 @@ bool test_xml() {
             if(test_tower.cost!=50) test_result=false;
             test_tower.destroy();
         }
+        document.Clear();
     }
-    document.Clear();
+    tileset test_tileset;
     if(document.LoadFile("resources/xml/tile_test.xml")!=XML_SUCCESS) test_result=false;
     else {
         XMLElement *tileset_element=document.RootElement();
@@ -112,15 +111,14 @@ bool test_xml() {
         if(tileset_element==nullptr) test_result=false;
         else if(element_name!="Tileset") test_result=false;
         else {
-            tileset test_tileset;
             if(test_tileset.read_xml(tileset_element)==false) test_result=false;
             if(test_tileset.check()==false) test_result=false;
             if(test_tileset.size()!=3) test_result=false;
             if(test_tileset.get_name()!="Tileset 0") test_result=false;
             if(test_tileset.get_tile_size()!=32) test_result=false;
         }
+        document.Clear();
     }
-    document.Clear();
     if(document.LoadFile("resources/xml/enemy_set_test.xml")!=XML_SUCCESS) test_result=false;
     else {
         XMLElement *enemyset_element=document.RootElement();
@@ -134,9 +132,8 @@ bool test_xml() {
             if(tset.get_name()!="Default Enemies") test_result=false;
             if(tset.size()!=2) test_result=false;
         }
+        document.Clear();
     }
-    //tower_set TODO
-    document.Clear();
     if(document.LoadFile("resources/xml/tower_set_test.xml")!=XML_SUCCESS) test_result=false;
     else {
         XMLElement *towerset_element=document.RootElement();
@@ -149,6 +146,29 @@ bool test_xml() {
             if(tset.check()==false) test_result=false;
             if(tset.get_name()!="Default Towers") test_result=false;
             if(tset.size()!=2) test_result=false;
+        }
+        document.Clear();
+    }
+    if(test_result==true) {
+        if(document.LoadFile("resources/xml/tilemap_test.xml")!=XML_SUCCESS) test_result=false;
+        else {
+            XMLElement *towermap_element=document.RootElement();
+            string element_name=towermap_element->Name();
+            if(towermap_element==nullptr) test_result=false;
+            else if(element_name!="Map") test_result=false;
+            else {
+                tilemap test_map;
+                if(test_map.read_xml(towermap_element,&test_tileset)==false) test_result=false;
+                if(test_map.check()==false) test_result=false;
+                if(test_map.get_name()!="Map 0") test_result=false;
+                if(test_map.get_width()!=10 || test_map.get_height()!=10) test_result=false;
+                if(test_map.spawners_position().size()!=1) test_result=false;
+                if(test_map.get_path_value(5,9)!=0) test_result=false;
+                if(test_map.get_tile_id(1,1)!=1 || test_map.get_tile_id(8,0)!=1) test_result=false;
+                if(test_map.get_tile_id(5,5)!=1 || test_map.get_tile_id(5,0)!=0) test_result=false;
+                if(test_map.get_tile_id(4,0)!=2 || test_map.get_tile_id(6,9)!=2) test_result=false;
+            }
+            document.Clear();
         }
     }
     if(test_result==true) cout<<" - OK\n";

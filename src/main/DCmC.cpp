@@ -69,10 +69,11 @@ int main() {
         tile_type_v.push_back(tile::ground);
         tile_type_v.push_back(tile::blocked);*/
     //tileset tset("Ground tileset",tilesetbmp,tile_type_v,32);
-    XMLDocument tileset_document,enemy_document,tower_document;
+    XMLDocument tileset_document,enemy_document,tower_document,map_document;
     if(tileset_document.LoadFile("resources/xml/default/tileset.xml")!=XML_SUCCESS ||
             enemy_document.LoadFile("resources/xml/default/enemy_set.xml")!=XML_SUCCESS ||
-            tower_document.LoadFile("resources/xml/default/tower_set.xml")!=XML_SUCCESS) {
+            tower_document.LoadFile("resources/xml/default/tower_set.xml")!=XML_SUCCESS ||
+            map_document.LoadFile("resources/xml/default/tilemap.xml")!=XML_SUCCESS) {
         cout<<"Couldn't load something\n";
         return -1;
     }
@@ -87,23 +88,7 @@ int main() {
     //al_destroy_bitmap(tilesetbmp);
     //tile_type_v.clear();
     //GENERATE MAP
-    vector<vector<tile_id> > map_matrix(10,vector<tile_id>(10,1));
-    for(unsigned int i=0; i<map_matrix[0].size(); i++) {
-        map_matrix[5][i]=0;
-    }
-    map_matrix[5][5]=1;
-    map_matrix[4][4]=0;
-    map_matrix[4][5]=0;
-    map_matrix[4][6]=0;
-    map_matrix[4][0]=2;
-    map_matrix[6][0]=2;
-    map_matrix[4][9]=2;
-    map_matrix[6][9]=2;
-    map_matrix[6][6]=2;
-    set< pair<unsigned int,unsigned int> >  destinations,spawners;
-    destinations.insert(make_pair(5,9));
-    spawners.insert(make_pair(5,0));
-    tilemap game_map("DCmC_map_1",map_matrix,&tset,destinations,spawners);
+    tilemap game_map(map_document.RootElement(),&tset);
     tm_pointer=&game_map;
     cout<<"Map name:"<<game_map.get_name()<<endl;
     cout<<"Map Size:"<<game_map.get_width()<<"x"<<game_map.get_height()<<endl;
@@ -115,8 +100,6 @@ int main() {
     cout<<"Tileset resize to:"<<tset.get_tile_size()<<endl;
     if(game_map.check()==false) cout<<"error in check\n";
     cout<<"\n";
-    destinations.clear();
-    map_matrix.clear();
     bool redraw=true;
     unsigned int seconds=0;
     unsigned int tt=0;
