@@ -15,11 +15,7 @@ unsigned int screen_width=600;
 unsigned int screen_height=600;
 bool fullscreen=false;
 //end conf
-const string enemy_path="resources/spr/enemy_0/";
-
 const string font_path="resources/fonts/big_bottom_cartoon.ttf";
-enemy_attributes create_enemy_0(const ALLEGRO_TIMER *timer);
-tower_attributes create_tower_0(const ALLEGRO_TIMER *timer);
 
 
 pair<text_handler,text_handler> create_text_handlers();
@@ -59,16 +55,6 @@ int main() {
     al_start_timer(timer); //start timer
     cout<<"Screen Size:"<<screen_width<<"x"<<screen_height<<endl<<endl;
     //GENEATE TILESET
-    /*    ALLEGRO_BITMAP *tilesetbmp=al_load_bitmap("resources/spr/ground_tileset_reduced.png");
-        if(!tilesetbmp) {
-            cout<<"error loading bitmap\n";
-            exit(1);
-        }
-        vector<tile::tile_type> tile_type_v;
-        tile_type_v.push_back(tile::road);
-        tile_type_v.push_back(tile::ground);
-        tile_type_v.push_back(tile::blocked);*/
-    //tileset tset("Ground tileset",tilesetbmp,tile_type_v,32);
     XMLDocument tileset_document,enemy_document,tower_document,map_document;
     if(tileset_document.LoadFile("resources/xml/default/tileset.xml")!=XML_SUCCESS ||
             enemy_document.LoadFile("resources/xml/default/enemy_set.xml")!=XML_SUCCESS ||
@@ -103,23 +89,12 @@ int main() {
     bool redraw=true;
     unsigned int seconds=0;
     unsigned int tt=0;
-    //    XMLElement *enemy_element=enemy_document.RootElement();
-    //    if(enemy_element==nullptr) cout<<"Error\n";
-    //    XMLElement *enemy_element=get_root_element("resources/xml/default/enemy.xml",enemy_document);
-    //    if(enemy_element==nullptr) cout<<"Error\n";
-    //    enemy_attributes enemy_attr(enemy_element,timer);
-    //    enemy_attributes enemy_attr;
-    //    enemy_attr.read_xml("resources/xml/default/enemy.xml",timer);
     XMLElement *enemy_set_root=enemy_document.RootElement();
     enemy_set eset(enemy_set_root,timer);
-    //    enemy_set eset("Enemy set 0",enemy_attr,timer);
     cout<<"Enemy Set Name:"<<eset.get_name()<<endl;
     cout<<"Enemy Set Size:"<<eset.size()<<endl;
     if(eset.check()==false) cout<<"error in check\n";
     cout<<endl;
-    //    XMLElement *tower_element=tower_document.RootElement();
-    //    tower_attributes tower_attr(tower_element,timer);
-    //    tower_set towerset("Tower_set_0",tower_attr,timer);
     XMLElement *tower_set_root=tower_document.RootElement();
     tower_set towerset(tower_set_root,timer);
     cout<<"Tower Set Name:"<<towerset.get_name()<<endl;
@@ -171,52 +146,6 @@ int main() {
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
     return 0;
-}
-
-enemy_attributes create_enemy_0(const ALLEGRO_TIMER *timer) {
-    ALLEGRO_BITMAP *enemy_bitmap;
-    enemy_attributes res("Soldier",100,1,50,20);
-    enemy_bitmap=al_load_bitmap(enemy_path+"idle.png");
-    if(!enemy_bitmap) cout<<"error loading enemy bitmap\n";
-    res.insert_animation(idle_anim,al_anim(enemy_bitmap,64,64,1,timer));
-    al_destroy_bitmap(enemy_bitmap);
-    enemy_bitmap=al_load_bitmap(enemy_path+"dead.png");
-    if(!enemy_bitmap) cout<<"error loading enemy bitmap\n";
-    res.insert_animation(dead_anim,al_anim(enemy_bitmap,64,64,2,timer));
-    al_destroy_bitmap(enemy_bitmap);
-    enemy_bitmap=al_load_bitmap(enemy_path+"up.png");
-    if(!enemy_bitmap) cout<<"error loading enemy bitmap\n";
-    res.insert_animation(up_anim,al_anim(enemy_bitmap,64,64,3,timer));
-    al_destroy_bitmap(enemy_bitmap);
-    enemy_bitmap=al_load_bitmap(enemy_path+"down.png");
-    if(!enemy_bitmap) cout<<"error loading enemy bitmap\n";
-    res.insert_animation(down_anim,al_anim(enemy_bitmap,64,64,3,timer));
-    al_destroy_bitmap(enemy_bitmap);
-    enemy_bitmap=al_load_bitmap(enemy_path+"left.png");
-    if(!enemy_bitmap) cout<<"error loading enemy bitmap\n";
-    res.insert_animation(left_anim,al_anim(enemy_bitmap,64,64,3,timer));
-    al_destroy_bitmap(enemy_bitmap);
-    enemy_bitmap=al_load_bitmap(enemy_path+"right.png");
-    if(!enemy_bitmap) cout<<"error loading enemy bitmap\n";
-    res.insert_animation(right_anim,al_anim(enemy_bitmap,64,64,3,timer));
-    al_destroy_bitmap(enemy_bitmap);
-    return res;
-}
-tower_attributes create_tower_0(const ALLEGRO_TIMER *timer) {
-    ALLEGRO_BITMAP *atk_bitmap;
-    ALLEGRO_BITMAP *exp_bitmap;
-    ALLEGRO_BITMAP *tower_bitmap;
-    atk_bitmap=al_load_bitmap("resources/spr/cannonball.png");
-    if(!atk_bitmap) cout<<"error loading tower_atk bitmap\n";
-    resize_bitmap(atk_bitmap,30,30);
-    exp_bitmap=al_load_bitmap("resources/spr/explosion.png");
-    if(!atk_bitmap) cout<<"error loading explosion bitmap\n";
-    tower_bitmap=al_load_bitmap("resources/spr/tower_cartoon.png");
-    if(!tower_bitmap) cout<<"error loading tower bitmap\n";
-    al_anim explosion_anim(exp_bitmap,64,64,0.5,timer);
-    al_destroy_bitmap(exp_bitmap);
-    atk_attributes atk_0(atk_bitmap,explosion_anim,60,90,2,5,shoot_atk);
-    return tower_attributes("tower_0",tower_bitmap,atk_0,50);
 }
 game_spawner create_game_spawner() {
     spawn_wave wav;
