@@ -55,11 +55,12 @@ int main() {
     al_start_timer(timer); //start timer
     cout<<"Screen Size:"<<screen_width<<"x"<<screen_height<<endl<<endl;
     //GENEATE TILESET
-    XMLDocument tileset_document,enemy_document,tower_document,map_document;
+    XMLDocument tileset_document,enemy_document,tower_document,map_document,spawn_document;
     if(tileset_document.LoadFile("resources/xml/default/tileset.xml")!=XML_SUCCESS ||
             enemy_document.LoadFile("resources/xml/default/enemy_set.xml")!=XML_SUCCESS ||
             tower_document.LoadFile("resources/xml/default/tower_set.xml")!=XML_SUCCESS ||
-            map_document.LoadFile("resources/xml/default/tilemap.xml")!=XML_SUCCESS) {
+            map_document.LoadFile("resources/xml/default/tilemap.xml")!=XML_SUCCESS ||
+            spawn_document.LoadFile("resources/xml/default/spawner.xml")!=XML_SUCCESS) {
         cout<<"Couldn't load something\n";
         return -1;
     }
@@ -106,7 +107,8 @@ int main() {
     pair<text_handler,text_handler> textp=create_text_handlers();
     game_objects_0.add_text(textp.first);
     game_objects_0.add_text(textp.second);
-    game_spawner spawner_0=create_game_spawner();
+    XMLElement *spawn_root=spawn_document.RootElement();
+    game_spawner spawner_0(spawn_root);
     input_handler input_handler_0(event_queue,click_mouse,key_pressed);
     player player_0("player_0",towerset,game_objects_0,game_map,10,200,game_over);
     player_pointer=&player_0;

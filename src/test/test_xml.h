@@ -170,6 +170,25 @@ bool test_xml() {
             }
             document.Clear();
         }
+        if(document.LoadFile("resources/xml/spawn_test.xml")!=XML_SUCCESS) test_result=false;
+        else {
+            XMLElement *spawn_element=document.RootElement();
+            string element_name=spawn_element->Name();
+            if(spawn_element==nullptr) test_result=false;
+            else if(element_name!="Spawn") test_result=false;
+            else {
+                game_spawner test_spawner;
+                if(test_spawner.read_xml(spawn_element)==false) test_result=false;
+                else {
+                    if(test_spawner.check()==false) test_result=false;
+                    if(test_spawner.get_delay()!=10) test_result=false;
+                    if(test_spawner.get_total_waves()!=2) test_result=false;
+                    if(test_spawner.get_wave(0).size()!=2) test_result=false;
+                    if(test_spawner.get_wave(1).size()!=1) test_result=false;
+                }
+            }
+            document.Clear();
+        }
     }
     if(test_result==true) cout<<" - OK\n";
     else cout<<" - FAIL\n";

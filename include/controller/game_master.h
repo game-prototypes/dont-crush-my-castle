@@ -17,7 +17,7 @@
 typedef std::stack<std::pair<unsigned int,string> > spawn_wave; //defines a enemy wave
 const double enemies_spawn_delay=1; //speed between spawning (seconds)
 const unsigned int check_towers_atk_delay=1; //delay (in frames) between checks of tower attacks (costly operation to do each frame)
-
+const string spawner_xml_value="Spawn";
 //information about spawning enemies
 class game_spawner {
 private:
@@ -31,11 +31,17 @@ public:
     game_spawner(const vector<spawn_wave> &waves,unsigned int delay);
     //constructor from one wave
     game_spawner(const spawn_wave &wave,unsigned int delay);
+    //constructor from xml element
+    game_spawner(const XMLElement *spawner_root);
     //DESTRUCTOR
     ~game_spawner();
     //METHODS
+    //reads xml from element
+    bool read_xml(const XMLElement *spawner_root);
+    //reads xml from file
+    bool read_xml(const string &filename);
     //adds a new wave
-    void add_wave(const spawn_wave &wave);
+    void add_wave(spawn_wave wave);
     //clear all spawning info
     void clear();
     //returns wave delay
