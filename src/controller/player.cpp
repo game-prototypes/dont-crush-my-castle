@@ -68,6 +68,13 @@ void player::click_action(int button,unsigned int x,unsigned int y) {
     else if(button==2) remove_tower(x,y);
 }
 void player::key_action(int keycode) {
+    if(keycode==ALLEGRO_KEY_SPACE) {
+        set<string> names=get_tower_names();
+        set<string>::iterator it=names.find(current_tower);
+        it++;
+        if(it==names.end()) it=names.begin();
+        set_current_tower(*it);
+    }
 }
 //PRIVATE
 void player::build_tower(double x,double y) {
