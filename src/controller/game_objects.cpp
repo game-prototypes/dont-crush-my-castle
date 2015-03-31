@@ -1,7 +1,7 @@
 //TITLE:GAME_OBJECTS_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.2
+//VERSION: 0.7.6
 //DESCRIPTION: stores all instantiated objects in the scene
 #include "game_objects.h"
 
@@ -10,14 +10,6 @@ game_objects::game_objects() {
     killed=0;
     reward=0;
 }
-/*game_objects::game_objects(const list<enemy> &spawned_enemies,const map<tower_id,tower> &spawned_towers,const multimap<list<enemy>::iterator,tower_atk> &spawned_attacks) {
-    this->spawned_enemies=spawned_enemies;
-    this->spawned_towers=spawned_towers;
-    this->spawned_attacks=spawned_attacks;
-    if(spawned_towers.empty()) current_id=1;
-    else current_id=(spawned_towers.rbegin()->first)+1;
-    killed=0;
-}*/
 game_objects::~game_objects() {
     destroy_texts();
     clear();
@@ -160,8 +152,6 @@ void game_objects::draw() const {
     }
     map<string,text_handler>::const_iterator text_list;
     for(text_list=texts.begin(); text_list!=texts.end(); text_list++) text_list->second.draw();
-    // for(list<pair<list<enemy>::iterator,tower_atk> >::const_iterator it=spawned_attacks.begin(); it!=spawned_attacks.end(); it++)
-    //  it->second.draw();
 }
 bool game_objects::check() {
     bool b=true;

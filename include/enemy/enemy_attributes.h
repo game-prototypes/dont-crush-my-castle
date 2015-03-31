@@ -1,7 +1,7 @@
 //TITLE: ENEMY_ATTRIBUTES_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.5
+//VERSION: 0.7.6
 //DESCRIPTION: defines each kind of enemy
 #ifndef ENEMY_ATTRIBUTES
 #define ENEMY_ATTRIBUTES
@@ -19,16 +19,23 @@ struct enemy_attributes {
     unsigned int max_life; //max (and initial) life of enemy
     unsigned int armor; //armor of the enemy
     unsigned int reward; //reward when killed
-    //Methods
+    //CONSTRUCTORS
+    //default constructor
     enemy_attributes();
-    enemy_attributes(XMLElement *enemy_root,const ALLEGRO_TIMER *timer);
+    //constructor from xml element
+    enemy_attributes(const XMLElement *enemy_root,const ALLEGRO_TIMER *timer);
+    //full constructor without animations
     enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,unsigned int reward=0);
+    //full constructor with animations
     enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,const map<enemy_animation,al_anim> &animation,unsigned int reward=0);
+    //DESTRUCTOR
     ~enemy_attributes();
+    //METHODS
+    //reads xml element
     bool read_xml(const XMLElement *enemy_root,const ALLEGRO_TIMER *timer);
+    //reads from xml file (with enemy xml element as root)
     bool read_xml(const string &filename,const ALLEGRO_TIMER *timer);
 
-    //    bool write_xml(XMLElement *enemy_root) const;
     //insert animation (erasing previous animations and reseting all counters)
     void insert_animation(enemy_animation type,const al_anim &anim);
     //clear all attributes (dont destroy bitmaps)

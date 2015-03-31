@@ -1,12 +1,11 @@
 //TITLE:GAME_MASTER_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.6
+//VERSION: 0.7.6
 //DESCRIPTION: control the IA and in-game stuff (spawning,movement etc..)
 #include "game_master.h"
 
 //GAME SPAWNER
-
 game_spawner::game_spawner() {
     delay=0;
 }
@@ -18,11 +17,62 @@ game_spawner::game_spawner(const spawn_wave &wave,unsigned int delay) {
     add_wave(wave);
     this->delay=delay;
 }
+game_spawner::game_spawner(const XMLElement *spawner_root) {
+    read_xml(spawner_root);
+}
 game_spawner::~game_spawner() {
     clear();
 }
-void game_spawner::add_wave(const spawn_wave &wave) {
-    if(!wave.empty()) waves.push_back(wave);
+bool game_spawner::read_xml(const XMLElement *spawner_root) {
+    bool b=false;
+    clear();
+    if(spawner_root == nullptr) b=false;
+    else if(spawner_root->Value()!=spawner_xml_value) b=false;
+    else {
+        b=true;
+        const char *version=spawner_root->Attribute("Version");
+        //Compare version!!!!
+        if(version==nullptr) return false;
+        const XMLElement *delay_element,*wave_element,*enemy_element;
+        delay_element=spawner_root->FirstChildElement("Delay");
+        if(delay_element==nullptr) return false;
+        if(delay_element->QueryUnsignedText(&delay)!=XML_SUCCESS) return false;
+        wave_element=spawner_root->FirstChildElement("Wave");
+        while(wave_element!=nullptr) {
+            spawn_wave wav1;
+            enemy_element=wave_element->FirstChildElement("Enemy");
+            while(enemy_element) {
+                const char *nam=enemy_element->GetText();
+                if(nam==nullptr) return false;
+                string ename(nam);
+                if(ename.empty()) return false;
+                unsigned int n=0;
+                enemy_element->QueryUnsignedAttribute("number",&n);
+                if(n==0) n=1;
+                wav1.push(make_pair(n,ename));
+                enemy_element=enemy_element->NextSiblingElement("Enemy");
+            }
+            add_wave(wav1);
+            wave_element=wave_element->NextSiblingElement("Wave");
+        }
+    }
+    return b;
+}
+bool game_spawner::read_xml(const string &filename) {
+    XMLDocument document;
+    XMLElement *element=get_root_element(filename,document);
+    if(element==nullptr) return false;
+    else return read_xml(element);
+}
+void game_spawner::add_wave(spawn_wave wave) {
+    if(!wave.empty()) {
+        spawn_wave wav2;
+        while(!wave.empty()) {
+            wav2.push(wave.top());
+            wave.pop();
+        }
+        waves.push_back(wav2);
+    }
 }
 void game_spawner::clear() {
     waves.clear();
@@ -47,7 +97,6 @@ bool game_spawner::check() const {
 }
 
 //GAME MASTER
-
 
 game_master::game_master() {
     this->current_wave=0;
@@ -90,7 +139,6 @@ void game_master::set_active(bool active) {
     this->active=active;
     tower_atk_counter=0;
 }
-//updates all info
 void game_master::update() {
     if(active) {
         if(wave_delay_counter==0) {
@@ -169,7 +217,7 @@ void game_master::spawn(const spawn_wave &wave) {
         left=wave;
         while(aux.empty()==false) {
             left.push(aux.top());
-            aux.top();
+            aux.pop();
         }
     }
     wave_delay_counter=wave_delay;

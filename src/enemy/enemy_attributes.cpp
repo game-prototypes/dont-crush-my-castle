@@ -1,7 +1,7 @@
 //TITLE: ENEMY_ATTRIBUTES_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.5
+//VERSION: 0.7.6
 //DESCRIPTION: defines each kind of enemy
 
 #include "enemy_attributes.h"
@@ -9,11 +9,8 @@
 enemy_attributes::enemy_attributes() {
     speed=max_life=armor=reward=0;
 }
-enemy_attributes::enemy_attributes(XMLElement *enemy_root,const ALLEGRO_TIMER *timer) {
+enemy_attributes::enemy_attributes(const XMLElement *enemy_root,const ALLEGRO_TIMER *timer) {
     read_xml(enemy_root,timer);
-    /*    if(!read_xml(enemy_root,timer)) {
-            destroy();
-        }*/
 }
 enemy_attributes::enemy_attributes(const string &name,unsigned int life,unsigned int armor,double enemy_speed,unsigned int reward) {
     this->name=name;
@@ -92,37 +89,14 @@ bool enemy_attributes::read_xml(const string &filename,const ALLEGRO_TIMER *time
     if(element==nullptr) return false;
     else return read_xml(element,timer);
 }
-/*bool enemy_attributes::write_xml(XMLElement *enemy_root) const {
-    //THIS is only a small test, not to use!!!
-    bool b=true;
-       XMLDocument document;
-        XMLElement *pRoot=document.NewElement("Enemy");
-        pRoot->SetAttribute("Version","0.7.4");
-        document.InsertFirstChild(pRoot);
-        XMLElement *pElement = document.NewElement("Name");
-        pElement->SetText(name.c_str());
-        pRoot->InsertEndChild(pElement);
-        pElement = document.NewElement("Life");
-        pElement->SetText(max_life);
-        pRoot->InsertEndChild(pElement);
-        pElement = document.NewElement("Armor");
-        pElement->SetText(armor);
-        pRoot->InsertEndChild(pElement);
-        pElement = document.NewElement("Speed");
-        pElement->SetText(speed);
-        pRoot->InsertEndChild(pElement);
-        pElement = document.NewElement("Reward");
-        pElement->SetText(reward);
-        pRoot->InsertEndChild(pElement);
-        XMLError eResult = document.SaveFile(filename.c_str());
-    return b;
-}*/
 void enemy_attributes::insert_animation(enemy_animation type,const al_anim &anim) {
     if(anim.size()==0) debug_log::report("setting empty animation",err,true,true,false);
     else {
         animation.erase(type);
         animation.insert(make_pair(type,anim));
         animation[type].stop(); //set the animation to inactive and restart counters
+        if(type==dead_anim) animation[type].animation_loop(false);
+        else animation[type].animation_loop(true);
     }
 }
 void enemy_attributes::clear() {

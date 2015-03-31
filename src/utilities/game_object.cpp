@@ -1,7 +1,7 @@
 //TITLE: GAME_OBJECT_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.6
 //DESCRIPTION: defines a generic gameobject
 #include "game_object.h"
 

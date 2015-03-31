@@ -1,7 +1,7 @@
 //TITLE: PLAYER_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.6
 //DESCRIPTION: Player information
 
 #include "player.h"
@@ -20,20 +20,10 @@ player::player(const string &name,tower_set &towers,game_objects &objects,tilema
     this->active=true;
     set_current_tower(*(get_tower_names().begin()));
 }
-player::player(tower_set &towers,game_objects &objects,tilemap &game_map,unsigned int lives,unsigned int coins,function<void()> lose_function) {
-    this->controller=player_controller(towers,objects,game_map);
-    this->lives=lives;
-    this->coins=coins;
-    this->lose_function=lose_function;
-    this->active=true;
-    set_current_tower(*(get_tower_names().begin()));
-}
-
 player::~player() {
     this->active=false;
 }
 //METHODS
-//removes given lives
 void player::remove_life(unsigned int lives_removes) {
     if(lives_removes>=lives) lives=0;
     else lives-=lives_removes;
@@ -78,6 +68,13 @@ void player::click_action(int button,unsigned int x,unsigned int y) {
     else if(button==2) remove_tower(x,y);
 }
 void player::key_action(int keycode) {
+    if(keycode==ALLEGRO_KEY_SPACE) {
+        set<string> names=get_tower_names();
+        set<string>::iterator it=names.find(current_tower);
+        it++;
+        if(it==names.end()) it=names.begin();
+        set_current_tower(*it);
+    }
 }
 //PRIVATE
 void player::build_tower(double x,double y) {

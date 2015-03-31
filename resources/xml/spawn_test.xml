@@ -1,0 +1,10 @@
+<Spawn Version="0.7.7">
+	<Delay>10</Delay>
+	<Wave> <!-- In order of appearance -->
+		<Enemy number="5">Nexus I</Enemy>
+		<Enemy number="10">Soldier</Enemy>
+	</Wave>
+	<Wave>
+		<Enemy number="10">Nexus I</Enemy>
+	</Wave>
+</Spawn>

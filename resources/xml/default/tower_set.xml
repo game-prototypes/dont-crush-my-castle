@@ -1,0 +1,24 @@
+<Tower_Set Version="0.7.6">
+<Name>Default Towers</Name>
+<Tower Version="0.7.6"> <!-- defined in this document -->
+	<Name>Turret</Name>
+	<Sprite>resources/spr/ciberpunk_skin/turret/turret.png</Sprite>
+	<Cost>120</Cost>	   
+	<Tower_Atk  Version="0.7.4">
+		<Damage>60</Damage>
+		<Range>90</Range>
+		<Delay>1</Delay>
+		<Speed>8</Speed>
+		<Type>Shoot</Type>
+		<Sprite>resources/spr/ciberpunk_skin/turret/plasmaball.png</Sprite>
+		<Al_Animation Version="0.7.4" loop="false">
+			<Width>64</Width>
+			<Height>64</Height>
+			<Duration>0.5</Duration>
+			<Bitmap_Sheet>resources/spr/explosion.png</Bitmap_Sheet>
+		</Al_Animation>
+	</Tower_Atk>
+</Tower>
+<Tower>resources/xml/default/tower.xml</Tower> <!--defined on another xml -->
+</Tower_Set>
+

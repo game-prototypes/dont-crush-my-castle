@@ -1,7 +1,7 @@
 //TITLE: Map Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.6
 //DESCRIPTION: test of DCmC for maps
 /*This test will check:
 tile
@@ -64,10 +64,10 @@ bool test_map() {
     for(unsigned int i=0; i<v2.size(); i++)
         if(v2[i]!=(int) i+5) test_result=false;
     if(tset.check()==false) test_result=false;
-    tileset tset2(testtile,12);
+    tileset tset2("tset2",testtile,12);
     if(tset2.get_tile_width()!=12) test_result=false;
     if(tset2.size()!=1) test_result=false;
-    tileset tset3(testtile);
+    tileset tset3("tset3",testtile);
     if(tset3.size()!=1) test_result=false;
     if(tset3.get_tile_width()!=80) test_result=false;
     //TESTING MAP

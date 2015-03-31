@@ -33,11 +33,12 @@ public:
     //constructor with basic info, enemy life will start with the max_life value
     //constructor with spawning in position given
     enemy(const enemy_attributes &attributes,unsigned int level,double posx,double posy,const ALLEGRO_TIMER *timer);
+    //DESTRUCTOR
     ~enemy();
     //set enemy to active in given position
     void spawn(double posx,double posy);
 
-    //CONSULT
+    //METHODS
     //return enemy name
     string get_name() const;
     //returns enemy_speed (in pixels per second)
@@ -62,7 +63,6 @@ public:
     bool idle() const;
     //return current aimation
     enemy_animation get_current_animation() const;
-    //ENEMY CONTROL (make sure to call update in each iteration)
     //stop the movement(idle) (final destination will be the current position)
     void stop();
     //set final destination, when reached, set_idle will be called
@@ -82,7 +82,6 @@ public:
     void draw() const;
     //check enemy class is working well, debug_log output if error or warning, return true if everything is ok
     bool check() const;
-    //  pair<double,double> get_position() const;
 private:
     //changes to given movement animation
     void change_movement_animation(enemy_animation anim);

@@ -1,7 +1,7 @@
 //TITLE: TOWER_ATK_ATTRIBUTES_CPP
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.5
+//VERSION: 0.7.6
 //DESCRIPTION: defines the kind of attack of buildings
 
 #include "tower_atk_attributes.h"
@@ -57,10 +57,7 @@ bool atk_attributes::read_xml(const XMLElement *atk_root,const ALLEGRO_TIMER *ti
         else if(typ=="Continuous") this->type=continuous_atk;
         else return false;
         const XMLElement *bmp_path=atk_root->FirstChildElement("Sprite");
-        if(bmp_path==nullptr) return false;
-        const char *bitmap_p=bmp_path->GetText();
-        if(bitmap_p==nullptr) return false;
-        ALLEGRO_BITMAP *bmp=al_load_bitmap(bitmap_p);
+        ALLEGRO_BITMAP *bmp=al_load_bitmap(bmp_path);
         if(!bmp) return false;
         this->bitmap=bmp;
         const XMLElement *collision_element=atk_root->FirstChildElement("Al_Animation");
@@ -72,6 +69,12 @@ bool atk_attributes::read_xml(const XMLElement *atk_root,const ALLEGRO_TIMER *ti
         }
     }
     return b;
+}
+bool atk_attributes::read_xml(const string &filename,const ALLEGRO_TIMER *timer) {
+    XMLDocument document;
+    XMLElement *element=get_root_element(filename,document);
+    if(element==nullptr) return false;
+    else return read_xml(element,timer);
 }
 void atk_attributes::clear() {
     damage=range=delay=0;

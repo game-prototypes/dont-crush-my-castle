@@ -1,7 +1,7 @@
 //TITLE: TILE_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.2
+//VERSION: 0.7.6
 //DESCRIPTION: Defines one tile of a tileset
 
 #ifndef TILE
@@ -19,7 +19,7 @@ public:
     open_ground: free for constuction and enemy movement
     */
 
-    tile_type type;
+    tile_type type; //defines the typee of tile
 private:
     ALLEGRO_BITMAP *bitmap;
 public:
@@ -44,6 +44,7 @@ public:
     //check the class
     bool check() const;
     //OPERATORS
+    //equal operation, will copy the bitmap
     tile &operator=(const tile &other);
 };
 

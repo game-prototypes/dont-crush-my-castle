@@ -70,6 +70,12 @@ bool tower_set::read_xml(const XMLElement *tower_set_root,const ALLEGRO_TIMER *t
     }
     return b;
 }
+bool tower_set::read_xml(const string &filename,const ALLEGRO_TIMER *timer) {
+    XMLDocument document;
+    XMLElement *element=get_root_element(filename,document);
+    if(element==nullptr) return false;
+    else return read_xml(element,timer);
+}
 //MODIFICATION
 void tower_set::set_name(const string &name) {
     this->name=name;
@@ -88,7 +94,6 @@ void tower_set::clear() {
     towers.clear();
     timer=NULL;
 }
-//CONSULT
 string tower_set::get_name() const {
     return name;
 }

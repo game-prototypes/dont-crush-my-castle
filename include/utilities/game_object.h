@@ -1,7 +1,7 @@
 //TITLE: GAME_OBJECTS_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7
+//VERSION: 0.7.6
 //DESCRIPTION: defines a generic gameobject
 
 #ifndef GAME_OBJECT
@@ -13,11 +13,12 @@ using namespace std;
 
 class game_object {
 protected:
-    pair<double,double> position;
-    bool active;
+    pair<double,double> position; //game object position
+    bool active; //if true, object will be drawn and updated
 public:
     //CONSTRUCTORS
     game_object();
+    //constructor with position
     game_object(pair<double,double> position);
     //DESTRUCTOR
     ~game_object();
@@ -41,6 +42,6 @@ public:
     //update gameobject (will print an error and won't do anything)
     void virtual update()=0;
     //check game object, return true if everyting is fine
-    bool check() const;
+    bool virtual check() const;
 };
 #endif

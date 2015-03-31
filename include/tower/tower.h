@@ -1,7 +1,7 @@
 //TITLE: TOWER_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.4
+//VERSION: 0.7.6
 //DESCRIPTION: defines each player tower
 
 #ifndef TOWER_H
@@ -11,17 +11,19 @@
 
 class tower : public game_object {
 private:
-    const tower_attributes *attributes;
+    const tower_attributes *attributes;//tower attributes
     unsigned int atk_counter; //time to next attack (depending on delay) in frames
     unsigned int atk_delay; //atk delay (in frames)
-    //change atk_delay to unsigned int (count as frames)
     const ALLEGRO_TIMER *timer; //timer of the tower and attacks
-
 public:
+    //CONSTRUCTORS
+    //default contructor
     tower();
     //full constructor
     tower(const tower_attributes &attributes,double posx,double posy,const ALLEGRO_TIMER *timer);
+    //DESTRUCTOR
     ~tower();
+    //METHODS
     //returns tower name
     string get_name() const;
     //return tower range in pixels
@@ -42,9 +44,12 @@ public:
     void draw() const;
     //attacks an enemy (atk destiny will be that enemy), return the attack
     tower_atk attack(const pair<double,double> target);
+    //checks class
     bool check() const;
 private:
+    //sets delay (changing from seconds to frames according to timer)
     void set_delay();
+    //resets atk counter back to the delay value
     void reset_counter();
 };
 

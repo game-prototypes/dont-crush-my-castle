@@ -1,7 +1,7 @@
 //TITLE: TOWER_ATK_H
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.4
+//VERSION: 0.7.6
 //DESCRIPTION: defines the attack of buildings
 #ifndef TOWER_ATK
 #define TOWER_ATK
@@ -16,7 +16,7 @@ private:
     const atk_attributes *attributes;
     pair<double,double> destiny; //position to move
     double speed; //speed (pixels per frame)
-    double rotation;
+    double rotation; //defines the attacks rotation
     bool collide; //true if the attack reached destiny
     bool valid; //true if attack is valid (enemy alive)
 public:
@@ -51,6 +51,7 @@ private:
     void collision();
     //set speed (pixels per second), need timer wich will be used
     void set_speed(const ALLEGRO_TIMER *timer);
+    //automatically sets bitmap rotation according to position and destiny
     void set_rotation();
 };
 #endif
