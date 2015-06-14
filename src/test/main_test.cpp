@@ -1,7 +1,7 @@
 //TITLE: Main Test
 //PROJECT: DON´T CRUSH MY CASTLE
 //AUTHOR: Andrés Ortiz
-//VERSION: 0.7.6
+//VERSION: 0.7.7
 //DESCRIPTION: full test of DCmC,calling other tests
 
 #include "input_handler.h"
